@@ -1,0 +1,1580 @@
+{
+  "set": "dev",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "run_at": "2026-11-23T08:04:30+00:00",
+  "versions": {
+    "prompt": "prompt-1.5",
+    "rules": "rules-1.5",
+    "corpus": "e97079b5633b",
+    "app": "0.1.0",
+    "git": "2f7e47c-dirty"
+  },
+  "metrics": {
+    "n": 41,
+    "dangerous_errors": 0,
+    "dangerous_errors_on_gmp_critical": 0,
+    "wrongly_refused": 0,
+    "wrongly_refused_dangerous": 0,
+    "wrongly_screened": 1,
+    "stricter_or_not_yet": 6,
+    "dangerous_cases": [],
+    "forms_rejected_by_validation": 0,
+    "schema_valid_rate": 1.0,
+    "verdict_accuracy": 0.829,
+    "in_scope_accuracy": 0.976,
+    "gmp_relevance_accuracy": 0.909,
+    "model_type_accuracy": 0.909,
+    "autonomy_accuracy": 0.909,
+    "verdict_accuracy_by_category": {
+      "borderline": 0.765,
+      "clear": 0.875,
+      "out_of_scope": 0.875
+    },
+    "refusal_precision": 1.0,
+    "refusal_recall": 0.875,
+    "clear_cases_wrongly_refused": 0,
+    "key_source_recall_retrieved": 0.583,
+    "key_source_recall_cited": 0.611,
+    "primary_source_recall_retrieved": 0.879,
+    "judgments_supported_rate": 0.961,
+    "citation_keep_rate": 0.991,
+    "mean_latency_ms": 4919
+  },
+  "confusion": [
+    {
+      "expected": "annex22_full",
+      "got": "annex22_full",
+      "count": 4
+    },
+    {
+      "expected": "annex22_full",
+      "got": "not_permitted_critical",
+      "count": 1
+    },
+    {
+      "expected": "hitl_required",
+      "got": "hitl_required",
+      "count": 1
+    },
+    {
+      "expected": "hitl_required",
+      "got": "needs_more_information",
+      "count": 1
+    },
+    {
+      "expected": "needs_more_information",
+      "got": "needs_more_information",
+      "count": 3
+    },
+    {
+      "expected": "not_ai_annex11",
+      "got": "not_ai_annex11",
+      "count": 2
+    },
+    {
+      "expected": "not_permitted_critical",
+      "got": "not_permitted_critical",
+      "count": 7
+    },
+    {
+      "expected": "out_of_scope",
+      "got": "out_of_scope",
+      "count": 7
+    },
+    {
+      "expected": "out_of_scope",
+      "got": "outside_gmp",
+      "count": 1
+    },
+    {
+      "expected": "outside_gmp",
+      "got": "needs_more_information",
+      "count": 1
+    },
+    {
+      "expected": "outside_gmp",
+      "got": "outside_gmp",
+      "count": 3
+    },
+    {
+      "expected": "outside_gmp",
+      "got": "permitted_with_hitl",
+      "count": 1
+    },
+    {
+      "expected": "permitted_risk_based",
+      "got": "annex22_full",
+      "count": 2
+    },
+    {
+      "expected": "permitted_risk_based",
+      "got": "permitted_risk_based",
+      "count": 3
+    },
+    {
+      "expected": "permitted_with_hitl",
+      "got": "permitted_with_hitl",
+      "count": 4
+    }
+  ],
+  "cases": [
+    {
+      "id": "D001",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously",
+        "verdict": "annex22_full"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 2233,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D002",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "informs",
+        "verdict": "outside_gmp"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "outside_gmp",
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "informs"
+      },
+      "latency_ms": 4362,
+      "rule_id": "R1-outside-gmp",
+      "retrieved_hits": [
+        true
+      ],
+      "cited_hits": [
+        true
+      ],
+      "judgments_supported": [
+        false,
+        false,
+        false
+      ],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D003",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 5582,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D004",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "unclear",
+        "autonomy": "recommends",
+        "verdict": "needs_more_information"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "needs_more_information",
+        "gmp_relevance": "critical",
+        "model_type": "unclear",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4816,
+      "rule_id": "R3-unclear",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 2,
+      "citations_proposed": 2,
+      "tool_calls": 0
+    },
+    {
+      "id": "D005",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "permitted_with_hitl"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_with_hitl",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4981,
+      "rule_id": "R8-genai-hitl",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D006",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "dynamic",
+        "autonomy": "recommends",
+        "verdict": "permitted_risk_based"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_risk_based",
+        "gmp_relevance": "non_critical",
+        "model_type": "dynamic",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4976,
+      "rule_id": "R9-noncritical-ml",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 5,
+      "citations_proposed": 5,
+      "tool_calls": 0
+    },
+    {
+      "id": "D007",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "non_ml",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_ai_annex11"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_ai_annex11",
+        "gmp_relevance": "non_critical",
+        "model_type": "non_ml",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 4860,
+      "rule_id": "R4-non-ml",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        false
+      ],
+      "citations_kept": 2,
+      "citations_proposed": 2,
+      "tool_calls": 0
+    },
+    {
+      "id": "D008",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "hitl_required"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "hitl_required",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 5304,
+      "rule_id": "R6-genai-no-hitl",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D009",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4120,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D010",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "outside_gmp",
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 5409,
+      "rule_id": "R1-outside-gmp",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D011",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously",
+        "verdict": "annex22_full"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 5434,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 5,
+      "citations_proposed": 5,
+      "tool_calls": 0
+    },
+    {
+      "id": "D012",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4078,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D013",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 6108,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D014",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 4665,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D015",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "permitted_with_hitl"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_with_hitl",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 5171,
+      "rule_id": "R8-genai-hitl",
+      "retrieved_hits": [
+        true,
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D016",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "outside_gmp"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "needs_more_information",
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4732,
+      "rule_id": "G2-ticks-stricter",
+      "retrieved_hits": [
+        false,
+        false
+      ],
+      "cited_hits": [
+        false,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D017",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 5105,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D018",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "dynamic",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "dynamic",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 5095,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D019",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 3993,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D020",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "hitl_required"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "needs_more_information",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 5785,
+      "rule_id": "G1-check-not-described",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D021",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously",
+        "verdict": "annex22_full"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 4899,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D022",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "informs",
+        "verdict": "permitted_with_hitl"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_with_hitl",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "informs"
+      },
+      "latency_ms": 5851,
+      "rule_id": "R8-genai-hitl",
+      "retrieved_hits": [
+        true
+      ],
+      "cited_hits": [
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D023",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "static",
+        "autonomy": "informs",
+        "verdict": "permitted_risk_based"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "informs"
+      },
+      "latency_ms": 4058,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false,
+        true
+      ],
+      "cited_hits": [
+        true,
+        false,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D024",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "not_gmp",
+        "model_type": "static",
+        "autonomy": "informs",
+        "verdict": "outside_gmp"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "outside_gmp",
+        "gmp_relevance": "not_gmp",
+        "model_type": "probabilistic",
+        "autonomy": "informs"
+      },
+      "latency_ms": 5134,
+      "rule_id": "R1-outside-gmp",
+      "retrieved_hits": [
+        false
+      ],
+      "cited_hits": [
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D025",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4284,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D026",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously",
+        "verdict": "annex22_full"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "dynamic",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 6104,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        false,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D027",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "non_ml",
+        "autonomy": "informs",
+        "verdict": "not_ai_annex11"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_ai_annex11",
+        "gmp_relevance": "non_critical",
+        "model_type": "non_ml",
+        "autonomy": "informs"
+      },
+      "latency_ms": 4817,
+      "rule_id": "R4-non-ml",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D028",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "informs",
+        "verdict": "permitted_with_hitl"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_with_hitl",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "informs"
+      },
+      "latency_ms": 4675,
+      "rule_id": "R8-genai-hitl",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D029",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4252,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D030",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "dynamic",
+        "autonomy": "recommends",
+        "verdict": "permitted_risk_based"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_risk_based",
+        "gmp_relevance": "non_critical",
+        "model_type": "dynamic",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 5916,
+      "rule_id": "R9-noncritical-ml",
+      "retrieved_hits": [
+        true,
+        false,
+        true
+      ],
+      "cited_hits": [
+        false,
+        false,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D031",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4005,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D032",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "unclear",
+        "autonomy": "acts_with_oversight",
+        "verdict": "needs_more_information"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "needs_more_information",
+        "gmp_relevance": "critical",
+        "model_type": "non_ml",
+        "autonomy": "acts_with_oversight"
+      },
+      "latency_ms": 5783,
+      "rule_id": "G2-ticks-stricter",
+      "retrieved_hits": [
+        true,
+        false,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D033",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_with_oversight",
+        "verdict": "annex22_full"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_with_oversight"
+      },
+      "latency_ms": 5355,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 5,
+      "citations_proposed": 5,
+      "tool_calls": 0
+    },
+    {
+      "id": "D034",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "probabilistic",
+        "autonomy": "informs",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "probabilistic",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4848,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 4,
+      "tool_calls": 0
+    },
+    {
+      "id": "D035",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "unclear",
+        "verdict": "needs_more_information"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "needs_more_information",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "informs"
+      },
+      "latency_ms": 5175,
+      "rule_id": "G1-review-not-stated",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D036",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "outside_gmp"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_with_hitl",
+        "gmp_relevance": "non_critical",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4822,
+      "rule_id": "R8-genai-hitl",
+      "retrieved_hits": [
+        false,
+        true
+      ],
+      "cited_hits": [
+        false,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D037",
+      "category": "out_of_scope",
+      "expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": false,
+        "verdict": "out_of_scope",
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null
+      },
+      "latency_ms": 4027,
+      "rule_id": "R0-out-of-scope",
+      "retrieved_hits": [],
+      "cited_hits": [],
+      "judgments_supported": [],
+      "citations_kept": 0,
+      "citations_proposed": 0,
+      "tool_calls": 0
+    },
+    {
+      "id": "D038",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously",
+        "verdict": "not_permitted_critical"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "not_permitted_critical",
+        "gmp_relevance": "critical",
+        "model_type": "generative",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 6108,
+      "rule_id": "R2-critical-nonstatic",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        false
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 4,
+      "citations_proposed": 5,
+      "tool_calls": 0
+    },
+    {
+      "id": "D039",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "static",
+        "autonomy": "informs",
+        "verdict": "permitted_risk_based"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "permitted_risk_based",
+        "gmp_relevance": "non_critical",
+        "model_type": "static",
+        "autonomy": "informs"
+      },
+      "latency_ms": 4902,
+      "rule_id": "R9-noncritical-ml",
+      "retrieved_hits": [
+        false,
+        false,
+        true
+      ],
+      "cited_hits": [
+        false,
+        false,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 5,
+      "citations_proposed": 5,
+      "tool_calls": 0
+    },
+    {
+      "id": "D041",
+      "category": "clear",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends",
+        "verdict": "outside_gmp"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "outside_gmp",
+        "gmp_relevance": "not_gmp",
+        "model_type": "generative",
+        "autonomy": "recommends"
+      },
+      "latency_ms": 4618,
+      "rule_id": "R1-outside-gmp",
+      "retrieved_hits": [
+        true,
+        true
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    },
+    {
+      "id": "D042",
+      "category": "borderline",
+      "expected": {
+        "in_scope": true,
+        "gmp_relevance": "non_critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously",
+        "verdict": "permitted_risk_based"
+      },
+      "valid": true,
+      "got": {
+        "in_scope": true,
+        "verdict": "annex22_full",
+        "gmp_relevance": "critical",
+        "model_type": "static",
+        "autonomy": "acts_autonomously"
+      },
+      "latency_ms": 5275,
+      "rule_id": "R5-critical-static",
+      "retrieved_hits": [
+        true,
+        false
+      ],
+      "cited_hits": [
+        true,
+        true
+      ],
+      "judgments_supported": [
+        true,
+        true,
+        true
+      ],
+      "citations_kept": 3,
+      "citations_proposed": 3,
+      "tool_calls": 0
+    }
+  ],
+  "cases_version": "v2",
+  "selection": {
+    "limit": null
+  }
+}

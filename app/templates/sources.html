@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Sources · GxP AI Use-Case Assistant{% endblock %}
+{% set status_class = {'draft': 'st-draft', 'in force': 'st-force', 'final': 'st-force'} %}
+{% block content %}
+<section class="page-head">
+  <h1>Sources</h1>
+  <p class="lead">Every citation in a result comes from one of these {{ count }} public documents. The links open the official publication.</p>
+  <p class="notice">{{ icon('alert-triangle') }}<span>Drafts are not yet in force. A result that cites a draft shows a Draft badge next to the citation.</span></p>
+</section>
+
+{% for title, docs in groups %}
+<section class="src-group" aria-labelledby="src-g{{ loop.index }}">
+  <h2 id="src-g{{ loop.index }}">{{ title }}</h2>
+  <ul class="src-list">
+    {% for s in docs %}
+    <li class="src" id="doc-{{ s.doc_id }}">
+      <div class="src-main">
+        <h3 class="src-title">{{ s.title }}</h3>
+        <p class="src-meta">
+          <span class="badge {{ status_class.get(s.status, '') }}">{{ s.status | capitalize }}</span>
+          <span class="muted">Dated {{ s.date }}</span>
+          <span class="muted">Cited as: {{ s.short }}</span>
+        </p>
+      </div>
+      <a class="src-link" href="{{ s.url }}" target="_blank" rel="noopener">{{ icon('external-link') }}<span>Official source<span class="sr-only">: {{ s.short }} (opens in a new tab)</span></span></a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,872 @@
+{
+  "description": "Short title\nLLM drafts of cleaning SOPs\n\nWhat should the AI do?\nA chatbot writes first drafts of cleaning SOPs for production equipment from our SOP template and the equipment manual. The author edits the draft, then it goes through the normal document review.\n\nWhere will it be used?\nManufacturing / production, QA / quality systems\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNo, only indirectly. Only first drafts. The author rewrites them and the SOP becomes a GMP document only after the normal review and approval.\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM). A general-purpose chatbot.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nThe SOP author edits every draft; QA reviews and approves every SOP in the eDMS before it is issued.\n\nDoes the AI replace or reduce a check or step that people do today?\nNo, everything done today stays; the AI adds to it. The normal document review stays as it is.\n\nWhat data goes into it?\nInternal, not confidential\n\nWho provides it?\nCloud or online service",
+  "in_scope": true,
+  "title": "LLM drafts of cleaning SOPs",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "non_critical",
+    "model_type": "generative",
+    "autonomy": "recommends"
+  },
+  "human_in_the_loop": "yes",
+  "grid": {
+    "adaptiveness": "locked",
+    "autonomy": "recommends",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "permitted_with_hitl",
+    "label": "Generative AI: proceed if a person approves each output (Annex 22)",
+    "rule_id": "R8-genai-hitl",
+    "explanation": "Draft Annex 22 §1 allows generative AI in non-critical GMP applications when personnel with adequate qualification and training are responsible for checking each output; Annex 22 principles may be considered where applicable.",
+    "citations": [
+      {
+        "chunk_id": "A22:1:1",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §1 Scope",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 2,
+        "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "non_critical",
+      "label": "GMP, non-critical",
+      "rationale": "Keyword baseline: the use is in a GMP setting ('ticked: No, only indirectly') but the output supports people rather than deciding.",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:1"
+      ],
+      "note": null
+    },
+    {
+      "field": "model_type",
+      "value": "generative",
+      "label": "Generative AI / LLM",
+      "rationale": "Keyword baseline: it is a generative AI / LLM-type tool ('ticked: Generative AI: writes or creates text, images or code (LLM)').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications.",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:1"
+      ],
+      "note": null
+    },
+    {
+      "field": "autonomy",
+      "value": "recommends",
+      "label": "AI recommends, human approves each output",
+      "rationale": "Keyword baseline: a person reviews or approves each output ('ticked: A trained person checks and approves each output before it is used').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:3.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §3.3 Human-in-the-loop",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "Where a model is used to give an input to a decision made by a human operator (human-in-the-loop), and where the effort to test such model has been diminished, the description of the intended use should include the responsibility of the operator.",
+          "support": 0.701
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:3.3:0"
+      ],
+      "note": null
+    }
+  ],
+  "controls": [
+    {
+      "id": "HITL_GENAI",
+      "title": "Trained, qualified staff responsible for every output",
+      "what": "Personnel with adequate qualification and training check that each output is suitable for its intended use before it is used.",
+      "why": "Source: Annex 22 (draft) §1 Scope",
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…",
+          "support": 0.7
+        }
+      ]
+    },
+    {
+      "id": "QU_REVIEW",
+      "title": "Quality-unit review of AI-generated GMP content",
+      "what": "AI-drafted procedures, specifications or records are reviewed and cleared by an authorised quality-unit representative before use; the AI is not relied on to identify regulatory requirements.",
+      "why": "Source: FDA warning letter 320-26-58: Inappropriate use of artificial intelligence in pharmaceutical manufacturing; FDA warning letter 320-26-58: Violation 3: quality unit responsibilities (21 CFR 211.22)",
+      "citations": [
+        {
+          "chunk_id": "FDA-WL:ai-use:1",
+          "doc_id": "FDA-WL",
+          "ref": "FDA warning letter 320-26-58: Inappropriate use of artificial intelligence in pharmaceutical manufacturing",
+          "doc_status": "enforcement",
+          "url": "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/purolea-cosmetics-lab-722591-04022026",
+          "page": 1,
+          "quote": "If you plan to resume drug production, and use AI to help with CGMP activities, such as development of procedures and specifications, any output or recommendations from an AI agent must be reviewed and cleared by an authorized human representative of your firm’s QU in accordance with section 501(a)(2)(B) of the FD&C…",
+          "support": 0.357
+        },
+        {
+          "chunk_id": "FDA-WL:violation-3:0",
+          "doc_id": "FDA-WL",
+          "ref": "FDA warning letter 320-26-58: Violation 3: quality unit responsibilities (21 CFR 211.22)",
+          "doc_status": "enforcement",
+          "url": "https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/purolea-cosmetics-lab-722591-04022026",
+          "page": 1,
+          "quote": "For example, your QU failed to ensure: Procedures were established or followed (21 CFR 211.22(d)) Batch records were reviewed before drug product release (21 CFR 211.22(a)) Adequate production and process controls were established (21 CFR 211.100(a)) Your firm’s quality systems are inadequate.",
+          "support": 0.429
+        }
+      ]
+    },
+    {
+      "id": "PQS_ACCOUNTABILITY",
+      "title": "AI use inside the pharmaceutical quality system",
+      "what": "Include the AI support in the PQS (on premise or hosted); the regulated user stays accountable for the integrity of records produced with AI.",
+      "why": "Source: Chapter 4 (draft) §4.24 General Requirements For Documentation; Chapter 4 (draft) §4.25 General Requirements For Documentation",
+      "citations": [
+        {
+          "chunk_id": "CH4D:4.24:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The accountability for the integrity of documents, records or (raw) data produced or processed with artificial intelligence or any other automatic means (e.g. validation scripts) rests with the regulated user.",
+          "support": 0.417
+        },
+        {
+          "chunk_id": "CH4D:4.25:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.25 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "The support by any automatic means (e.g. validation scripts or artificial intelligence) should be included in a pharmaceutical quality system regardless of the service located on premise or as a hosted service.",
+          "support": 0.333
+        }
+      ]
+    },
+    {
+      "id": "RISK_ASSESSMENT",
+      "title": "Documented quality risk assessment",
+      "what": "A justified, documented risk assessment sets the extent of validation and data-integrity controls; formality proportional to risk.",
+      "why": "Source: Annex 11 (2011) §1 Risk Management; ICH Q9(R1) §4.3 Risk Assessment; ICH Q9(R1) §5.1 Formality in Quality Risk Management",
+      "citations": [
+        {
+          "chunk_id": "A11:1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §1 Risk Management",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "As part of a risk management system, decisions on the extent of validation and data integrity controls should be based on a justified and documented risk assessment of the computerised system.",
+          "support": 0.636
+        },
+        {
+          "chunk_id": "Q9:4.3:0",
+          "doc_id": "Q9",
+          "ref": "ICH Q9(R1) §4.3 Risk Assessment",
+          "doc_status": "final",
+          "url": "https://database.ich.org/sites/default/files/ICH_Q9%28R1%29_Guideline_Step4_2022_1219.pdf",
+          "page": 8,
+          "quote": "Risk assessment consists of the identification of hazards and the analysis and evaluation of risks associated with exposure to those hazards (as defined below).",
+          "support": 0.182
+        },
+        {
+          "chunk_id": "Q9:5.1:2",
+          "doc_id": "Q9",
+          "ref": "ICH Q9(R1) §5.1 Formality in Quality Risk Management",
+          "doc_status": "final",
+          "url": "https://database.ich.org/sites/default/files/ICH_Q9%28R1%29_Guideline_Step4_2022_1219.pdf",
+          "page": 11,
+          "quote": "The following may be characteristics of higher levels of formality: • All parts of the quality risk management process (risk assessment, risk control, risk review and risk communication) are explicitly performed, and stand-alone quality risk management reports or related documents which address all aspects of the…",
+          "support": 0.364
+        }
+      ]
+    },
+    {
+      "id": "CSV",
+      "title": "Computerised system validation",
+      "what": "Validate the application and qualify the infrastructure, scaled to risk; keep it in a validated state through its lifecycle.",
+      "why": "Source: Annex 11 (2011) §4.1 Validation; Annex 11 (draft) §2.1 Lifecycle management; Annex 11 (draft) §9.2 Quality risk management",
+      "citations": [
+        {
+          "chunk_id": "A11:4.1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §4.1 Validation",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "Manufacturers should be able to justify their standards, protocols, acceptance criteria, procedures and records based on their risk assessment.",
+          "support": 0.091
+        },
+        {
+          "chunk_id": "A11D:2.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §2.1 Lifecycle management",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Computerised systems should be validated before use and maintained in a validated state throughout their lifecycle.",
+          "support": 0.273
+        },
+        {
+          "chunk_id": "A11D:9.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §9.2 Quality risk management",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 7,
+          "quote": "Computerised systems should be qualified and validated in accordance with the principles of quality risk management.",
+          "support": 0.182
+        }
+      ]
+    },
+    {
+      "id": "DATA_INTEGRITY",
+      "title": "Data integrity (ALCOA+)",
+      "what": "Data the system captures, processes or reports must be trustworthy (ALCOA+); assess data criticality with QRM; the regulated user stays accountable for records produced with AI.",
+      "why": "Source: Annex 11 (draft) §2.4 Data integrity; Annex 11 (draft) §4.5 Data integrity; Chapter 4 (draft) §4.24 General Requirements For Documentation",
+      "citations": [
+        {
+          "chunk_id": "A11D:2.4:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §2.4 Data integrity",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "It is critically important that data captured, analysed and reported by systems used in GMP activities are trustworthy.",
+          "support": 0.176
+        },
+        {
+          "chunk_id": "A11D:4.5:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §4.5 Data integrity",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Quality risk management principles should be used to assess the criticality of data to product quality, patient safety and data integrity, the vulnerability of data to deliberate or indeliberate alteration, deletion or loss, and the likelihood of detection of such actions.",
+          "support": 0.176
+        },
+        {
+          "chunk_id": "CH4D:4.24:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The accountability for the integrity of documents, records or (raw) data produced or processed with artificial intelligence or any other automatic means (e.g. validation scripts) rests with the regulated user.",
+          "support": 0.294
+        }
+      ]
+    },
+    {
+      "id": "SECURITY",
+      "title": "Information security and confidentiality",
+      "what": "An information security management system protects data and systems; check where prompts and documents (e.g. client data) go when a hosted AI service is used.",
+      "why": "Source: Annex 11 (draft) §15.1 Security system",
+      "citations": [
+        {
+          "chunk_id": "A11D:15.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §15.1 Security system",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 12,
+          "quote": "Regulated users should ensure an effective information security management system is implemented and maintained, which safeguards authorised access to, and detects and prevents unauthorised access to GMP, systems and data.",
+          "support": 0.462
+        }
+      ]
+    },
+    {
+      "id": "AUDIT_TRAIL",
+      "title": "Audit trail",
+      "what": "Record GMP-relevant user interactions: creation, change and deletion of data with user, time and reason (Annex 11). This tool's recommendation for AI systems: also log inputs, model and prompt versions and outputs.",
+      "why": "Source: Annex 11 (2011) §9 Audit Trails; Annex 11 (draft) §12.2 Who, what, when, why",
+      "citations": [
+        {
+          "chunk_id": "A11:9:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §9 Audit Trails",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 4,
+          "quote": "For change or deletion of GMP-relevant data the reason should be documented.",
+          "support": 0.35
+        },
+        {
+          "chunk_id": "A11D:12.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §12.2 Who, what, when, why",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 10,
+          "quote": "Where data is changed from an old value to a new value, systems should automatically prompt the user for, and register the reason, why the change was made.",
+          "support": 0.35
+        }
+      ]
+    },
+    {
+      "id": "CHANGE_CONTROL",
+      "title": "Change and configuration management",
+      "what": "Changes to the system (including model, prompt or configuration) are made in a controlled manner under a defined procedure.",
+      "why": "Source: Annex 11 (2011) §10 Change and Configuration Management; Annex 11 (draft) §3.1 Pharmaceutical quality system",
+      "citations": [
+        {
+          "chunk_id": "A11:10:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §10 Change and Configuration Management",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 4,
+          "quote": "Any changes to a computerised system including system configurations should only be made in a controlled manner in accordance with a defined procedure.",
+          "support": 0.75
+        },
+        {
+          "chunk_id": "A11D:3.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §3.1 Pharmaceutical quality system",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "Any change to a computerised system including but not limited to its configuration, its hardware and software components, and its platform and operating system, are made in a controlled manner and in accordance with defined procedures.",
+          "support": 0.583
+        }
+      ]
+    },
+    {
+      "id": "SUPPLIER",
+      "title": "Supplier and service-provider oversight",
+      "what": "Formal agreements, supplier audit and ongoing oversight; review supplier documentation for externally provided models. For hosted AI services, agree how new model versions are released and whether you can test them before release.",
+      "why": "Source: Annex 11 (2011) §3.1 Suppliers and Service Providers; Annex 22 (draft) §2.2 Documentation; Annex 11 (draft) §7.2 Audit; Annex 11 (draft) §7.5 Contracts",
+      "citations": [
+        {
+          "chunk_id": "A11:3.1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §3.1 Suppliers and Service Providers",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "When third parties (e.g. suppliers, service providers) are used e.g. to provide, install, configure, integrate, validate, maintain (e.g. via remote access), modify or retain a computerised system or related service or for data processing, formal agreements must exist between the manufacturer and any third parties,…",
+          "support": 0.087
+        },
+        {
+          "chunk_id": "A22:2.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §2.2 Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Documentation for activities described in this section should be available and reviewed by the regulated user irrespective of whether a model is trained, validated and tested in-house or whether it is provided by a supplier or service provider.",
+          "support": 0.174
+        },
+        {
+          "chunk_id": "A11D:7.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §7.2 Audit",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "When a regulated user is relying on a vendor’s or a service provider’s qualification and/or operation of a system used in GMP activities, the regulated user should, according to risk and system criticality, conduct an audit or a thorough assessment to determine the adequacy of the vendor or service provider’s…",
+          "support": 0.087
+        },
+        {
+          "chunk_id": "A11D:7.5:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §7.5 Contracts",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "Describes the activities and documentation to be provided ii.",
+          "support": 0.174
+        }
+      ]
+    },
+    {
+      "id": "PERIODIC_REVIEW",
+      "title": "Periodic review",
+      "what": "Review the system periodically after go-live to verify it stays in a validated state and fit for its intended use.",
+      "why": "Source: Annex 11 (draft) §14.1 Periodic reviews; Annex 11 (2011) §11 Periodic evaluation",
+      "citations": [
+        {
+          "chunk_id": "A11D:14.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §14.1 Periodic reviews",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 11,
+          "quote": "This review should verify whether the system remains 'fit for intended use' and in 'a validated state', or whether changes should be made and re-validation (complete or in parts) is required.",
+          "support": 0.727
+        },
+        {
+          "chunk_id": "A11:11:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §11 Periodic evaluation",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 4,
+          "quote": "Computerised systems should be periodically evaluated to confirm that they remain in a valid state and are compliant with GMP.",
+          "support": 0.182
+        }
+      ]
+    },
+    {
+      "id": "PERSONNEL",
+      "title": "Roles, qualification and training",
+      "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+      "why": "Source: Annex 22 (draft) §2.1 Personnel; Annex 11 (draft) §5.2 Training; EU AI Act: Article 4: AI literacy",
+      "citations": [
+        {
+          "chunk_id": "A22:2.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §2.1 Personnel",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "All personnel should have adequate qualifications, defined responsibilities and appropriate level of access.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "A11D:5.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §5.2 Training",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "All parties involved with computerised systems used in GMP activities should have adequate system specific training, and appropriate qualifications and experience, corresponding to their assigned responsibilities, duties and access privileges.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.3
+        }
+      ]
+    },
+    {
+      "id": "AI_ACT",
+      "title": "EU AI Act screening",
+      "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+      "why": "Source: EU AI Act: Article 6: Classification rules for high-risk AI systems; EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2); EU AI Act: Article 26: Obligations of deployers of high-risk AI systems; EU AI Act: Article 4: AI literacy; EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+      "citations": [
+        {
+          "chunk_id": "AIA:art-6:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 53,
+          "quote": "A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service.",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:annex-III:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 127,
+          "quote": "Employment, workers’ management and access to self-employment: (a) AI systems intended to be used for the recruitment or selection of natural persons, in particular to place targeted job advertisements, to analyse and filter job applications, and to evaluate candidates;",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:art-26:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 67,
+          "quote": "Without prejudice to paragraphs 1 and 2, to the extent the deployer exercises control over the input data, that deployer shall ensure that input data is relevant and sufficiently representative in view of the intended purpose of the high-risk AI system.",
+          "support": 0.286
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.143
+        },
+        {
+          "chunk_id": "AIA:art-50:1",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 82,
+          "quote": "Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated.",
+          "support": 0.238
+        }
+      ]
+    }
+  ],
+  "open_questions": [],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "0eca4cd56717",
+    "created_at": "2026-11-24T06:58:27.930647Z",
+    "title": "LLM drafts of cleaning SOPs",
+    "description": "Short title\nLLM drafts of cleaning SOPs\n\nWhat should the AI do?\nA chatbot writes first drafts of cleaning SOPs for production equipment from our SOP template and the equipment manual. The author edits the draft, then it goes through the normal document review.\n\nWhere will it be used?\nManufacturing / production, QA / quality systems\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNo, only indirectly. Only first drafts. The author rewrites them and the SOP becomes a GMP document only after the normal review and approval.\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM). A general-purpose chatbot.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nThe SOP author edits every draft; QA reviews and approves every SOP in the eDMS before it is issued.\n\nDoes the AI replace or reduce a check or step that people do today?\nNo, everything done today stays; the AI adds to it. The normal document review stays as it is.\n\nWhat data goes into it?\nInternal, not confidential\n\nWho provides it?\nCloud or online service",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "non_critical",
+      "model_type": "generative",
+      "autonomy": "recommends",
+      "human_in_the_loop": "yes",
+      "grid": {
+        "adaptiveness": "locked",
+        "autonomy": "recommends"
+      }
+    },
+    "verdict": {
+      "code": "permitted_with_hitl",
+      "label": "Generative AI: proceed if a person approves each output (Annex 22)",
+      "rule_id": "R8-genai-hitl",
+      "explanation": "Draft Annex 22 §1 allows generative AI in non-critical GMP applications when personnel with adequate qualification and training are responsible for checking each output; Annex 22 principles may be considered where applicable."
+    },
+    "required_controls": [
+      {
+        "id": "HITL_GENAI",
+        "title": "Trained, qualified staff responsible for every output",
+        "what": "Personnel with adequate qualification and training check that each output is suitable for its intended use before it is used.",
+        "sources": [
+          "Annex 22 (draft) §1 Scope"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "QU_REVIEW",
+        "title": "Quality-unit review of AI-generated GMP content",
+        "what": "AI-drafted procedures, specifications or records are reviewed and cleared by an authorised quality-unit representative before use; the AI is not relied on to identify regulatory requirements.",
+        "sources": [
+          "FDA warning letter 320-26-58: Inappropriate use of artificial intelligence in pharmaceutical manufacturing",
+          "FDA warning letter 320-26-58: Violation 3: quality unit responsibilities (21 CFR 211.22)"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PQS_ACCOUNTABILITY",
+        "title": "AI use inside the pharmaceutical quality system",
+        "what": "Include the AI support in the PQS (on premise or hosted); the regulated user stays accountable for the integrity of records produced with AI.",
+        "sources": [
+          "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "Chapter 4 (draft) §4.25 General Requirements For Documentation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "RISK_ASSESSMENT",
+        "title": "Documented quality risk assessment",
+        "what": "A justified, documented risk assessment sets the extent of validation and data-integrity controls; formality proportional to risk.",
+        "sources": [
+          "Annex 11 (2011) §1 Risk Management",
+          "ICH Q9(R1) §4.3 Risk Assessment",
+          "ICH Q9(R1) §5.1 Formality in Quality Risk Management"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "CSV",
+        "title": "Computerised system validation",
+        "what": "Validate the application and qualify the infrastructure, scaled to risk; keep it in a validated state through its lifecycle.",
+        "sources": [
+          "Annex 11 (2011) §4.1 Validation",
+          "Annex 11 (draft) §2.1 Lifecycle management",
+          "Annex 11 (draft) §9.2 Quality risk management"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "DATA_INTEGRITY",
+        "title": "Data integrity (ALCOA+)",
+        "what": "Data the system captures, processes or reports must be trustworthy (ALCOA+); assess data criticality with QRM; the regulated user stays accountable for records produced with AI.",
+        "sources": [
+          "Annex 11 (draft) §2.4 Data integrity",
+          "Annex 11 (draft) §4.5 Data integrity",
+          "Chapter 4 (draft) §4.24 General Requirements For Documentation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "SECURITY",
+        "title": "Information security and confidentiality",
+        "what": "An information security management system protects data and systems; check where prompts and documents (e.g. client data) go when a hosted AI service is used.",
+        "sources": [
+          "Annex 11 (draft) §15.1 Security system"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "AUDIT_TRAIL",
+        "title": "Audit trail",
+        "what": "Record GMP-relevant user interactions: creation, change and deletion of data with user, time and reason (Annex 11). This tool's recommendation for AI systems: also log inputs, model and prompt versions and outputs.",
+        "sources": [
+          "Annex 11 (2011) §9 Audit Trails",
+          "Annex 11 (draft) §12.2 Who, what, when, why"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "CHANGE_CONTROL",
+        "title": "Change and configuration management",
+        "what": "Changes to the system (including model, prompt or configuration) are made in a controlled manner under a defined procedure.",
+        "sources": [
+          "Annex 11 (2011) §10 Change and Configuration Management",
+          "Annex 11 (draft) §3.1 Pharmaceutical quality system"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "SUPPLIER",
+        "title": "Supplier and service-provider oversight",
+        "what": "Formal agreements, supplier audit and ongoing oversight; review supplier documentation for externally provided models. For hosted AI services, agree how new model versions are released and whether you can test them before release.",
+        "sources": [
+          "Annex 11 (2011) §3.1 Suppliers and Service Providers",
+          "Annex 22 (draft) §2.2 Documentation",
+          "Annex 11 (draft) §7.2 Audit",
+          "Annex 11 (draft) §7.5 Contracts"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PERIODIC_REVIEW",
+        "title": "Periodic review",
+        "what": "Review the system periodically after go-live to verify it stays in a validated state and fit for its intended use.",
+        "sources": [
+          "Annex 11 (draft) §14.1 Periodic reviews",
+          "Annex 11 (2011) §11 Periodic evaluation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PERSONNEL",
+        "title": "Roles, qualification and training",
+        "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+        "sources": [
+          "Annex 22 (draft) §2.1 Personnel",
+          "Annex 11 (draft) §5.2 Training",
+          "EU AI Act: Article 4: AI literacy"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "AI_ACT",
+        "title": "EU AI Act screening",
+        "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+        "sources": [
+          "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "EU AI Act: Article 4: AI literacy",
+          "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems"
+        ],
+        "status": "open"
+      }
+    ],
+    "open_questions": [],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "non_critical",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:1",
+            "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…"
+          }
+        ]
+      },
+      {
+        "field": "model_type",
+        "value": "generative",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:1",
+            "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications."
+          }
+        ]
+      },
+      {
+        "field": "autonomy",
+        "value": "recommends",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §3.3 Human-in-the-loop",
+            "chunk_id": "A22:3.3:0",
+            "quote": "Where a model is used to give an input to a decision made by a human operator (human-in-the-loop), and where the effort to test such model has been diminished, the description of the intended use should include the responsibility of the operator."
+          }
+        ]
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "LLM drafts of cleaning SOPs",
+      "what": "A chatbot writes first drafts of cleaning SOPs for production equipment from our SOP template and the equipment manual. The author edits the draft, then it goes through the normal document review.",
+      "areas": [
+        "manufacturing",
+        "qa"
+      ],
+      "gmp_impact": {
+        "choice": "no",
+        "explain": "Only first drafts. The author rewrites them and the SOP becomes a GMP document only after the normal review and approval."
+      },
+      "ai_type": {
+        "choice": "llm",
+        "explain": "A general-purpose chatbot."
+      },
+      "output_use": {
+        "choice": "person_approves",
+        "explain": ""
+      },
+      "who_checks": "The SOP author edits every draft; QA reviews and approves every SOP in the eDMS before it is issued.",
+      "replaces_check": {
+        "choice": "no",
+        "explain": "The normal document review stays as it is."
+      },
+      "data": [
+        "internal"
+      ],
+      "source": {
+        "choice": "cloud_service",
+        "explain": ""
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "LLM drafts of cleaning SOPs",
+    "what": "A chatbot writes first drafts of cleaning SOPs for production equipment from our SOP template and the equipment manual. The author edits the draft, then it goes through the normal document review.",
+    "areas": [
+      "manufacturing",
+      "qa"
+    ],
+    "gmp_impact": {
+      "choice": "no",
+      "explain": "Only first drafts. The author rewrites them and the SOP becomes a GMP document only after the normal review and approval."
+    },
+    "ai_type": {
+      "choice": "llm",
+      "explain": "A general-purpose chatbot."
+    },
+    "output_use": {
+      "choice": "person_approves",
+      "explain": ""
+    },
+    "who_checks": "The SOP author edits every draft; QA reviews and approves every SOP in the eDMS before it is issued.",
+    "replaces_check": {
+      "choice": "no",
+      "explain": "The normal document review stays as it is."
+    },
+    "data": [
+      "internal"
+    ],
+    "source": {
+      "choice": "cloud_service",
+      "explain": ""
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "0eca4cd56717",
+    "created_at": "2026-11-24T06:58:27.930647Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-DP:area-1:1",
+      "CH4D:4.45:0",
+      "FDA-DP:area-1:0",
+      "FDA-WL:ai-use:0",
+      "CH4D:4.36:0"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 588,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

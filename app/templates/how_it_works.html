@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}How it works: GxP AI Use-Case Assistant{% endblock %}
+{% block main_class %}wide{% endblock %}
+{% block scripts %}<script src="/static/how_it_works.js?v={{ asset_v() }}" defer></script>{% endblock %}
+{% block content %}
+{#- Flow and tree data come from app/how_it_works.py; outcome labels, tones and source tags from app/rules.py.
+    The tree is checked against rules.decide() for every combination (tests/test_how_it_works.py). -#}
+{% set tone_icons = {'go': 'circle-check', 'stop': 'ban', 'ask': 'help-circle', 'neutral': 'circle-minus'} %}
+{% macro info(id, about, text) -%}
+<button type="button" class="info" aria-label="About: {{ about }}" aria-describedby="{{ id }}">{{ icon('info-circle') }}</button>
+<span class="tip" role="tooltip" id="{{ id }}">{{ text }}</span>
+{%- endmacro %}
+{% macro leaf_tip(l) -%}
+<span class="tip-strong">{{ l.label }}</span>
+<span class="tip-line">{{ l.why }}</span>
+{% if l.tags %}<span class="tip-meta">Rests on {% for t in l.tags %}{{ t.detail }}{{ '; ' if not loop.last }}{% endfor %}.</span>{% endif %}
+{%- endmacro %}
+{% macro tree_list(n) -%}
+<ul>
+  {% for b in n.branches %}
+  <li><span class="tl-choice">{% for c in b.chips %}{{ c.label }}{{ ' or ' if not loop.last }}{% endfor %}</span>
+    <span class="tl-meaning">({% for c in b.chips %}{{ c.meaning }}{{ '; ' if not loop.last }}{% endfor %})</span>:
+    {% if b.leaf %}<strong>{{ b.leaf.label }}</strong>{% if b.leaf.tags %}, rests on {% for t in b.leaf.tags %}{{ t.detail }}{{ ', ' if not loop.last }}{% endfor %}{% endif %}.
+    {% else %}next question, {{ b.node.title }}{{ tree_list(b.node) }}{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{%- endmacro %}
+
+<header class="hiw-head">
+  <h1>How it works</h1>
+  <p class="lead">From intake form to outcome, and how fixed rules choose it.</p>
+</header>
+
+<section class="hiw-flow" aria-labelledby="flow-title">
+  <h2 id="flow-title" class="sr-only">The process, step by step</h2>
+  <ol class="flow">
+    {% for s in steps %}
+    <li class="flow-step{{ ' is-key' if s.key }}">
+      <span class="flow-tile">{{ icon(s.icon) }}<span class="flow-num" aria-hidden="true">{{ loop.index }}</span></span>
+      <span class="flow-text tip-host"><span class="flow-label">{{ s.label }}</span>{{ info('tip-flow-' ~ loop.index, s.label, s.info) }}</span>
+      <span class="flow-sub">{{ s.sub }}</span>
+    </li>
+    {% endfor %}
+    <li class="flow-loop">
+      <span class="flow-loop-label tip-host">{{ icon('refresh') }}<span>Up to {{ max_rounds }} rounds</span>{{ info('tip-flow-loop', 'Pending clarification rounds', loop_info) }}</span>
+      <span class="flow-loop-arrow" aria-hidden="true">{{ icon('chevron-down') }}</span>
+    </li>
+    <li class="flow-step flow-audit">
+      <span class="flow-tile">{{ icon(audit.icon) }}</span>
+      <span class="flow-text tip-host"><span class="flow-label">{{ audit.label }}</span>{{ info('tip-flow-audit', audit.label, audit.info) }}</span>
+      <span class="flow-sub">{{ audit.sub }}</span>
+    </li>
+  </ol>
+</section>
+
+<div class="hiw-stem">
+  <p class="principle">{{ icon('scale') }}<span>The AI maps inputs and cites sources. <strong>The outcome is set by deterministic rules.</strong></span></p>
+</div>
+
+<section class="hiw-panel" aria-labelledby="tree-title" data-hiw>
+  <div class="hiw-panel-head">
+    <h2 id="tree-title">How the rules decide</h2>
+    <div class="hiw-tools" role="group" aria-label="Example paths">
+      {% for p in presets %}
+      <button type="button" class="btn btn-secondary btn-sm hiw-preset" data-preset="{{ p.chip }}" aria-pressed="false">{{ p.name }}</button>
+      {% endfor %}
+      <button type="button" class="btn btn-quiet btn-sm hiw-reset" data-reset>{{ icon('refresh') }}<span>Reset</span></button>
+    </div>
+  </div>
+  <p class="hiw-readout" data-readout aria-live="polite"><span class="hiw-hint">Choose an answer in the tree to trace its path.</span></p>
+
+  <div class="hiw-tree" data-tree role="group" aria-label="Decision tree" style="grid-template-rows: repeat({{ rows }}, auto)">
+    <svg class="hiw-links" data-links aria-hidden="true" focusable="false"></svg>
+    {% for it in items %}
+    {% set place = 'grid-column: ' ~ it.col ~ '; grid-row: ' ~ it.row ~ ' / span ' ~ it.span %}
+    {% if it.kind == 'node' %}
+    <div class="hiw-node tip-host" data-node="{{ it.id }}" style="{{ place }}">
+      <span class="hiw-node-title">{{ it.title }}</span>{{ info('tip-node-' ~ it.id, it.title, it.info) }}
+    </div>
+    {% elif it.kind == 'group' %}
+    <div class="hiw-group{{ ' is-down' if it.down }}" style="{{ place }}">
+      {% for c in it.chips %}
+      <button type="button" class="hiw-chip" data-chip="{{ c.id }}" aria-pressed="false"><span class="sr-only">{{ data.nodes[c.node].title }} </span>{{ c.label }}</button>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="hiw-leaf tone-{{ it.tone }} tip-host" data-leaf="{{ it.id }}" data-verdict="{{ it.verdict }}" data-rule="{{ it.rule }}" style="{{ place }}">
+      {{ icon(tone_icons[it.tone]) }}
+      <span class="hiw-leaf-head">{{ it.head }}</span>
+      <span class="hiw-tags">{% for t in it.tags %}<span class="hiw-tag">{{ t.tag }}</span>{% endfor %}</span>
+      <button type="button" class="info" aria-label="About this outcome: {{ it.label }}" aria-describedby="tip-{{ it.id }}">{{ icon('info-circle') }}</button>
+      <span class="tip" role="tooltip" id="tip-{{ it.id }}">{{ leaf_tip(it) }}</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="hiw-stepper" data-stepper></div>
+
+  <details class="hiw-text">
+    <summary>{{ icon('chevron-down', 'chev') }}<span>The decision tree as text</span></summary>
+    <div class="hiw-text-body">
+      <p>Each question is answered by the AI's classification; the rules are checked in order and the first match wins. First question:
+        {{ tree.title }}</p>
+      {{ tree_list(tree) }}
+    </div>
+  </details>
+  <script type="application/json" id="hiw-data">{{ data | tojson }}</script>
+</section>
+{% endblock %}

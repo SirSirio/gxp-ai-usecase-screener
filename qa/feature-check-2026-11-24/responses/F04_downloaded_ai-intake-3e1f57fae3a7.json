@@ -1,0 +1,314 @@
+{
+  "form_version": "1.0",
+  "status": "draft_for_qa_review",
+  "request_id": "3e1f57fae3a7",
+  "created_at": "2026-11-24T06:56:59.389020Z",
+  "title": "Camera inspection of filled vials",
+  "description": "Short title\nCamera inspection of filled vials\n\nWhat should the AI do?\nA camera system with a trained neural network inspects every filled vial on the fill-finish line and automatically rejects vials with particles, cracks or a wrong fill level.\n\nWhere will it be used?\nManufacturing / production\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nYes, directly. It makes the accept or reject decision for each vial.\n\nWhat kind of AI is it?\nTrained model, frozen: same input, same result. The model is locked after validation. Updates come as a new, validated version.\n\nWhat happens with the output?\nUsed automatically; people spot-check or watch trends and alerts. Rejected vials go straight to the reject bin.\n\nWho checks the output, and how?\nOperators check the reject rate every shift; QA reviews rejects during batch record review.\n\nDoes the AI replace or reduce a check or step that people do today?\nYes, a step is dropped or reduced. It replaces the manual visual inspection of every vial.\n\nWhat data goes into it?\nConfidential company data\n\nWho provides it?\nBought from a supplier, installed with us",
+  "proposer": {
+    "name": null,
+    "department": null,
+    "contact": null
+  },
+  "classification": {
+    "gmp_relevance": "critical",
+    "model_type": "static",
+    "autonomy": "acts_with_oversight",
+    "human_in_the_loop": "no",
+    "grid": {
+      "adaptiveness": "locked",
+      "autonomy": "acts_with_oversight"
+    }
+  },
+  "verdict": {
+    "code": "annex22_full",
+    "label": "GMP-critical ML: proceed with full controls (Annex 22)",
+    "rule_id": "R5-critical-static",
+    "explanation": "A static, deterministic model in a critical GMP application is what draft Annex 22 covers. It is acceptable with the full Annex 22 lifecycle on top of Annex 11."
+  },
+  "required_controls": [
+    {
+      "id": "INTENDED_USE",
+      "title": "Intended use and input sample space",
+      "what": "Describe the task, the input data with common and rare variations, subgroups and known limitations. A process SME approves it before acceptance testing.",
+      "sources": [
+        "Annex 22 (draft) §3.1 Intended use",
+        "Annex 22 (draft) §3.2 Subgroups"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "ACCEPTANCE",
+      "title": "Test metrics and acceptance criteria",
+      "what": "Define case-dependent metrics (e.g. confusion matrix, sensitivity, specificity) and acceptance criteria approved by an SME; performance at least as good as the process it replaces.",
+      "sources": [
+        "Annex 22 (draft) §4.1 Test metrics",
+        "Annex 22 (draft) §4.2 Acceptance criteria",
+        "Annex 22 (draft) §4.3 No decrease"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "TEST_DATA",
+      "title": "Representative, correctly labelled test data",
+      "what": "Test data covers the full sample space and subgroups, is large enough for statistical confidence, labels are independently verified; no generative-AI-generated test data without justification.",
+      "sources": [
+        "Annex 22 (draft) §5.1 Selection",
+        "Annex 22 (draft) §5.3 Labelling",
+        "Annex 22 (draft) §5.6 Data generation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "TEST_INDEPENDENCE",
+      "title": "Test-data independence",
+      "what": "Technical and procedural controls so test data is never used in training or validation, with access control and audit trail on the test set.",
+      "sources": [
+        "Annex 22 (draft) §6.1 Independence",
+        "Annex 22 (draft) §6.2 Data split",
+        "Annex 22 (draft) §6.5 Staff independency"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "TEST_PLAN",
+      "title": "Approved test plan and documented execution",
+      "what": "An approved test plan before testing; deviations documented and justified; test documentation retained as GMP documentation.",
+      "sources": [
+        "Annex 22 (draft) §7.2 Test plan",
+        "Annex 22 (draft) §7.3 Deviation",
+        "Annex 22 (draft) §7.4 Test documentation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "EXPLAINABILITY",
+      "title": "Explainability and feature review",
+      "what": "Record which features drove each classification during testing (e.g. SHAP, LIME, heat maps) and review them as part of approving the results.",
+      "sources": [
+        "Annex 22 (draft) §8.1 Feature attribution",
+        "Annex 22 (draft) §8.2 Feature justification"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "CONFIDENCE",
+      "title": "Confidence scores and 'undecided' threshold",
+      "what": "Log a confidence score per prediction during testing (§9.1) and set an operational threshold below which the outcome is flagged 'undecided' (§9.2).",
+      "sources": [
+        "Annex 22 (draft) §9.1 Confidence score",
+        "Annex 22 (draft) §9.2 Threshold"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "CHANGE_CONTROL_AI",
+      "title": "Change and configuration control of the model",
+      "what": "Put the tested model, its system and the process under change and configuration control; evaluate every change for retest; detect unauthorised changes.",
+      "sources": [
+        "Annex 22 (draft) §10.1 Change control",
+        "Annex 22 (draft) §10.2 Configuration control"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "MONITORING",
+      "title": "Performance and input-drift monitoring",
+      "what": "Monitor model performance and whether inputs stay within the tested sample space, with defined drift metrics.",
+      "sources": [
+        "Annex 22 (draft) §10.3 System performance monitoring",
+        "Annex 22 (draft) §10.4 Input sample space monitoring"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "RISK_ASSESSMENT",
+      "title": "Documented quality risk assessment",
+      "what": "A justified, documented risk assessment sets the extent of validation and data-integrity controls; formality proportional to risk.",
+      "sources": [
+        "Annex 11 (2011) §1 Risk Management",
+        "ICH Q9(R1) §4.3 Risk Assessment",
+        "ICH Q9(R1) §5.1 Formality in Quality Risk Management"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "CSV",
+      "title": "Computerised system validation",
+      "what": "Validate the application and qualify the infrastructure, scaled to risk; keep it in a validated state through its lifecycle.",
+      "sources": [
+        "Annex 11 (2011) §4.1 Validation",
+        "Annex 11 (draft) §2.1 Lifecycle management",
+        "Annex 11 (draft) §9.2 Quality risk management"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "DATA_INTEGRITY",
+      "title": "Data integrity (ALCOA+)",
+      "what": "Data the system captures, processes or reports must be trustworthy (ALCOA+); assess data criticality with QRM; the regulated user stays accountable for records produced with AI.",
+      "sources": [
+        "Annex 11 (draft) §2.4 Data integrity",
+        "Annex 11 (draft) §4.5 Data integrity",
+        "Chapter 4 (draft) §4.24 General Requirements For Documentation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "AUDIT_TRAIL",
+      "title": "Audit trail",
+      "what": "Record GMP-relevant user interactions: creation, change and deletion of data with user, time and reason (Annex 11). This tool's recommendation for AI systems: also log inputs, model and prompt versions and outputs.",
+      "sources": [
+        "Annex 11 (2011) §9 Audit Trails",
+        "Annex 11 (draft) §12.2 Who, what, when, why"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "SUPPLIER",
+      "title": "Supplier and service-provider oversight",
+      "what": "Formal agreements, supplier audit and ongoing oversight; review supplier documentation for externally provided models. For hosted AI services, agree how new model versions are released and whether you can test them before release.",
+      "sources": [
+        "Annex 11 (2011) §3.1 Suppliers and Service Providers",
+        "Annex 22 (draft) §2.2 Documentation",
+        "Annex 11 (draft) §7.2 Audit",
+        "Annex 11 (draft) §7.5 Contracts"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "PQS_ACCOUNTABILITY",
+      "title": "AI use inside the pharmaceutical quality system",
+      "what": "Include the AI support in the PQS (on premise or hosted); the regulated user stays accountable for the integrity of records produced with AI.",
+      "sources": [
+        "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+        "Chapter 4 (draft) §4.25 General Requirements For Documentation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "PERIODIC_REVIEW",
+      "title": "Periodic review",
+      "what": "Review the system periodically after go-live to verify it stays in a validated state and fit for its intended use.",
+      "sources": [
+        "Annex 11 (draft) §14.1 Periodic reviews",
+        "Annex 11 (2011) §11 Periodic evaluation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "PERSONNEL",
+      "title": "Roles, qualification and training",
+      "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+      "sources": [
+        "Annex 22 (draft) §2.1 Personnel",
+        "Annex 11 (draft) §5.2 Training",
+        "EU AI Act: Article 4: AI literacy"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "FDA_CREDIBILITY",
+      "title": "US products: FDA credibility assessment",
+      "what": "For products under FDA oversight, model outputs that support regulatory decisions (including actions taken under CGMP, per the draft guidance's scope) call for FDA's risk-based credibility framework: question of interest, context of use, model risk (influence × consequence), credibility plan.",
+      "sources": [
+        "FDA AI credibility guidance (draft) §IV.A A risk-based credibility assessment framework",
+        "FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "AI_ACT",
+      "title": "EU AI Act screening",
+      "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+      "sources": [
+        "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+        "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+        "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+        "EU AI Act: Article 4: AI literacy",
+        "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems"
+      ],
+      "status": "open"
+    }
+  ],
+  "open_questions": [],
+  "evidence": [
+    {
+      "field": "gmp_relevance",
+      "value": "critical",
+      "supported": true,
+      "sources": [
+        {
+          "ref": "Annex 22 (draft) §1 Scope",
+          "chunk_id": "A22:1:0",
+          "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data."
+        }
+      ]
+    },
+    {
+      "field": "model_type",
+      "value": "static",
+      "supported": true,
+      "sources": [
+        {
+          "ref": "Annex 22 (draft) §1 Scope",
+          "chunk_id": "A22:1:0",
+          "quote": "The document applies to static models, i.e. models that do not adapt their performance during use by incorporating new data."
+        }
+      ]
+    },
+    {
+      "field": "autonomy",
+      "value": "acts_with_oversight",
+      "supported": true,
+      "sources": [
+        {
+          "ref": "FDA AI credibility guidance (draft) §IV.A.2 Step 2: Define the context of use for the AI model",
+          "chunk_id": "FDA-CRED:IV.A.2:1",
+          "quote": "Therefore, the AI-based model will not be the sole determinant for the release of product (the AI model’s scope)."
+        }
+      ]
+    }
+  ],
+  "generated_by": {
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "source_map_version": "map-1.1",
+    "app_version": "0.1.0"
+  },
+  "proposer_answers": {
+    "title": "Camera inspection of filled vials",
+    "what": "A camera system with a trained neural network inspects every filled vial on the fill-finish line and automatically rejects vials with particles, cracks or a wrong fill level.",
+    "areas": [
+      "manufacturing"
+    ],
+    "gmp_impact": {
+      "choice": "yes",
+      "explain": "It makes the accept or reject decision for each vial."
+    },
+    "ai_type": {
+      "choice": "trained_fixed",
+      "explain": "The model is locked after validation. Updates come as a new, validated version."
+    },
+    "output_use": {
+      "choice": "auto_monitored",
+      "explain": "Rejected vials go straight to the reject bin."
+    },
+    "who_checks": "Operators check the reject rate every shift; QA reviews rejects during batch record review.",
+    "replaces_check": {
+      "choice": "yes",
+      "explain": "It replaces the manual visual inspection of every vial."
+    },
+    "data": [
+      "confidential"
+    ],
+    "source": {
+      "choice": "vendor_installed",
+      "explain": ""
+    }
+  },
+  "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+}

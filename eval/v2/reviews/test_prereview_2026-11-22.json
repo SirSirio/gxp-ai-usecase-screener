@@ -1,0 +1,440 @@
+{
+  "exported_at": "2026-11-22T11:43:00.824Z",
+  "data_hash": "47409bc7e0",
+  "form_version": "form-1.0",
+  "reviewer": "pre-review (independent agent)",
+  "decisions": {
+    "T001": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T002": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T003": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T004": {
+      "status": "rewrite",
+      "comment": "Change to out_of_scope: no use is proposed (no task, every answer 'not sure', 'maybe something with the results or the planning') and the text asks the tool what is allowed. Same pattern as D029, SME principle 1 'no proposal described, no assessment' (guide §1).",
+      "edited_form": {},
+      "edited_expected": {
+        "in_scope": false,
+        "gmp_relevance": null,
+        "model_type": null,
+        "autonomy": null,
+        "verdict": "out_of_scope"
+      }
+    },
+    "T005": {
+      "status": "approved",
+      "comment": "BORDERLINE: management-review KPI narrative sits on the weak non_critical vs not_gmp line (guide §2); kept non_critical because the 'key messages' feed the PQS management review, the stricter reading.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T006": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T007": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T008": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T009": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T010": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T011": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T012": {
+      "status": "approved",
+      "comment": "BORDERLINE: the model writes calibration due dates of GMP instruments directly into the CMMS, so critical (a GMP control) is supported by the text; an SME who treats interval setting as metrology-owned planning would say non_critical -> permitted_risk_based.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T013": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T014": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T015": {
+      "status": "approved",
+      "comment": "BORDERLINE: same pattern as D032 (vendor calls it AI, the only evidence for 'rules' is the vendor's answer), but here the tick does not claim a trained model and the proposer gives the concrete rules they configure; SME to decide consistently with D032 and T043.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T016": {
+      "status": "approved",
+      "comment": "BORDERLINE: root cause feeds the deviation outcome, but classification and batch impact are explicitly excluded and the investigator justifies the root cause with evidence, so non_critical is defensible (guide §2).",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T017": {
+      "status": "approved",
+      "comment": "BORDERLINE (gmp_relevance, not autonomy): the autonomy reading is settled by the text (sent automatically, PM only in cc); weekly tech-transfer status to a client could also be read as not_gmp project admin, but non_critical is the stricter reading.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T018": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T019": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T020": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T021": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T022": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T023": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T024": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T025": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T026": {
+      "status": "approved",
+      "comment": "BORDERLINE: in-house team states a frozen, deterministic encoder classifier that outputs a class only, so static fits guide §3; an SME may still treat any 'language model' as generative (-> not_permitted_critical).",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T027": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T028": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T029": {
+      "status": "approved",
+      "comment": "BORDERLINE: unreviewed LLM metadata in a validated eDMS could be argued as GMP-record data integrity (critical -> not_permitted_critical); both readings say 'not as described', so user-facing risk is small.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T030": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T031": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T032": {
+      "status": "rewrite",
+      "comment": "Change model_type static -> unclear (needs_more_information): the proposer ticks 'details unknown', says they do not know the details, and the only evidence for a frozen model is the supplier's sales sheet. SME principle 3 and the D032 decision: for a critical accept/reject use a marketing claim does not settle the model type; the vendor must document it first (A22 §2.2).",
+      "edited_form": {},
+      "edited_expected": {
+        "model_type": "unclear",
+        "verdict": "needs_more_information"
+      }
+    },
+    "T033": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T034": {
+      "status": "approved",
+      "comment": "BORDERLINE: applies the guide §3 'different output for identical input' definition literally to an analytical instrument; the vendor confirms stochastic inference, so probabilistic is supported, but an SME may treat it as ordinary measurement uncertainty (static -> annex22_full).",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T035": {
+      "status": "approved",
+      "comment": "BORDERLINE: purpose is HR appraisal and bonus (not_gmp), but the coaching suggestions touch GMP training (non_critical -> permitted_risk_based, a stricter outcome). AI Act Annex III point 4 is the main point for the proposer.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T036": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T037": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T038": {
+      "status": "approved",
+      "comment": "BORDERLINE: critical rests on the LLM pass/fail being the GMP training record that gates aseptic qualification; non_critical would give hitl_required, also 'not as described'.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T039": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T040": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T041": {
+      "status": "approved",
+      "comment": "BORDERLINE: guide has no rule for answer bots replying on behalf of a function; acts_autonomously is supported because the bot answers as QA, closes the mail and nobody checks. Some questions ('can I correct this logbook entry') touch data integrity, which an SME might even read as critical.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T042": {
+      "status": "approved",
+      "comment": "BORDERLINE: the model replaces the mirror self-check and locks the grade B door, so critical (contamination control) is supported; an SME who sees it as an extra aid would say non_critical -> permitted_risk_based.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T043": {
+      "status": "rewrite",
+      "comment": "Change model_type non_ml -> unclear (needs_more_information): the tick says 'trained model', the brochure says 'AI-powered', and the only evidence for configured rules is a verbal answer from the vendor's engineer. This mirrors D032 (SME principle 3): for a critical use the vendor must document how it works before screening concludes. SME to decide together with T015.",
+      "edited_form": {},
+      "edited_expected": {
+        "model_type": "unclear",
+        "verdict": "needs_more_information"
+      }
+    },
+    "T044": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T045": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T046": {
+      "status": "approved",
+      "comment": "BORDERLINE: meeting notes on the non_critical vs not_gmp line (guide §2); kept non_critical because deviation and equipment actions are followed up from the unreviewed notes.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T047": {
+      "status": "approved",
+      "comment": "BORDERLINE: guide has no example for LLM-written code; non_critical holds because the code is reviewed and validated under CSV before any GMP calculation, so no LLM output is used as a GMP result. Suggest adding a guide line.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T048": {
+      "status": "approved",
+      "comment": "BORDERLINE: the agent is described as sending the reminder emails itself, which could support acts_autonomously -> hitl_required; kept unclear because the main GMP output (summaries in the supplier file) has review 'not decided' (principle 4).",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T049": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T050": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T051": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T052": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T053": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T054": {
+      "status": "approved",
+      "comment": "BORDERLINE: every answer is 'not sure', but unlike D029 there is a concrete planned change (CDS upgrade with an AI assistant on by default), so it is a real proposal in scope (principle 1) with gmp_relevance and model_type unclear.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T055": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T056": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T057": {
+      "status": "approved",
+      "comment": "BORDERLINE: autonomy unknown but, per the §6 rule table, it does not change the outcome for non_critical + static; the use (shift and suite planning, harvest per batch-record criteria) is described, so this is not a 'no proposal' case.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T058": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T059": {
+      "status": "approved",
+      "comment": "BORDERLINE: dynamic rests only on the vendor's words, but tick and text agree and it is the strictest reading; no contradiction to settle (principle 3 does not apply).",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T060": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T061": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T062": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T063": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T064": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T065": {
+      "status": "approved",
+      "comment": "BORDERLINE: floor-screen 'GMP tip' on the non_critical vs not_gmp line; kept non_critical (stricter) because it is GMP content drawn from SOPs and deviation trends shown to operators unreviewed.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T066": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T067": {
+      "status": "approved",
+      "comment": "BORDERLINE: automatically written stock quantities and bin locations in a GMP warehouse are close to traceability records (critical -> annex22_full); kept non_critical because QA status stays with QA and discrepancies are investigated.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T068": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T069": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "T070": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    }
+  }
+}

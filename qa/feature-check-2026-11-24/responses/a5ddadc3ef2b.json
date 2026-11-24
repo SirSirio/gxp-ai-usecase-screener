@@ -1,0 +1,331 @@
+{
+  "description": "HR wants an AI tool to screen CVs and rank candidates for operator roles.",
+  "in_scope": true,
+  "title": "HR wants an AI tool to screen CVs and rank candidates for operator roles",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "not_gmp",
+    "model_type": "unclear",
+    "autonomy": "unclear"
+  },
+  "human_in_the_loop": "unclear",
+  "grid": {
+    "adaptiveness": "unclear",
+    "autonomy": "unclear",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "outside_gmp",
+    "label": "Not GMP: proceed under normal IT rules (no Annex 22)",
+    "rule_id": "R1-outside-gmp",
+    "explanation": "The use is not part of GMP-regulated activities, so Annex 22 and Annex 11 do not apply. General IT and AI governance, the EU AI Act (check whether the use is listed as high-risk) and other obligations such as data protection or the accuracy of regulatory submissions still do.",
+    "citations": [
+      {
+        "chunk_id": "AIA:art-6:0",
+        "doc_id": "AIA",
+        "ref": "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+        "doc_status": "in force",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+        "page": 53,
+        "quote": "In addition to the high-risk AI systems referred to in paragraph 1, AI systems referred to in Annex III shall be considered to be high-risk.",
+        "support": 0.556
+      },
+      {
+        "chunk_id": "AIA:annex-III:1",
+        "doc_id": "AIA",
+        "ref": "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+        "doc_status": "in force",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+        "page": 127,
+        "quote": "Employment, workers’ management and access to self-employment:",
+        "support": 0.778
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "not_gmp",
+      "label": "Not GMP",
+      "rationale": "Keyword baseline: the use is outside GMP-regulated activities ('candidate', 'hr').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A11:principle:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011): Principle",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "This annex applies to all forms of computerised systems used as part of a GMP regulated activities.",
+          "support": 0.809
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A11:principle:0"
+      ],
+      "note": null
+    },
+    {
+      "field": "model_type",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    },
+    {
+      "field": "autonomy",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    }
+  ],
+  "controls": [
+    {
+      "id": "AI_ACT",
+      "title": "EU AI Act screening",
+      "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+      "why": "Source: EU AI Act: Article 6: Classification rules for high-risk AI systems; EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2); EU AI Act: Article 26: Obligations of deployers of high-risk AI systems; EU AI Act: Article 4: AI literacy; EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+      "citations": [
+        {
+          "chunk_id": "AIA:art-6:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 53,
+          "quote": "A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service.",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:annex-III:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 127,
+          "quote": "Employment, workers’ management and access to self-employment: (a) AI systems intended to be used for the recruitment or selection of natural persons, in particular to place targeted job advertisements, to analyse and filter job applications, and to evaluate candidates;",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:art-26:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 67,
+          "quote": "Without prejudice to paragraphs 1 and 2, to the extent the deployer exercises control over the input data, that deployer shall ensure that input data is relevant and sufficiently representative in view of the intended purpose of the high-risk AI system.",
+          "support": 0.286
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.143
+        },
+        {
+          "chunk_id": "AIA:art-50:1",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 82,
+          "quote": "Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated.",
+          "support": 0.238
+        }
+      ]
+    },
+    {
+      "id": "PERSONNEL",
+      "title": "Roles, qualification and training",
+      "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+      "why": "Source: Annex 22 (draft) §2.1 Personnel; Annex 11 (draft) §5.2 Training; EU AI Act: Article 4: AI literacy",
+      "citations": [
+        {
+          "chunk_id": "A22:2.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §2.1 Personnel",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "All personnel should have adequate qualifications, defined responsibilities and appropriate level of access.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "A11D:5.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §5.2 Training",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "All parties involved with computerised systems used in GMP activities should have adequate system specific training, and appropriate qualifications and experience, corresponding to their assigned responsibilities, duties and access privileges.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.3
+        }
+      ]
+    }
+  ],
+  "open_questions": [],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "a5ddadc3ef2b",
+    "created_at": "2026-11-24T07:03:19.595289Z",
+    "title": "HR wants an AI tool to screen CVs and rank candidates for operator roles",
+    "description": "HR wants an AI tool to screen CVs and rank candidates for operator roles.",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "not_gmp",
+      "model_type": "unclear",
+      "autonomy": "unclear",
+      "human_in_the_loop": "unclear",
+      "grid": {
+        "adaptiveness": "unclear",
+        "autonomy": "unclear"
+      }
+    },
+    "verdict": {
+      "code": "outside_gmp",
+      "label": "Not GMP: proceed under normal IT rules (no Annex 22)",
+      "rule_id": "R1-outside-gmp",
+      "explanation": "The use is not part of GMP-regulated activities, so Annex 22 and Annex 11 do not apply. General IT and AI governance, the EU AI Act (check whether the use is listed as high-risk) and other obligations such as data protection or the accuracy of regulatory submissions still do."
+    },
+    "required_controls": [
+      {
+        "id": "AI_ACT",
+        "title": "EU AI Act screening",
+        "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+        "sources": [
+          "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "EU AI Act: Article 4: AI literacy",
+          "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PERSONNEL",
+        "title": "Roles, qualification and training",
+        "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+        "sources": [
+          "Annex 22 (draft) §2.1 Personnel",
+          "Annex 11 (draft) §5.2 Training",
+          "EU AI Act: Article 4: AI literacy"
+        ],
+        "status": "open"
+      }
+    ],
+    "open_questions": [],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "not_gmp",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 11 (2011): Principle",
+            "chunk_id": "A11:principle:0",
+            "quote": "This annex applies to all forms of computerised systems used as part of a GMP regulated activities."
+          }
+        ]
+      },
+      {
+        "field": "model_type",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      },
+      {
+        "field": "autonomy",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": null,
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": null,
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "a5ddadc3ef2b",
+    "created_at": "2026-11-24T07:03:19.595289Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "AIA:annex-III:2",
+      "AIA:art-13:3",
+      "FDA-CRED:IV.C:3",
+      "AIA:art-3:2",
+      "AIA:art-3:1"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 132,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

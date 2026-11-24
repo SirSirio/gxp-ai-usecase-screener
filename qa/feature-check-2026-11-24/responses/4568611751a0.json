@@ -1,0 +1,293 @@
+{
+  "description": "Short title\nCDS AI peak integration add-on\n\nWhat should the AI do?\nOur CDS vendor offers an 'AI-assisted' peak integration add on for the QC HPLC and CE methods. It integrates the peaks automatically.\n\nWhere will it be used?\nQC laboratory\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nYes, directly. integration -> reported QC results\n\nWhat kind of AI is it?\nA supplier's 'AI feature', details unknown. Round 1: vendor still has not said how the model works.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nanalyst reviews the integration as usual before results are reported. vendor won't tell us how it works under the hood\n\nWhat data goes into it?\nConfidential company data\n\nWho provides it?\nBought from a supplier, installed with us. add-on to our CDS",
+  "in_scope": true,
+  "title": "CDS AI peak integration add-on",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "critical",
+    "model_type": "unclear",
+    "autonomy": "recommends"
+  },
+  "human_in_the_loop": "yes",
+  "grid": {
+    "adaptiveness": "unclear",
+    "autonomy": "recommends",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "needs_more_information",
+    "label": "Pending clarification: update any missing or conflicting details below",
+    "rule_id": "R3-unclear",
+    "explanation": "The description does not say enough to decide whether the use is GMP-critical or what kind of model it is. Both change the verdict.",
+    "citations": [
+      {
+        "chunk_id": "A22:1:0",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §1 Scope",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 2,
+        "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data.",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "critical",
+      "label": "GMP-critical",
+      "rationale": "Keyword baseline: the AI output feeds a GMP decision, record or control ('ticked: Yes, directly').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data.",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:0"
+      ],
+      "note": null
+    },
+    {
+      "field": "model_type",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    },
+    {
+      "field": "autonomy",
+      "value": "recommends",
+      "label": "AI recommends, human approves each output",
+      "rationale": "Keyword baseline: a person reviews or approves each output ('ticked: A trained person checks and approves each output before it is used').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:3.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §3.3 Human-in-the-loop",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "Where a model is used to give an input to a decision made by a human operator (human-in-the-loop), and where the effort to test such model has been diminished, the description of the intended use should include the responsibility of the operator.",
+          "support": 0.701
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:3.3:0"
+      ],
+      "note": null
+    }
+  ],
+  "controls": [],
+  "open_questions": [
+    "What kind of model is it: a trained model that is frozen before use, a model that keeps learning in operation, a generative AI / LLM, or fixed rules and scripts?"
+  ],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "4568611751a0",
+    "created_at": "2026-11-24T06:59:39.645200Z",
+    "title": "CDS AI peak integration add-on",
+    "description": "Short title\nCDS AI peak integration add-on\n\nWhat should the AI do?\nOur CDS vendor offers an 'AI-assisted' peak integration add on for the QC HPLC and CE methods. It integrates the peaks automatically.\n\nWhere will it be used?\nQC laboratory\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nYes, directly. integration -> reported QC results\n\nWhat kind of AI is it?\nA supplier's 'AI feature', details unknown. Round 1: vendor still has not said how the model works.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nanalyst reviews the integration as usual before results are reported. vendor won't tell us how it works under the hood\n\nWhat data goes into it?\nConfidential company data\n\nWho provides it?\nBought from a supplier, installed with us. add-on to our CDS",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "critical",
+      "model_type": "unclear",
+      "autonomy": "recommends",
+      "human_in_the_loop": "yes",
+      "grid": {
+        "adaptiveness": "unclear",
+        "autonomy": "recommends"
+      }
+    },
+    "verdict": {
+      "code": "needs_more_information",
+      "label": "Pending clarification: update any missing or conflicting details below",
+      "rule_id": "R3-unclear",
+      "explanation": "The description does not say enough to decide whether the use is GMP-critical or what kind of model it is. Both change the verdict."
+    },
+    "required_controls": [],
+    "open_questions": [
+      "What kind of model is it: a trained model that is frozen before use, a model that keeps learning in operation, a generative AI / LLM, or fixed rules and scripts?"
+    ],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "critical",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:0",
+            "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data."
+          }
+        ]
+      },
+      {
+        "field": "model_type",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      },
+      {
+        "field": "autonomy",
+        "value": "recommends",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §3.3 Human-in-the-loop",
+            "chunk_id": "A22:3.3:0",
+            "quote": "Where a model is used to give an input to a decision made by a human operator (human-in-the-loop), and where the effort to test such model has been diminished, the description of the intended use should include the responsibility of the operator."
+          }
+        ]
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "CDS AI peak integration add-on",
+      "what": "Our CDS vendor offers an 'AI-assisted' peak integration add on for the QC HPLC and CE methods. It integrates the peaks automatically.",
+      "areas": [
+        "qc_lab"
+      ],
+      "gmp_impact": {
+        "choice": "yes",
+        "explain": "integration -> reported QC results"
+      },
+      "ai_type": {
+        "choice": "vendor_unknown",
+        "explain": "Round 1: vendor still has not said how the model works."
+      },
+      "output_use": {
+        "choice": "person_approves",
+        "explain": ""
+      },
+      "who_checks": "analyst reviews the integration as usual before results are reported. vendor won't tell us how it works under the hood",
+      "replaces_check": {
+        "choice": null,
+        "explain": ""
+      },
+      "data": [
+        "confidential"
+      ],
+      "source": {
+        "choice": "vendor_installed",
+        "explain": "add-on to our CDS"
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "CDS AI peak integration add-on",
+    "what": "Our CDS vendor offers an 'AI-assisted' peak integration add on for the QC HPLC and CE methods. It integrates the peaks automatically.",
+    "areas": [
+      "qc_lab"
+    ],
+    "gmp_impact": {
+      "choice": "yes",
+      "explain": "integration -> reported QC results"
+    },
+    "ai_type": {
+      "choice": "vendor_unknown",
+      "explain": "Round 1: vendor still has not said how the model works."
+    },
+    "output_use": {
+      "choice": "person_approves",
+      "explain": ""
+    },
+    "who_checks": "analyst reviews the integration as usual before results are reported. vendor won't tell us how it works under the hood",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [
+      "confidential"
+    ],
+    "source": {
+      "choice": "vendor_installed",
+      "explain": "add-on to our CDS"
+    }
+  },
+  "follow_up": [
+    {
+      "kind": "fields",
+      "question": "What kind of model is it: a trained model that is frozen before use, a model that keeps learning in operation, a generative AI / LLM, or fixed rules and scripts?",
+      "fields": [
+        "ai_type"
+      ],
+      "blocking": true,
+      "contradiction": null
+    }
+  ],
+  "follow_up_allowed": true,
+  "meta": {
+    "request_id": "4568611751a0",
+    "created_at": "2026-11-24T06:59:39.645200Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-CRED:IV.A.4.a:2",
+      "FDA-DP:background:1",
+      "FDA-DP:background:3",
+      "FDA-CRED:III:6",
+      "FDA-CRED:IV.A.4.a:9",
+      "FDA-DP:area-4:0"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 178,
+    "round": 2,
+    "parent_request_id": "6c3d2dee471b"
+  }
+}

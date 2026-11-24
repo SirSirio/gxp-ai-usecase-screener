@@ -1,0 +1,93 @@
+{
+  "description": "Short title\nQ9 vs Q9(R1)\n\nWhat should the AI do?\nCan you summarise what changed between ICH Q9 and Q9(R1)?",
+  "in_scope": false,
+  "title": "Q9 vs Q9(R1)",
+  "out_of_scope_reason": "No AI or automation use is described.",
+  "classification": null,
+  "human_in_the_loop": null,
+  "grid": null,
+  "decision": {
+    "verdict": "out_of_scope",
+    "label": "Not assessed: outside this tool's scope",
+    "rule_id": "R0-out-of-scope",
+    "explanation": "This tool screens proposed AI use cases against public GMP and AI texts. It does not answer general questions, give legal advice or issue compliance decisions. To screen a specific AI use, describe what the AI does and what happens to its output.",
+    "citations": []
+  },
+  "judgments": [],
+  "controls": [],
+  "open_questions": [],
+  "warnings": [],
+  "intake_form": null,
+  "form": {
+    "title": "Q9 vs Q9(R1)",
+    "what": "Can you summarise what changed between ICH Q9 and Q9(R1)?",
+    "areas": [],
+    "gmp_impact": {
+      "choice": null,
+      "explain": ""
+    },
+    "ai_type": {
+      "choice": null,
+      "explain": ""
+    },
+    "output_use": {
+      "choice": null,
+      "explain": ""
+    },
+    "who_checks": "",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [],
+    "source": {
+      "choice": null,
+      "explain": ""
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "fb16f5fba76f",
+    "created_at": "2026-11-24T06:52:03.423778Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "Q9:II.7:0",
+      "Q9:II.9:2",
+      "Q9:1:5",
+      "Q9:6:2",
+      "Q9:6.1:4",
+      "Q9:1:0",
+      "Q9:5:2",
+      "Q9:4.3:3"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 110,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

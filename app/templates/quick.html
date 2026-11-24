@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% import "_form_macros.html" as fm %}
+{% block title %}Quick mode · GxP AI Use-Case Assistant{% endblock %}
+{% block content %}
+<section class="page-head">
+  <h1>Screen a proposed AI use case</h1>
+  {% if public_demo() %}<p class="notice demo-notice" data-demo-notice>{{ icon('info-circle') }}<span><strong>Public demo.</strong> Do not enter confidential or company information. Use made-up or public examples.</span></p>{% endif %}
+  <p class="notice">{{ icon('info-circle') }}<span>Quick mode: accuracy may be lower than in the full form.</span></p>
+</section>
+
+{% if error %}
+<div class="alert" role="alert" id="form-alert">{{ icon('alert-triangle') }}
+  <div class="alert-body">
+    <p>{{ error }}</p>
+    {%- if error_detail %}
+    <details class="alert-detail">
+      <summary>{{ icon('chevron-down', 'chev') }}<span>Show technical details</span></summary>
+      <pre class="alert-detail-text">{{ error_detail }}</pre>
+    </details>
+    {%- endif %}
+  </div>
+</div>
+{% endif %}
+
+<form method="post" action="/quick" class="card quick-card" data-busy>
+  <div class="q">
+    <label class="q-label" for="description">Use case <span class="req">Required</span></label>
+    <p class="q-help" id="description-help">Who uses it, what the AI does, what happens to its output, and whether a person checks it.
+      Do not enter confidential information: the text may be sent to an external AI service.</p>
+    <textarea id="description" name="description" rows="7" minlength="20" maxlength="4000" required
+      aria-describedby="description-help">{{ description }}</textarea>
+  </div>
+  {{ fm.provider_select(providers, selected) }}
+  <div class="submit-row">
+    <span></span>
+    <button type="submit" class="btn btn-primary" data-busy-label="Screening">{{ icon('loader-2', 'spinner') }}<span class="btn-label">Screen use case</span></button>
+  </div>
+  {{ fm.screening_progress() }}
+</form>
+
+<section class="quick-examples" aria-labelledby="quick-ex">
+  <h2 id="quick-ex">Try an example</h2>
+  <ul>
+    {% for e in examples %}
+    <li><button type="button" class="example-text" data-fill="description">{{ e }}</button></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+{% import "_form_macros.html" as fm %}
+{% block title %}{{ r.title }} · GxP AI Use-Case Assistant{% endblock %}
+
+{% macro cites(list, label='Sources') -%}
+{% if list %}
+<details class="sources">
+  <summary>{{ icon('chevron-down', 'chev') }}<span>{{ label }} ({{ list | length }})</span></summary>
+  {% for c in list %}
+  <blockquote class="cite">
+    <p>“{{ c.quote }}”</p>
+    <footer>
+      <a href="/section?doc={{ c.doc_id | urlencode }}&amp;section={{ c.chunk_id.split(':')[1] | urlencode }}&amp;q={{ c.quote | urlencode }}" target="_blank" rel="noopener">{{ c.ref }}<span class="sr-only"> (full section, opens in a new tab)</span></a>
+      {% if c.doc_status == 'draft' %}<span class="badge st-draft">Draft</span>{% endif %}
+      <span class="muted">p. {{ c.page }}, {{ c.chunk_id }}</span>
+      {% if c.url %}<a class="cite-official" href="{{ c.url }}" target="_blank" rel="noopener">{{ icon('external-link') }}<span>Official document<span class="sr-only">: {{ (sources_by_id.get(c.doc_id).short) if sources_by_id.get(c.doc_id) else c.doc_id }} (opens in a new tab)</span></span></a>{% endif %}
+    </footer>
+  </blockquote>
+  {% endfor %}
+  <p class="cite-more"><a href="/sources#doc-{{ list[0].doc_id }}">{{ icon('books') }}<span>About these documents</span></a></p>
+</details>
+{% endif %}
+{%- endmacro %}
+
+{#- The current answers as hidden fields, except the questions in `skip` (shown as inputs instead). -#}
+{% macro resubmit_fields(r, mode, skip=[]) -%}
+{% if mode == 'form' %}
+  {% for q in all_questions if q.id not in skip %}{% set v = r.form[q.id] %}
+  {% if q.type in ('text', 'textarea') %}<input type="hidden" name="{{ q.id }}" value="{{ v }}">
+  {% elif q.type == 'multi' %}{% for x in v %}<input type="hidden" name="{{ q.id }}" value="{{ x }}">{% endfor %}
+  {% else %}<input type="hidden" name="{{ q.id }}" value="{{ v.choice or '' }}"><input type="hidden" name="{{ q.id }}_explain" value="{{ v.explain }}">
+  {% endif %}{% endfor %}
+{% else %}
+  <input type="hidden" name="description" value="{{ r.description }}">
+{% endif %}
+{%- endmacro %}
+
+{#- Earlier rounds' answers, re-posted as fu_q_<n> / fu_a_<n> pairs starting at `start`, so they accumulate. -#}
+{% macro earlier_answers(r, start=0) -%}
+{% for a in (r.form.get('follow_up') or []) %}
+  <input type="hidden" name="fu_q_{{ start + loop.index0 }}" value="{{ a.question }}"><input type="hidden" name="fu_a_{{ start + loop.index0 }}" value="{{ a.answer }}">
+{% endfor %}
+{%- endmacro %}
+
+{#- An outcome label as a small tone pill. The labels are plain text: the tone comes from a reverse lookup in
+    verdict_labels (code -> label); an unknown label stays neutral. Icon plus text, never colour alone. -#}
+{% macro outcome_pill(label) -%}
+{% set code = verdict_labels | dictsort | selectattr(1, 'equalto', label) | map(attribute=0) | first %}
+{% set t = verdict_tone(code) if code else 'neutral' %}
+<span class="outcome-pill tone-{{ t }}">{{ icon({'go': 'circle-check', 'stop': 'ban', 'ask': 'help-circle', 'neutral': 'circle-minus'}[t]) }}<span>{{ label }}</span></span>
+{%- endmacro %}
+
+{#- Guard G2: the ticked answer and the description, side by side, with where each reading leads. -#}
+{% macro conflict(c) -%}
+<div class="conflict">
+  <div class="conflict-side">
+    <p class="conflict-kicker">You answered</p>
+    <p class="conflict-value">“{{ c.your_answer }}”</p>
+    <p class="conflict-means"><span class="conflict-key">means:</span> {{ c.your_answer_means }}</p>
+    <p class="conflict-leads"><span class="conflict-key">would lead to:</span> {{ outcome_pill(c.outcome_if_your_answer_is_right) }}</p>
+  </div>
+  <p class="conflict-or" aria-hidden="true"><span>or</span></p>
+  <div class="conflict-side">
+    <p class="conflict-kicker">Your description reads as</p>
+    <p class="conflict-value">{{ c.description_reads_as }}</p>
+    <p class="conflict-leads"><span class="conflict-key">would lead to:</span> {{ outcome_pill(c.outcome_if_the_description_is_right) }}</p>
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro resolve(c) -%}
+<div class="resolve">
+  <p class="resolve-title">{{ icon('list-check') }}<span>How to resolve</span></p>
+  <p>{{ c.how_to_resolve }}</p>
+</div>
+{%- endmacro %}
+
+{#- One follow-up item with its inputs. `shown` (form questions already rendered) and `tn` (next fu_q_/fu_a_
+    number) are namespaces shared across both groups, so fields appear once and text numbering stays contiguous. -#}
+{% macro fu_item(item, n, r, shown, tn) -%}
+{% set c = item.contradiction %}
+<li class="fu-item{{ ' fu-item-conflict' if c }}">
+  <p class="fu-question" id="fu-q-{{ n }}">{{ item.question }}</p>
+  {% if c %}{{ conflict(c) }}{% endif %}
+  {% if item.kind == 'fields' %}
+  {% set placed = namespace(resolve=not c) %}
+  <div class="fu-fields">
+    {% for qid in item.fields %}{% if qid not in shown.ids and qid in questions_by_id %}
+    {% set shown.ids = shown.ids + [qid] %}
+    {% if not placed.resolve and qid == c.question_id %}{{ resolve(c) }}{% set placed.resolve = true %}{% endif %}
+    {{ fm.question(questions_by_id[qid], r.form[qid]) }}
+    {% endif %}{% endfor %}
+    {% if not placed.resolve %}{{ resolve(c) }}{% endif %}
+  </div>
+  {% else %}
+  {% if c %}{{ resolve(c) }}{% endif %}
+  <input type="hidden" name="fu_q_{{ tn.n }}" value="{{ item.question }}">
+  <label class="fu-label" for="fu_a_{{ tn.n }}">Your answer (optional)</label>
+  <textarea id="fu_a_{{ tn.n }}" name="fu_a_{{ tn.n }}" rows="2" maxlength="{{ max_length.explain }}" aria-describedby="fu-q-{{ n }}"></textarea>
+  {% set tn.n = tn.n + 1 %}
+  {% endif %}
+</li>
+{%- endmacro %}
+
+{% macro grid_cell(here) -%}
+<td{% if here %} class="here"{% endif %}>{% if here %}{{ icon('check') }}<span class="sr-only">This use case</span>{% endif %}</td>
+{%- endmacro %}
+
+{% block content %}
+{% set field_names = {'gmp_relevance': 'GMP relevance', 'model_type': 'Model type', 'autonomy': 'Autonomy'} %}
+{% set tone = verdict_tone(r.decision.verdict) %}
+{% set tone_icon = {'go': 'circle-check', 'stop': 'ban', 'ask': 'help-circle', 'neutral': 'circle-minus'}[tone] %}
+{% set mode = 'form' if r.form else 'quick' %}
+{% set has_follow_up = mode == 'form' and r.follow_up %}
+{% set fu_questions = r.follow_up | map(attribute='question') | list %}
+{% set other_questions = r.open_questions | reject('in', fu_questions) | list if has_follow_up else r.open_questions %}
+{#- No follow-up round left (F06b): the label and the page point to a new proposal, not to updating details here. -#}
+{% set final_round = has_follow_up and r.decision.verdict == 'needs_more_information' and not r.follow_up_allowed %}
+<div class="result-top">
+  <a class="back" href="{{ '/submit' if mode == 'form' else '/quick' }}">{{ icon('arrow-left') }}<span>New use case</span></a>
+  <span class="badge badge-classifier">Classified by: {{ provider_label }}</span>
+</div>
+
+<section class="outcome tone-{{ tone }}" aria-labelledby="outcome-title">
+  <p class="outcome-label">{{ icon(tone_icon, 'outcome-icon') }}<span>{{ final_round_label if final_round else r.decision.label }}</span></p>
+  <h1 id="outcome-title">{{ r.title }}</h1>
+  <p class="outcome-text">{{ r.decision.explanation }}</p>
+  <p class="outcome-rule">{{ icon('scale') }}<span>Decided by fixed rules, not by the classifier.</span></p>
+  {{ cites(r.decision.citations, 'Sources for this outcome') }}
+</section>
+
+{% if r.warnings %}
+<section class="callout" aria-label="Warnings">
+  {% for w in r.warnings %}<p>{{ icon('alert-triangle') }}<span>{{ w }}</span></p>{% endfor %}
+</section>
+{% endif %}
+
+{% if has_follow_up %}
+<section class="followup" aria-labelledby="h-followup">
+  <div class="followup-head">
+    <h2 id="h-followup">{{ icon('message-question') }}<span>{{ 'Answer to continue' if r.follow_up_allowed else 'Open questions' }}</span></h2>
+    <span class="badge round-badge">Round {{ r.meta.round }} of {{ max_rounds }}</span>
+  </div>
+  {% set blocking = r.follow_up | selectattr('blocking') | list %}
+  {% set qa_points = r.follow_up | rejectattr('blocking') | list %}
+  {% if r.follow_up_allowed %}
+  <p class="followup-lead">Answer the questions below, or correct your earlier answers, then screen again. Everything else you submitted is kept.</p>
+  <form method="post" action="/assess" class="followup-form" data-busy{% if provider != 'offline' %} data-slow{% endif %}>
+    {% set shown = namespace(ids=[]) %}{% set tn = namespace(n=0) %}
+    {% if blocking %}
+    <div class="fu-group fu-group-blocking" role="group" aria-labelledby="h-fu-blocking">
+      <h3 class="fu-group-title" id="h-fu-blocking">Answer these to get a result</h3>
+      <p class="fu-group-note">Your answers here decide the outcome.</p>
+      <ol class="fu-items">
+        {% for item in blocking %}{{ fu_item(item, loop.index, r, shown, tn) }}{% endfor %}
+      </ol>
+    </div>
+    {% else %}
+    <p class="fu-none">{{ icon('circle-check') }}<span>No question here decides the outcome. You can answer the points for QA below and screen again.</span></p>
+    {% endif %}
+    {% if qa_points %}
+    <div class="fu-group fu-group-qa" role="group" aria-labelledby="h-fu-qa" aria-describedby="fu-qa-note">
+      <h3 class="fu-group-title" id="h-fu-qa">{{ icon('clipboard-text') }}<span>Points QA will want answered</span></h3>
+      <p class="fu-group-note" id="fu-qa-note">Optional. Answering them helps QA but does not change the screening result.</p>
+      <ol class="fu-items fu-items-qa">
+        {% for item in qa_points %}{{ fu_item(item, blocking | length + loop.index, r, shown, tn) }}{% endfor %}
+      </ol>
+    </div>
+    {% endif %}
+    {{ earlier_answers(r, tn.n) }}
+    {{ resubmit_fields(r, mode, shown.ids) }}
+    <input type="hidden" name="round" value="{{ r.meta.round + 1 }}">
+    <input type="hidden" name="parent_request_id" value="{{ r.meta.request_id }}">
+    <input type="hidden" name="provider" value="{{ provider }}">
+    <div class="followup-submit">
+      <button type="submit" class="btn btn-primary" data-busy-label="Screening">{{ icon('send') }}{{ icon('loader-2', 'spinner') }}<span class="btn-label">Send answers and screen again</span></button>
+    </div>
+    {{ fm.screening_progress() }}
+  </form>
+  {% else %}
+  <ul class="questions questions-plain">{% for item in blocking + qa_points %}<li>{{ item.question }}{% if not item.blocking %} <span class="muted small">(for QA, does not change the result)</span>{% endif %}
+    {% if item.contradiction %}{{ conflict(item.contradiction) }}{{ resolve(item.contradiction) }}{% endif %}</li>{% endfor %}</ul>
+  <div class="followup-end">
+    {{ icon('info-circle') }}
+    <div>
+      <p>This proposal has had {{ max_rounds }} rounds of questions, the most this tool allows. Please submit it again as a new proposal with a clearer scope: describe what the AI does and what happens with its output. The open questions above show what to make clearer.</p>
+      <p><a class="btn btn-primary" href="/submit"><span>Start a new proposal</span>{{ icon('arrow-right') }}</a></p>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+{% if not r.in_scope %}
+<section class="card"><p>{{ r.out_of_scope_reason }}</p></section>
+{% else %}
+
+{% if other_questions %}
+<section class="card" aria-labelledby="h-questions">
+  <h2 id="h-questions">Questions for the proposer</h2>
+  <ol class="questions">{% for q in other_questions %}<li>{{ q }}</li>{% endfor %}</ol>
+</section>
+{% endif %}
+
+<details class="panel" {{ '' if has_follow_up else 'open' }}>
+  <summary>{{ icon('chevron-down', 'chev') }}<h2 id="h-classification">Classification</h2><span class="panel-note">with sources</span></summary>
+  <div class="panel-body">
+    <dl class="cls">
+      {% for j in r.judgments %}
+      <div class="cls-row">
+        <dt>{{ field_names[j.field] }}</dt>
+        <dd>
+          <p class="cls-value"><strong>{{ j.label }}</strong>
+            {% if not j.supported %}<span class="badge badge-warn">{{ icon('alert-triangle') }}Unsupported</span>{% endif %}</p>
+          <p>{{ j.rationale }}</p>
+          {% if j.note %}<p class="muted small">{{ j.note }}</p>{% endif %}
+          {{ cites(j.citations) }}
+        </dd>
+      </div>
+      {% endfor %}
+      <div class="cls-row">
+        <dt>Human in the loop</dt>
+        <dd><p class="cls-value"><strong>{{ r.human_in_the_loop }}</strong></p></dd>
+      </div>
+    </dl>
+
+    {% if r.grid %}
+    {% set levels = [('informs', 'AI informs'), ('recommends', 'AI recommends'), ('acts_with_oversight', 'AI acts, human oversees'), ('acts_autonomously', 'AI acts alone')] %}
+    {% set adapt = [('adaptive', 'Adaptive (keeps learning)'), ('locked', 'Locked (frozen in use)')] %}
+    {% set a_label = (adapt | selectattr(0, 'equalto', r.grid.adaptiveness) | map(attribute=1) | first) or 'Unclear' %}
+    {% set k_label = (levels | selectattr(0, 'equalto', r.grid.autonomy) | map(attribute=1) | first) or 'Unclear' %}
+    <div class="grid-block">
+      <h3 id="h-grid">Adaptiveness and autonomy</h3>
+      <p>Position: <strong>{{ a_label }}</strong>, <strong>{{ k_label }}</strong>.</p>
+      {#- Two orientations of the same grid; CSS shows one (display:none hides the other from screen readers too).
+          On phones the autonomy levels run down the side, so the grid fits without sideways scrolling (F11b). -#}
+      <div class="table-scroll grid-wide">
+        <table class="grid" aria-labelledby="h-grid">
+          <thead><tr><td></td>{% for k, label in levels %}<th scope="col">{{ label }}</th>{% endfor %}</tr></thead>
+          <tbody>
+          {% for a, alabel in adapt %}
+          <tr><th scope="row">{{ alabel }}</th>
+            {% for k, label in levels %}{{ grid_cell(r.grid.adaptiveness == a and r.grid.autonomy == k) }}{% endfor %}
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="grid-tall">
+        <table class="grid" aria-labelledby="h-grid">
+          <thead><tr><td></td>{% for a, alabel in adapt %}<th scope="col">{{ alabel }}</th>{% endfor %}</tr></thead>
+          <tbody>
+          {% for k, label in levels %}
+          <tr><th scope="row">{{ label }}</th>
+            {% for a, alabel in adapt %}{{ grid_cell(r.grid.adaptiveness == a and r.grid.autonomy == k) }}{% endfor %}
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">{{ r.grid.note }}{% if r.grid.autonomy == 'unclear' or r.grid.adaptiveness == 'unclear' %} Position partly unclear.{% endif %}</p>
+    </div>
+    {% endif %}
+  </div>
+</details>
+
+{% if r.controls %}
+<details class="panel" {{ '' if has_follow_up else 'open' }}>
+  <summary>{{ icon('chevron-down', 'chev') }}<h2 id="h-controls">Required controls ({{ r.controls | length }})</h2><span class="panel-note">open each one for details</span></summary>
+  <div class="panel-body controls">
+    {% for k in r.controls %}
+    <details class="control">
+      <summary>{{ icon('chevron-down', 'chev') }}<span class="control-head"><strong>{{ k.title }}</strong><span class="muted small">{{ k.why }}</span></span></summary>
+      <div class="control-body">
+        <p>{{ k.what }}</p>
+        {{ cites(k.citations) }}
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+</details>
+{% endif %}
+{% endif %}
+
+<details class="panel submitted">
+  <summary>{{ icon('chevron-down', 'chev') }}<h2>What you submitted</h2></summary>
+  <div class="panel-body">
+  {% if mode == 'form' %}
+  <dl class="answers">
+    {% for q in all_questions %}{% set v = r.form[q.id] %}
+    <div class="answer">
+      <dt>{{ q.label }}</dt>
+      <dd>
+      {% if q.type in ('text', 'textarea') %}
+        {% if v %}<span class="pre">{{ v }}</span>{% else %}<span class="muted">Not answered</span>{% endif %}
+      {% elif q.type == 'multi' %}
+        {% if v %}{% for x in v %}{{ option_label(q.id, x) }}{{ ', ' if not loop.last }}{% endfor %}{% else %}<span class="muted">Not answered</span>{% endif %}
+      {% else %}
+        {% if v.choice %}{{ option_label(q.id, v.choice) }}{% elif not v.explain %}<span class="muted">Not answered</span>{% endif %}
+        {% if v.explain %}<span class="explain-answer pre">{{ v.explain }}</span>{% endif %}
+      {% endif %}
+      </dd>
+    </div>
+    {% endfor %}
+    {% if r.form.get('follow_up') %}
+    <div class="answer">
+      <dt>Answers to earlier questions</dt>
+      <dd>
+        <dl class="fu-answers">
+          {% for a in r.form.get('follow_up') %}<div><dt>{{ a.question }}</dt><dd class="pre">{{ a.answer }}</dd></div>{% endfor %}
+        </dl>
+      </dd>
+    </div>
+    {% endif %}
+  </dl>
+  {% else %}
+  <p class="muted small">Quick mode: one free-text description.</p>
+  <p class="pre">{{ r.description }}</p>
+  {% endif %}
+  </div>
+</details>
+
+{% if r.in_scope %}
+<section class="card intake-card" aria-labelledby="h-intake">
+  <div class="intake-copy">
+    <h2 id="h-intake">Intake form</h2>
+    <p>Draft record for the IT/QA intake process, status <code>draft_for_qa_review</code>.{% if mode == 'form' %} It includes your answers.{% endif %} QA decides.</p>
+  </div>
+  <p class="intake-actions">
+    <a class="btn {{ 'btn-secondary' if final_round else 'btn-primary' }}" href="/api/results/{{ r.meta.request_id }}/intake.json">{{ icon('download') }}<span>Download JSON</span></a>
+    <a class="link" href="/api/results/{{ r.meta.request_id }}" target="_blank" rel="noopener">{{ icon('file-text') }}<span>Full result</span></a>
+  </p>
+</section>
+{% endif %}
+
+{% if other_providers and not final_round %}
+<form method="post" action="{{ '/assess' if mode == 'form' else '/quick' }}" class="again" data-busy>
+  <p class="again-label">Compare with another classifier. The rules stay the same.</p>
+  {{ resubmit_fields(r, mode) }}
+  {% if mode == 'form' %}
+  {{ earlier_answers(r) }}
+  <input type="hidden" name="round" value="{{ r.meta.round }}">
+  {% if r.meta.parent_request_id %}<input type="hidden" name="parent_request_id" value="{{ r.meta.parent_request_id }}">{% endif %}
+  {% endif %}
+  {% for code, label in other_providers.items() %}
+  <button type="submit" name="provider" value="{{ code }}" class="btn btn-secondary" data-busy-label="Screening">{{ icon('refresh') }}{{ icon('loader-2', 'spinner') }}<span class="btn-label">Screen again with: {{ label.split(' (')[0] }}</span></button>
+  {% endfor %}
+  {{ fm.screening_progress() }}
+</form>
+{% endif %}
+
+<details class="meta">
+  <summary>{{ icon('chevron-down', 'chev') }}<span>Run details</span>{% if r.meta.parent_request_id %}<span class="meta-note">Follow-up to request {{ r.meta.parent_request_id }}</span>{% endif %}</summary>
+  <dl>
+    <div><dt>Request</dt><dd>{{ r.meta.request_id }}</dd></div>
+    {% if r.meta.parent_request_id %}<div><dt>Follow-up to</dt><dd>Request {{ r.meta.parent_request_id }}</dd></div>{% endif %}
+    <div><dt>Round</dt><dd>{{ r.meta.round }} of {{ max_rounds }}</dd></div>
+    <div><dt>Created</dt><dd>{{ r.meta.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</dd></div>
+    <div><dt>Provider</dt><dd>{{ r.meta.provider }} ({{ r.meta.model }})</dd></div>
+    <div><dt>Prompt</dt><dd>{{ r.meta.prompt_version }}</dd></div>
+    <div><dt>Rules</dt><dd>{{ r.meta.rules_version }}</dd></div>
+    {% if r.meta.source_map_version %}<div><dt>Source map</dt><dd>{{ r.meta.source_map_version }}</dd></div>{% endif %}
+    <div><dt>Corpus</dt><dd>{{ r.meta.corpus_version }}</dd></div>
+    <div><dt>Passages retrieved</dt><dd>{{ r.meta.retrieved_chunk_ids | length }}</dd></div>
+    <div><dt>Tool calls</dt><dd>{{ r.meta.tool_calls | length }}</dd></div>
+    <div><dt>Latency</dt><dd>{{ r.meta.latency_ms }} ms</dd></div>
+    <div><dt>Audit trail</dt><dd>Logged</dd></div>
+  </dl>
+</details>
+{% if public_demo() %}<p class="meta-demo" data-demo-audit>{{ icon('info-circle') }}<span>Public demo: the audit log is not kept. Storage resets when the container restarts, so these records are for demonstration only.</span></p>{% endif %}
+{% endblock %}

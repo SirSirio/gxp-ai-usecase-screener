@@ -1,0 +1,95 @@
+{
+  "description": "Short title\nChatGPT for self-assessments\n\nWhat should the AI do?\nI want to use ChatGPT to help me write my end-of-year self-assessment for my manager. I paste in my notes from the year and it turns them into a first draft.\n\nWhere will it be used?\nBusiness functions (HR, finance, IT, sales, legal)\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNo, only indirectly. HR process, nothing to do with batches\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM). ChatGPT\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used. I rewrite the draft myself before sending\n\nWho checks the output, and how?\nI do, and my manager reads the final version\n\nWhat data goes into it?\nInternal, not confidential, Personal data\n\nWho provides it?\nCloud or online service. ChatGPT website",
+  "in_scope": false,
+  "title": "ChatGPT for self-assessments",
+  "out_of_scope_reason": "The request asks for legal advice, a compliance verdict or something unrelated to an AI use case.",
+  "classification": null,
+  "human_in_the_loop": null,
+  "grid": null,
+  "decision": {
+    "verdict": "out_of_scope",
+    "label": "Not assessed: outside this tool's scope",
+    "rule_id": "R0-out-of-scope",
+    "explanation": "This tool screens proposed AI use cases against public GMP and AI texts. It does not answer general questions, give legal advice or issue compliance decisions. To screen a specific AI use, describe what the AI does and what happens to its output.",
+    "citations": []
+  },
+  "judgments": [],
+  "controls": [],
+  "open_questions": [],
+  "warnings": [],
+  "intake_form": null,
+  "form": {
+    "title": "ChatGPT for self-assessments",
+    "what": "I want to use ChatGPT to help me write my end-of-year self-assessment for my manager. I paste in my notes from the year and it turns them into a first draft.",
+    "areas": [
+      "business"
+    ],
+    "gmp_impact": {
+      "choice": "no",
+      "explain": "HR process, nothing to do with batches"
+    },
+    "ai_type": {
+      "choice": "llm",
+      "explain": "ChatGPT"
+    },
+    "output_use": {
+      "choice": "person_approves",
+      "explain": "I rewrite the draft myself before sending"
+    },
+    "who_checks": "I do, and my manager reads the final version",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [
+      "internal",
+      "personal"
+    ],
+    "source": {
+      "choice": "cloud_service",
+      "explain": "ChatGPT website"
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "2a62b35b8500",
+    "created_at": "2026-11-24T06:52:12.171445Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "A22:5.6:0",
+      "FDA-CRED:IV.A.4.a:2",
+      "FDA-DP:area-1:0",
+      "FDA-DP:area-1:1",
+      "AIA:art-10:4"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 135,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

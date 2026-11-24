@@ -1,0 +1,1167 @@
+{
+  "description": "Short title\nhandheld NIR ID testing in warehouse\n\nWhat should the AI do?\nWarehouse wants handheld NIR for identity testing of incoming excipents and media powders. pass = container is released for dispensing, no further ID test\n\nWhere will it be used?\nQC laboratory, Supply chain / warehouse\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nYes, directly. if it passes the container goes to dispensing\n\nWhat kind of AI is it?\nTrained model, frozen: same input, same result. vendors classification model, trained on our reference spectra and locked\n\nWhat happens with the output?\nTakes effect automatically; nobody checks individual outputs. no further ID test after a pass\n\nWho checks the output, and how?\nnobody, thats the point (saves the ID test)\n\nWhat data goes into it?\nConfidential company data\n\nWho provides it?\nBought from a supplier, installed with us. handheld units + model from the vendor",
+  "in_scope": true,
+  "title": "handheld NIR ID testing in warehouse",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "critical",
+    "model_type": "static",
+    "autonomy": "acts_autonomously"
+  },
+  "human_in_the_loop": "no",
+  "grid": {
+    "adaptiveness": "locked",
+    "autonomy": "acts_autonomously",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "annex22_full",
+    "label": "GMP-critical ML: proceed with full controls (Annex 22)",
+    "rule_id": "R5-critical-static",
+    "explanation": "A static, deterministic model in a critical GMP application is what draft Annex 22 covers. It is acceptable with the full Annex 22 lifecycle on top of Annex 11.",
+    "citations": [
+      {
+        "chunk_id": "A22:1:0",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §1 Scope",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 2,
+        "quote": "The document applies to static models, i.e. models that do not adapt their performance during use by incorporating new data.",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "critical",
+      "label": "GMP-critical",
+      "rationale": "Keyword baseline: the AI output feeds a GMP decision, record or control ('ticked: Yes, directly').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data.",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:0"
+      ],
+      "note": null
+    },
+    {
+      "field": "model_type",
+      "value": "static",
+      "label": "Static ML model",
+      "rationale": "Keyword baseline: the description points to a trained model used as is ('ticked: Trained model, frozen: same input, same result').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "The document applies to static models, i.e. models that do not adapt their performance during use by incorporating new data.",
+          "support": 0.675
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:0"
+      ],
+      "note": null
+    },
+    {
+      "field": "autonomy",
+      "value": "acts_autonomously",
+      "label": "AI acts autonomously",
+      "rationale": "Keyword baseline: outputs take effect without a human check ('ticked: Takes effect automatically; nobody checks individual outputs').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "FDA-CRED:IV.A.3:1",
+          "doc_id": "FDA-CRED",
+          "ref": "FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk",
+          "doc_status": "draft",
+          "url": "https://www.fda.gov/media/184830/download",
+          "page": 11,
+          "quote": "In this example, model influence would likely be estimated to be high because the AI model will be the sole determinant of which type of patient monitoring a participant undergoes.",
+          "support": 0.701
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "FDA-CRED:IV.A.3:1"
+      ],
+      "note": null
+    }
+  ],
+  "controls": [
+    {
+      "id": "INTENDED_USE",
+      "title": "Intended use and input sample space",
+      "what": "Describe the task, the input data with common and rare variations, subgroups and known limitations. A process SME approves it before acceptance testing.",
+      "why": "Source: Annex 22 (draft) §3.1 Intended use; Annex 22 (draft) §3.2 Subgroups",
+      "citations": [
+        {
+          "chunk_id": "A22:3.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §3.1 Intended use",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "This should include a comprehensive characterisation of the data the model is intended to use as input and all common and rare variations;",
+          "support": 0.688
+        },
+        {
+          "chunk_id": "A22:3.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §3.2 Subgroups",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "Subgroups may be defined by characteristics like the decision output (e.g. ‘accept’ or ‘reject’), process specific baseline characteristics (e.g. geographical site or equipment), specific characteristics in material or product, and characteristics specific to the task being automated (e.g. types and severity of…",
+          "support": 0.25
+        }
+      ]
+    },
+    {
+      "id": "ACCEPTANCE",
+      "title": "Test metrics and acceptance criteria",
+      "what": "Define case-dependent metrics (e.g. confusion matrix, sensitivity, specificity) and acceptance criteria approved by an SME; performance at least as good as the process it replaces.",
+      "why": "Source: Annex 22 (draft) §4.1 Test metrics; Annex 22 (draft) §4.2 Acceptance criteria; Annex 22 (draft) §4.3 No decrease",
+      "citations": [
+        {
+          "chunk_id": "A22:4.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §4.1 Test metrics",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "As an example, suitable test metrics for a model used to classify products (e.g. ‘accept’ or ‘reject’) may include, but may not be limited to, a confusion matrix, sensitivity, specificity, accuracy, precision and/or F1 score.",
+          "support": 0.375
+        },
+        {
+          "chunk_id": "A22:4.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §4.2 Acceptance criteria",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "A process subject matter expert (SME) should be responsible for the definition of the acceptance criteria, which should be documented and approved before the start of acceptance testing.",
+          "support": 0.438
+        },
+        {
+          "chunk_id": "A22:4.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §4.3 No decrease",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The acceptance criteria of a model, should be at least as high as the performance of the process it replaces.",
+          "support": 0.375
+        }
+      ]
+    },
+    {
+      "id": "TEST_DATA",
+      "title": "Representative, correctly labelled test data",
+      "what": "Test data covers the full sample space and subgroups, is large enough for statistical confidence, labels are independently verified; no generative-AI-generated test data without justification.",
+      "why": "Source: Annex 22 (draft) §5.1 Selection; Annex 22 (draft) §5.3 Labelling; Annex 22 (draft) §5.6 Data generation",
+      "citations": [
+        {
+          "chunk_id": "A22:5.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §5.1 Selection",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "Test data should be representative of and expand the full sample space of the intended use.",
+          "support": 0.353
+        },
+        {
+          "chunk_id": "A22:5.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §5.3 Labelling",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The labelling of test data should be verified following a process that ensures a very high degree of correctness.",
+          "support": 0.176
+        },
+        {
+          "chunk_id": "A22:5.6:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §5.6 Data generation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Generation of test data or labels, e.g. by means of generative AI, is not recommended and any use hereof should be fully justified.",
+          "support": 0.176
+        }
+      ]
+    },
+    {
+      "id": "TEST_INDEPENDENCE",
+      "title": "Test-data independence",
+      "what": "Technical and procedural controls so test data is never used in training or validation, with access control and audit trail on the test set.",
+      "why": "Source: Annex 22 (draft) §6.1 Independence; Annex 22 (draft) §6.2 Data split; Annex 22 (draft) §6.5 Staff independency",
+      "citations": [
+        {
+          "chunk_id": "A22:6.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §6.1 Independence",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Effective measures consisting of technical and/or procedural controls should be implemented to ensure the independency of test data, i.e. that data which will be used to test a model, is not used during development, training or validation of the model.",
+          "support": 0.538
+        },
+        {
+          "chunk_id": "A22:6.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §6.2 Data split",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "The test data should be protected by access control and audit trail functionality logging accesses and changes to these.",
+          "support": 0.615
+        },
+        {
+          "chunk_id": "A22:6.5:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §6.5 Staff independency",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Effective procedural and/or technical controls should be implemented to prevent staff members who have had access to test data from being involved in training and validation of the same model.",
+          "support": 0.615
+        }
+      ]
+    },
+    {
+      "id": "TEST_PLAN",
+      "title": "Approved test plan and documented execution",
+      "what": "An approved test plan before testing; deviations documented and justified; test documentation retained as GMP documentation.",
+      "why": "Source: Annex 22 (draft) §7.2 Test plan; Annex 22 (draft) §7.3 Deviation; Annex 22 (draft) §7.4 Test documentation",
+      "citations": [
+        {
+          "chunk_id": "A22:7.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §7.2 Test plan",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Before the test is initiated, a test plan should be prepared and approved.",
+          "support": 0.364
+        },
+        {
+          "chunk_id": "A22:7.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §7.3 Deviation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Any deviation from the test plan, failure to meet acceptance criteria, or omission to use all test data should be documented, investigated, and fully justified.",
+          "support": 0.364
+        },
+        {
+          "chunk_id": "A22:7.4:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §7.4 Test documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "In addition, documentation for access control to test data and related audit trail records, should be retained similarly to other GMP documentation.",
+          "support": 0.364
+        }
+      ]
+    },
+    {
+      "id": "EXPLAINABILITY",
+      "title": "Explainability and feature review",
+      "what": "Record which features drove each classification during testing (e.g. SHAP, LIME, heat maps) and review them as part of approving the results.",
+      "why": "Source: Annex 22 (draft) §8.1 Feature attribution; Annex 22 (draft) §8.2 Feature justification",
+      "citations": [
+        {
+          "chunk_id": "A22:8.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §8.1 Feature attribution",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "During testing of models used in critical GMP applications, systems should capture and record the features in the test data that have contributed to a particular classification or decision (e.g. rejection).",
+          "support": 0.562
+        },
+        {
+          "chunk_id": "A22:8.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §8.2 Feature justification",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "In order to ensure that a model is making decisions based on relevant and appropriate features and based on risk, a review of these features should be part of the process for approval of test results.",
+          "support": 0.25
+        }
+      ]
+    },
+    {
+      "id": "CONFIDENCE",
+      "title": "Confidence scores and 'undecided' threshold",
+      "what": "Log a confidence score per prediction during testing (§9.1) and set an operational threshold below which the outcome is flagged 'undecided' (§9.2).",
+      "why": "Source: Annex 22 (draft) §9.1 Confidence score; Annex 22 (draft) §9.2 Threshold",
+      "citations": [
+        {
+          "chunk_id": "A22:9.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §9.1 Confidence score",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "When testing a model used to predict or classify data, the system should, where applicable, log the confidence score of the model for each prediction or classification outcome.",
+          "support": 0.429
+        },
+        {
+          "chunk_id": "A22:9.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §9.2 Threshold",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "If the confidence score is very low, it should be considered whether the model should flag the outcome as ‘undecided’, rather than making potentially unreliable predictions or classifications.",
+          "support": 0.357
+        }
+      ]
+    },
+    {
+      "id": "CHANGE_CONTROL_AI",
+      "title": "Change and configuration control of the model",
+      "what": "Put the tested model, its system and the process under change and configuration control; evaluate every change for retest; detect unauthorised changes.",
+      "why": "Source: Annex 22 (draft) §10.1 Change control; Annex 22 (draft) §10.2 Configuration control",
+      "citations": [
+        {
+          "chunk_id": "A22:10.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §10.1 Change control",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "A tested model, the system it is implemented in, and the whole process it is automating or assisting should be put under change control before it is deployed in operation.",
+          "support": 0.6
+        },
+        {
+          "chunk_id": "A22:10.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §10.2 Configuration control",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "A tested model should be put under configuration control before being deployed in operation, and effective measures should be used to detect any unauthorised change.",
+          "support": 0.6
+        }
+      ]
+    },
+    {
+      "id": "MONITORING",
+      "title": "Performance and input-drift monitoring",
+      "what": "Monitor model performance and whether inputs stay within the tested sample space, with defined drift metrics.",
+      "why": "Source: Annex 22 (draft) §10.3 System performance monitoring; Annex 22 (draft) §10.4 Input sample space monitoring",
+      "citations": [
+        {
+          "chunk_id": "A22:10.3:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §10.3 System performance monitoring",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "The performance of a model as defined by its metrics should be regularly monitored to detect any changes in the computerised system (e.g. deterioration or change of a lighting condition).",
+          "support": 0.333
+        },
+        {
+          "chunk_id": "A22:10.4:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §10.4 Input sample space monitoring",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "It should be regularly monitored whether the input data are still within the model sample space and intended use.",
+          "support": 0.583
+        }
+      ]
+    },
+    {
+      "id": "RISK_ASSESSMENT",
+      "title": "Documented quality risk assessment",
+      "what": "A justified, documented risk assessment sets the extent of validation and data-integrity controls; formality proportional to risk.",
+      "why": "Source: Annex 11 (2011) §1 Risk Management; ICH Q9(R1) §4.3 Risk Assessment; ICH Q9(R1) §5.1 Formality in Quality Risk Management",
+      "citations": [
+        {
+          "chunk_id": "A11:1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §1 Risk Management",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "As part of a risk management system, decisions on the extent of validation and data integrity controls should be based on a justified and documented risk assessment of the computerised system.",
+          "support": 0.636
+        },
+        {
+          "chunk_id": "Q9:4.3:0",
+          "doc_id": "Q9",
+          "ref": "ICH Q9(R1) §4.3 Risk Assessment",
+          "doc_status": "final",
+          "url": "https://database.ich.org/sites/default/files/ICH_Q9%28R1%29_Guideline_Step4_2022_1219.pdf",
+          "page": 8,
+          "quote": "Risk assessment consists of the identification of hazards and the analysis and evaluation of risks associated with exposure to those hazards (as defined below).",
+          "support": 0.182
+        },
+        {
+          "chunk_id": "Q9:5.1:2",
+          "doc_id": "Q9",
+          "ref": "ICH Q9(R1) §5.1 Formality in Quality Risk Management",
+          "doc_status": "final",
+          "url": "https://database.ich.org/sites/default/files/ICH_Q9%28R1%29_Guideline_Step4_2022_1219.pdf",
+          "page": 11,
+          "quote": "The following may be characteristics of higher levels of formality: • All parts of the quality risk management process (risk assessment, risk control, risk review and risk communication) are explicitly performed, and stand-alone quality risk management reports or related documents which address all aspects of the…",
+          "support": 0.364
+        }
+      ]
+    },
+    {
+      "id": "CSV",
+      "title": "Computerised system validation",
+      "what": "Validate the application and qualify the infrastructure, scaled to risk; keep it in a validated state through its lifecycle.",
+      "why": "Source: Annex 11 (2011) §4.1 Validation; Annex 11 (draft) §2.1 Lifecycle management; Annex 11 (draft) §9.2 Quality risk management",
+      "citations": [
+        {
+          "chunk_id": "A11:4.1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §4.1 Validation",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "Manufacturers should be able to justify their standards, protocols, acceptance criteria, procedures and records based on their risk assessment.",
+          "support": 0.091
+        },
+        {
+          "chunk_id": "A11D:2.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §2.1 Lifecycle management",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Computerised systems should be validated before use and maintained in a validated state throughout their lifecycle.",
+          "support": 0.273
+        },
+        {
+          "chunk_id": "A11D:9.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §9.2 Quality risk management",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 7,
+          "quote": "Computerised systems should be qualified and validated in accordance with the principles of quality risk management.",
+          "support": 0.182
+        }
+      ]
+    },
+    {
+      "id": "DATA_INTEGRITY",
+      "title": "Data integrity (ALCOA+)",
+      "what": "Data the system captures, processes or reports must be trustworthy (ALCOA+); assess data criticality with QRM; the regulated user stays accountable for records produced with AI.",
+      "why": "Source: Annex 11 (draft) §2.4 Data integrity; Annex 11 (draft) §4.5 Data integrity; Chapter 4 (draft) §4.24 General Requirements For Documentation",
+      "citations": [
+        {
+          "chunk_id": "A11D:2.4:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §2.4 Data integrity",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "It is critically important that data captured, analysed and reported by systems used in GMP activities are trustworthy.",
+          "support": 0.176
+        },
+        {
+          "chunk_id": "A11D:4.5:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §4.5 Data integrity",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "Quality risk management principles should be used to assess the criticality of data to product quality, patient safety and data integrity, the vulnerability of data to deliberate or indeliberate alteration, deletion or loss, and the likelihood of detection of such actions.",
+          "support": 0.176
+        },
+        {
+          "chunk_id": "CH4D:4.24:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The accountability for the integrity of documents, records or (raw) data produced or processed with artificial intelligence or any other automatic means (e.g. validation scripts) rests with the regulated user.",
+          "support": 0.294
+        }
+      ]
+    },
+    {
+      "id": "AUDIT_TRAIL",
+      "title": "Audit trail",
+      "what": "Record GMP-relevant user interactions: creation, change and deletion of data with user, time and reason (Annex 11). This tool's recommendation for AI systems: also log inputs, model and prompt versions and outputs.",
+      "why": "Source: Annex 11 (2011) §9 Audit Trails; Annex 11 (draft) §12.2 Who, what, when, why",
+      "citations": [
+        {
+          "chunk_id": "A11:9:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §9 Audit Trails",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 4,
+          "quote": "For change or deletion of GMP-relevant data the reason should be documented.",
+          "support": 0.35
+        },
+        {
+          "chunk_id": "A11D:12.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §12.2 Who, what, when, why",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 10,
+          "quote": "Where data is changed from an old value to a new value, systems should automatically prompt the user for, and register the reason, why the change was made.",
+          "support": 0.35
+        }
+      ]
+    },
+    {
+      "id": "SUPPLIER",
+      "title": "Supplier and service-provider oversight",
+      "what": "Formal agreements, supplier audit and ongoing oversight; review supplier documentation for externally provided models. For hosted AI services, agree how new model versions are released and whether you can test them before release.",
+      "why": "Source: Annex 11 (2011) §3.1 Suppliers and Service Providers; Annex 22 (draft) §2.2 Documentation; Annex 11 (draft) §7.2 Audit; Annex 11 (draft) §7.5 Contracts",
+      "citations": [
+        {
+          "chunk_id": "A11:3.1:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §3.1 Suppliers and Service Providers",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 2,
+          "quote": "When third parties (e.g. suppliers, service providers) are used e.g. to provide, install, configure, integrate, validate, maintain (e.g. via remote access), modify or retain a computerised system or related service or for data processing, formal agreements must exist between the manufacturer and any third parties,…",
+          "support": 0.087
+        },
+        {
+          "chunk_id": "A22:2.2:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §2.2 Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Documentation for activities described in this section should be available and reviewed by the regulated user irrespective of whether a model is trained, validated and tested in-house or whether it is provided by a supplier or service provider.",
+          "support": 0.174
+        },
+        {
+          "chunk_id": "A11D:7.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §7.2 Audit",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "When a regulated user is relying on a vendor’s or a service provider’s qualification and/or operation of a system used in GMP activities, the regulated user should, according to risk and system criticality, conduct an audit or a thorough assessment to determine the adequacy of the vendor or service provider’s…",
+          "support": 0.087
+        },
+        {
+          "chunk_id": "A11D:7.5:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §7.5 Contracts",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 5,
+          "quote": "Describes the activities and documentation to be provided ii.",
+          "support": 0.174
+        }
+      ]
+    },
+    {
+      "id": "PQS_ACCOUNTABILITY",
+      "title": "AI use inside the pharmaceutical quality system",
+      "what": "Include the AI support in the PQS (on premise or hosted); the regulated user stays accountable for the integrity of records produced with AI.",
+      "why": "Source: Chapter 4 (draft) §4.24 General Requirements For Documentation; Chapter 4 (draft) §4.25 General Requirements For Documentation",
+      "citations": [
+        {
+          "chunk_id": "CH4D:4.24:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 3,
+          "quote": "The accountability for the integrity of documents, records or (raw) data produced or processed with artificial intelligence or any other automatic means (e.g. validation scripts) rests with the regulated user.",
+          "support": 0.417
+        },
+        {
+          "chunk_id": "CH4D:4.25:0",
+          "doc_id": "CH4D",
+          "ref": "Chapter 4 (draft) §4.25 General Requirements For Documentation",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/fa336a6e-753b-46fc-b53b-9178bacd8878_en?filename=mp_vol4_chap4_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "The support by any automatic means (e.g. validation scripts or artificial intelligence) should be included in a pharmaceutical quality system regardless of the service located on premise or as a hosted service.",
+          "support": 0.333
+        }
+      ]
+    },
+    {
+      "id": "PERIODIC_REVIEW",
+      "title": "Periodic review",
+      "what": "Review the system periodically after go-live to verify it stays in a validated state and fit for its intended use.",
+      "why": "Source: Annex 11 (draft) §14.1 Periodic reviews; Annex 11 (2011) §11 Periodic evaluation",
+      "citations": [
+        {
+          "chunk_id": "A11D:14.1:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §14.1 Periodic reviews",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 11,
+          "quote": "This review should verify whether the system remains 'fit for intended use' and in 'a validated state', or whether changes should be made and re-validation (complete or in parts) is required.",
+          "support": 0.727
+        },
+        {
+          "chunk_id": "A11:11:0",
+          "doc_id": "A11",
+          "ref": "Annex 11 (2011) §11 Periodic evaluation",
+          "doc_status": "in force",
+          "url": "https://health.ec.europa.eu/system/files/2016-11/annex11_01-2011_en_0.pdf",
+          "page": 4,
+          "quote": "Computerised systems should be periodically evaluated to confirm that they remain in a valid state and are compliant with GMP.",
+          "support": 0.182
+        }
+      ]
+    },
+    {
+      "id": "PERSONNEL",
+      "title": "Roles, qualification and training",
+      "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+      "why": "Source: Annex 22 (draft) §2.1 Personnel; Annex 11 (draft) §5.2 Training; EU AI Act: Article 4: AI literacy",
+      "citations": [
+        {
+          "chunk_id": "A22:2.1:0",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §2.1 Personnel",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "All personnel should have adequate qualifications, defined responsibilities and appropriate level of access.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "A11D:5.2:0",
+          "doc_id": "A11D",
+          "ref": "Annex 11 (draft) §5.2 Training",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/40231f18-e564-4043-94de-c031f813d38b_en?filename=mp_vol4_chap4_annex11_consultation_guideline_en.pdf",
+          "page": 4,
+          "quote": "All parties involved with computerised systems used in GMP activities should have adequate system specific training, and appropriate qualifications and experience, corresponding to their assigned responsibilities, duties and access privileges.",
+          "support": 0.4
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.3
+        }
+      ]
+    },
+    {
+      "id": "FDA_CREDIBILITY",
+      "title": "US products: FDA credibility assessment",
+      "what": "For products under FDA oversight, model outputs that support regulatory decisions (including actions taken under CGMP, per the draft guidance's scope) call for FDA's risk-based credibility framework: question of interest, context of use, model risk (influence × consequence), credibility plan.",
+      "why": "Source: FDA AI credibility guidance (draft) §IV.A A risk-based credibility assessment framework; FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk",
+      "citations": [
+        {
+          "chunk_id": "FDA-CRED:IV.A:1",
+          "doc_id": "FDA-CRED",
+          "ref": "FDA AI credibility guidance (draft) §IV.A A risk-based credibility assessment framework",
+          "doc_status": "draft",
+          "url": "https://www.fda.gov/media/184830/download",
+          "page": 8,
+          "quote": "19 For further information, see the guidance for industry Real-World Data: Assessing Electronic Health Records and Medical Claims Data to Support Regulatory Decision-Making for Drug and Biological Products (July 2024).",
+          "support": 0.464
+        },
+        {
+          "chunk_id": "FDA-CRED:IV.A.3:3",
+          "doc_id": "FDA-CRED",
+          "ref": "FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk",
+          "doc_status": "draft",
+          "url": "https://www.fda.gov/media/184830/download",
+          "page": 11,
+          "quote": "That is, decision consequence should consider the question of interest, but should not consider the COU of the model.",
+          "support": 0.357
+        }
+      ]
+    },
+    {
+      "id": "AI_ACT",
+      "title": "EU AI Act screening",
+      "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+      "why": "Source: EU AI Act: Article 6: Classification rules for high-risk AI systems; EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2); EU AI Act: Article 26: Obligations of deployers of high-risk AI systems; EU AI Act: Article 4: AI literacy; EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+      "citations": [
+        {
+          "chunk_id": "AIA:art-6:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 53,
+          "quote": "A provider who considers that an AI system referred to in Annex III is not high-risk shall document its assessment before that system is placed on the market or put into service.",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:annex-III:2",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 127,
+          "quote": "Employment, workers’ management and access to self-employment: (a) AI systems intended to be used for the recruitment or selection of natural persons, in particular to place targeted job advertisements, to analyse and filter job applications, and to evaluate candidates;",
+          "support": 0.238
+        },
+        {
+          "chunk_id": "AIA:art-26:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 67,
+          "quote": "Without prejudice to paragraphs 1 and 2, to the extent the deployer exercises control over the input data, that deployer shall ensure that input data is relevant and sufficiently representative in view of the intended purpose of the high-risk AI system.",
+          "support": 0.286
+        },
+        {
+          "chunk_id": "AIA:art-4:0",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 4: AI literacy",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 51,
+          "quote": "Providers and deployers of AI systems shall take measures to ensure, to their best extent, a sufficient level of AI literacy of their staff and other persons dealing with the operation and use of AI systems on their behalf, taking into account their technical knowledge, experience, education and training and the…",
+          "support": 0.143
+        },
+        {
+          "chunk_id": "AIA:art-50:1",
+          "doc_id": "AIA",
+          "ref": "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems",
+          "doc_status": "in force",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689",
+          "page": 82,
+          "quote": "Providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content, shall ensure that the outputs of the AI system are marked in a machine-readable format and detectable as artificially generated or manipulated.",
+          "support": 0.238
+        }
+      ]
+    }
+  ],
+  "open_questions": [],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "7b3f6d45cd66",
+    "created_at": "2026-11-24T06:51:33.370141Z",
+    "title": "handheld NIR ID testing in warehouse",
+    "description": "Short title\nhandheld NIR ID testing in warehouse\n\nWhat should the AI do?\nWarehouse wants handheld NIR for identity testing of incoming excipents and media powders. pass = container is released for dispensing, no further ID test\n\nWhere will it be used?\nQC laboratory, Supply chain / warehouse\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nYes, directly. if it passes the container goes to dispensing\n\nWhat kind of AI is it?\nTrained model, frozen: same input, same result. vendors classification model, trained on our reference spectra and locked\n\nWhat happens with the output?\nTakes effect automatically; nobody checks individual outputs. no further ID test after a pass\n\nWho checks the output, and how?\nnobody, thats the point (saves the ID test)\n\nWhat data goes into it?\nConfidential company data\n\nWho provides it?\nBought from a supplier, installed with us. handheld units + model from the vendor",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "critical",
+      "model_type": "static",
+      "autonomy": "acts_autonomously",
+      "human_in_the_loop": "no",
+      "grid": {
+        "adaptiveness": "locked",
+        "autonomy": "acts_autonomously"
+      }
+    },
+    "verdict": {
+      "code": "annex22_full",
+      "label": "GMP-critical ML: proceed with full controls (Annex 22)",
+      "rule_id": "R5-critical-static",
+      "explanation": "A static, deterministic model in a critical GMP application is what draft Annex 22 covers. It is acceptable with the full Annex 22 lifecycle on top of Annex 11."
+    },
+    "required_controls": [
+      {
+        "id": "INTENDED_USE",
+        "title": "Intended use and input sample space",
+        "what": "Describe the task, the input data with common and rare variations, subgroups and known limitations. A process SME approves it before acceptance testing.",
+        "sources": [
+          "Annex 22 (draft) §3.1 Intended use",
+          "Annex 22 (draft) §3.2 Subgroups"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "ACCEPTANCE",
+        "title": "Test metrics and acceptance criteria",
+        "what": "Define case-dependent metrics (e.g. confusion matrix, sensitivity, specificity) and acceptance criteria approved by an SME; performance at least as good as the process it replaces.",
+        "sources": [
+          "Annex 22 (draft) §4.1 Test metrics",
+          "Annex 22 (draft) §4.2 Acceptance criteria",
+          "Annex 22 (draft) §4.3 No decrease"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "TEST_DATA",
+        "title": "Representative, correctly labelled test data",
+        "what": "Test data covers the full sample space and subgroups, is large enough for statistical confidence, labels are independently verified; no generative-AI-generated test data without justification.",
+        "sources": [
+          "Annex 22 (draft) §5.1 Selection",
+          "Annex 22 (draft) §5.3 Labelling",
+          "Annex 22 (draft) §5.6 Data generation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "TEST_INDEPENDENCE",
+        "title": "Test-data independence",
+        "what": "Technical and procedural controls so test data is never used in training or validation, with access control and audit trail on the test set.",
+        "sources": [
+          "Annex 22 (draft) §6.1 Independence",
+          "Annex 22 (draft) §6.2 Data split",
+          "Annex 22 (draft) §6.5 Staff independency"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "TEST_PLAN",
+        "title": "Approved test plan and documented execution",
+        "what": "An approved test plan before testing; deviations documented and justified; test documentation retained as GMP documentation.",
+        "sources": [
+          "Annex 22 (draft) §7.2 Test plan",
+          "Annex 22 (draft) §7.3 Deviation",
+          "Annex 22 (draft) §7.4 Test documentation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "EXPLAINABILITY",
+        "title": "Explainability and feature review",
+        "what": "Record which features drove each classification during testing (e.g. SHAP, LIME, heat maps) and review them as part of approving the results.",
+        "sources": [
+          "Annex 22 (draft) §8.1 Feature attribution",
+          "Annex 22 (draft) §8.2 Feature justification"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "CONFIDENCE",
+        "title": "Confidence scores and 'undecided' threshold",
+        "what": "Log a confidence score per prediction during testing (§9.1) and set an operational threshold below which the outcome is flagged 'undecided' (§9.2).",
+        "sources": [
+          "Annex 22 (draft) §9.1 Confidence score",
+          "Annex 22 (draft) §9.2 Threshold"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "CHANGE_CONTROL_AI",
+        "title": "Change and configuration control of the model",
+        "what": "Put the tested model, its system and the process under change and configuration control; evaluate every change for retest; detect unauthorised changes.",
+        "sources": [
+          "Annex 22 (draft) §10.1 Change control",
+          "Annex 22 (draft) §10.2 Configuration control"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "MONITORING",
+        "title": "Performance and input-drift monitoring",
+        "what": "Monitor model performance and whether inputs stay within the tested sample space, with defined drift metrics.",
+        "sources": [
+          "Annex 22 (draft) §10.3 System performance monitoring",
+          "Annex 22 (draft) §10.4 Input sample space monitoring"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "RISK_ASSESSMENT",
+        "title": "Documented quality risk assessment",
+        "what": "A justified, documented risk assessment sets the extent of validation and data-integrity controls; formality proportional to risk.",
+        "sources": [
+          "Annex 11 (2011) §1 Risk Management",
+          "ICH Q9(R1) §4.3 Risk Assessment",
+          "ICH Q9(R1) §5.1 Formality in Quality Risk Management"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "CSV",
+        "title": "Computerised system validation",
+        "what": "Validate the application and qualify the infrastructure, scaled to risk; keep it in a validated state through its lifecycle.",
+        "sources": [
+          "Annex 11 (2011) §4.1 Validation",
+          "Annex 11 (draft) §2.1 Lifecycle management",
+          "Annex 11 (draft) §9.2 Quality risk management"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "DATA_INTEGRITY",
+        "title": "Data integrity (ALCOA+)",
+        "what": "Data the system captures, processes or reports must be trustworthy (ALCOA+); assess data criticality with QRM; the regulated user stays accountable for records produced with AI.",
+        "sources": [
+          "Annex 11 (draft) §2.4 Data integrity",
+          "Annex 11 (draft) §4.5 Data integrity",
+          "Chapter 4 (draft) §4.24 General Requirements For Documentation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "AUDIT_TRAIL",
+        "title": "Audit trail",
+        "what": "Record GMP-relevant user interactions: creation, change and deletion of data with user, time and reason (Annex 11). This tool's recommendation for AI systems: also log inputs, model and prompt versions and outputs.",
+        "sources": [
+          "Annex 11 (2011) §9 Audit Trails",
+          "Annex 11 (draft) §12.2 Who, what, when, why"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "SUPPLIER",
+        "title": "Supplier and service-provider oversight",
+        "what": "Formal agreements, supplier audit and ongoing oversight; review supplier documentation for externally provided models. For hosted AI services, agree how new model versions are released and whether you can test them before release.",
+        "sources": [
+          "Annex 11 (2011) §3.1 Suppliers and Service Providers",
+          "Annex 22 (draft) §2.2 Documentation",
+          "Annex 11 (draft) §7.2 Audit",
+          "Annex 11 (draft) §7.5 Contracts"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PQS_ACCOUNTABILITY",
+        "title": "AI use inside the pharmaceutical quality system",
+        "what": "Include the AI support in the PQS (on premise or hosted); the regulated user stays accountable for the integrity of records produced with AI.",
+        "sources": [
+          "Chapter 4 (draft) §4.24 General Requirements For Documentation",
+          "Chapter 4 (draft) §4.25 General Requirements For Documentation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PERIODIC_REVIEW",
+        "title": "Periodic review",
+        "what": "Review the system periodically after go-live to verify it stays in a validated state and fit for its intended use.",
+        "sources": [
+          "Annex 11 (draft) §14.1 Periodic reviews",
+          "Annex 11 (2011) §11 Periodic evaluation"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "PERSONNEL",
+        "title": "Roles, qualification and training",
+        "what": "Defined responsibilities and adequate training for everyone using or maintaining the system; AI literacy for staff using AI.",
+        "sources": [
+          "Annex 22 (draft) §2.1 Personnel",
+          "Annex 11 (draft) §5.2 Training",
+          "EU AI Act: Article 4: AI literacy"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "FDA_CREDIBILITY",
+        "title": "US products: FDA credibility assessment",
+        "what": "For products under FDA oversight, model outputs that support regulatory decisions (including actions taken under CGMP, per the draft guidance's scope) call for FDA's risk-based credibility framework: question of interest, context of use, model risk (influence × consequence), credibility plan.",
+        "sources": [
+          "FDA AI credibility guidance (draft) §IV.A A risk-based credibility assessment framework",
+          "FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk"
+        ],
+        "status": "open"
+      },
+      {
+        "id": "AI_ACT",
+        "title": "EU AI Act screening",
+        "what": "Check whether the system is high-risk (Art. 6, Annex III; e.g. AI used in recruitment or worker management) and, if so, meet the deployer duties of Art. 26. Ensure AI literacy of staff (Art. 4). Transparency duties (Art. 50) fall mainly on the provider; as deployer, check they are met.",
+        "sources": [
+          "EU AI Act: Article 6: Classification rules for high-risk AI systems",
+          "EU AI Act: Annex III: High-risk AI systems referred to in Article 6(2)",
+          "EU AI Act: Article 26: Obligations of deployers of high-risk AI systems",
+          "EU AI Act: Article 4: AI literacy",
+          "EU AI Act: Article 50: Transparency obligations for providers and deployers of certain AI systems"
+        ],
+        "status": "open"
+      }
+    ],
+    "open_questions": [],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "critical",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:0",
+            "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data."
+          }
+        ]
+      },
+      {
+        "field": "model_type",
+        "value": "static",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:0",
+            "quote": "The document applies to static models, i.e. models that do not adapt their performance during use by incorporating new data."
+          }
+        ]
+      },
+      {
+        "field": "autonomy",
+        "value": "acts_autonomously",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "FDA AI credibility guidance (draft) §IV.A.3 Step 3: Assess the AI model risk",
+            "chunk_id": "FDA-CRED:IV.A.3:1",
+            "quote": "In this example, model influence would likely be estimated to be high because the AI model will be the sole determinant of which type of patient monitoring a participant undergoes."
+          }
+        ]
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "handheld NIR ID testing in warehouse",
+      "what": "Warehouse wants handheld NIR for identity testing of incoming excipents and media powders. pass = container is released for dispensing, no further ID test",
+      "areas": [
+        "qc_lab",
+        "supply_chain"
+      ],
+      "gmp_impact": {
+        "choice": "yes",
+        "explain": "if it passes the container goes to dispensing"
+      },
+      "ai_type": {
+        "choice": "trained_fixed",
+        "explain": "vendors classification model, trained on our reference spectra and locked"
+      },
+      "output_use": {
+        "choice": "auto_unchecked",
+        "explain": "no further ID test after a pass"
+      },
+      "who_checks": "nobody, thats the point (saves the ID test)",
+      "replaces_check": {
+        "choice": null,
+        "explain": ""
+      },
+      "data": [
+        "confidential"
+      ],
+      "source": {
+        "choice": "vendor_installed",
+        "explain": "handheld units + model from the vendor"
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "handheld NIR ID testing in warehouse",
+    "what": "Warehouse wants handheld NIR for identity testing of incoming excipents and media powders. pass = container is released for dispensing, no further ID test",
+    "areas": [
+      "qc_lab",
+      "supply_chain"
+    ],
+    "gmp_impact": {
+      "choice": "yes",
+      "explain": "if it passes the container goes to dispensing"
+    },
+    "ai_type": {
+      "choice": "trained_fixed",
+      "explain": "vendors classification model, trained on our reference spectra and locked"
+    },
+    "output_use": {
+      "choice": "auto_unchecked",
+      "explain": "no further ID test after a pass"
+    },
+    "who_checks": "nobody, thats the point (saves the ID test)",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [
+      "confidential"
+    ],
+    "source": {
+      "choice": "vendor_installed",
+      "explain": "handheld units + model from the vendor"
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "7b3f6d45cd66",
+    "created_at": "2026-11-24T06:51:33.370141Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-CRED:IV.A.4.b:0",
+      "FDA-CRED:III:6",
+      "FDA-DP:conclusion:3",
+      "A22:7.4:0",
+      "FDA-CRED:IV.B:1",
+      "FDA-CRED:IV.A.4.b:1"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 331,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

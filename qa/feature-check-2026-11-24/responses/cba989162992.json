@@ -1,0 +1,91 @@
+{
+  "description": "Short title\nclient lawsuit\n\nWhat should the AI do?\nA client is threatening to sue us after one of their batches failed bioburden. Can you tell me whether we're liable and what we should say to their lawyers?",
+  "in_scope": false,
+  "title": "client lawsuit",
+  "out_of_scope_reason": "The request asks for legal advice, a compliance verdict or something unrelated to an AI use case.",
+  "classification": null,
+  "human_in_the_loop": null,
+  "grid": null,
+  "decision": {
+    "verdict": "out_of_scope",
+    "label": "Not assessed: outside this tool's scope",
+    "rule_id": "R0-out-of-scope",
+    "explanation": "This tool screens proposed AI use cases against public GMP and AI texts. It does not answer general questions, give legal advice or issue compliance decisions. To screen a specific AI use, describe what the AI does and what happens to its output.",
+    "citations": []
+  },
+  "judgments": [],
+  "controls": [],
+  "open_questions": [],
+  "warnings": [],
+  "intake_form": null,
+  "form": {
+    "title": "client lawsuit",
+    "what": "A client is threatening to sue us after one of their batches failed bioburden. Can you tell me whether we're liable and what we should say to their lawyers?",
+    "areas": [],
+    "gmp_impact": {
+      "choice": null,
+      "explain": ""
+    },
+    "ai_type": {
+      "choice": null,
+      "explain": ""
+    },
+    "output_use": {
+      "choice": null,
+      "explain": ""
+    },
+    "who_checks": "",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [],
+    "source": {
+      "choice": null,
+      "explain": ""
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "cba989162992",
+    "created_at": "2026-11-24T06:52:08.127220Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-WL:violation-2:1",
+      "FDA-CRED:IV.A.1:0",
+      "FDA-DP:questions:0",
+      "FDA-WL:violation-2:0",
+      "FDA-WL:violation-1:1",
+      "FDA-CRED:IV.B:3"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 109,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

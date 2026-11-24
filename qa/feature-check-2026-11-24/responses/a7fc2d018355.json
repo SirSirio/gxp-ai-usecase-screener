@@ -1,0 +1,294 @@
+{
+  "description": "Short title\nLLM translation client docs DE->EN\n\nWhat should the AI do?\nWe received the client's process documentation, SOPs and batch record templates in German. Want to run them through an LLM translator to get English versions for our site, tech transfer timeline is tight!!\n\nWhere will it be used?\nMSAT / tech transfer / process development\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNot sure\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM)\n\nWhat happens with the output?\nNot sure\n\nWho checks the output, and how?\nnot decided yet\n\nWhat data goes into it?\nClient data\n\nWho provides it?\nNot sure",
+  "in_scope": true,
+  "title": "LLM translation client docs DE->EN",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "non_critical",
+    "model_type": "generative",
+    "autonomy": "unclear"
+  },
+  "human_in_the_loop": "unclear",
+  "grid": {
+    "adaptiveness": "locked",
+    "autonomy": "unclear",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "needs_more_information",
+    "label": "Pending clarification: update any missing or conflicting details below",
+    "rule_id": "R7-genai-autonomy-unclear",
+    "explanation": "For generative AI in a GMP context the verdict depends on whether trained staff review each output, and the description does not say.",
+    "citations": [
+      {
+        "chunk_id": "A22:1:1",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §1 Scope",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 2,
+        "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "non_critical",
+      "label": "GMP, non-critical",
+      "rationale": "Keyword baseline: the use is in a GMP setting ('batch', 'client', 'sop', 'tech transfer') but the output supports people rather than deciding.",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:1"
+      ],
+      "note": null
+    },
+    {
+      "field": "model_type",
+      "value": "generative",
+      "label": "Generative AI / LLM",
+      "rationale": "Keyword baseline: it is a generative AI / LLM-type tool ('ticked: Generative AI: writes or creates text, images or code (LLM)').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications.",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:1"
+      ],
+      "note": null
+    },
+    {
+      "field": "autonomy",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    }
+  ],
+  "controls": [],
+  "open_questions": [
+    "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?"
+  ],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "a7fc2d018355",
+    "created_at": "2026-11-24T06:52:10.830371Z",
+    "title": "LLM translation client docs DE->EN",
+    "description": "Short title\nLLM translation client docs DE->EN\n\nWhat should the AI do?\nWe received the client's process documentation, SOPs and batch record templates in German. Want to run them through an LLM translator to get English versions for our site, tech transfer timeline is tight!!\n\nWhere will it be used?\nMSAT / tech transfer / process development\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNot sure\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM)\n\nWhat happens with the output?\nNot sure\n\nWho checks the output, and how?\nnot decided yet\n\nWhat data goes into it?\nClient data\n\nWho provides it?\nNot sure",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "non_critical",
+      "model_type": "generative",
+      "autonomy": "unclear",
+      "human_in_the_loop": "unclear",
+      "grid": {
+        "adaptiveness": "locked",
+        "autonomy": "unclear"
+      }
+    },
+    "verdict": {
+      "code": "needs_more_information",
+      "label": "Pending clarification: update any missing or conflicting details below",
+      "rule_id": "R7-genai-autonomy-unclear",
+      "explanation": "For generative AI in a GMP context the verdict depends on whether trained staff review each output, and the description does not say."
+    },
+    "required_controls": [],
+    "open_questions": [
+      "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?"
+    ],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "non_critical",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:1",
+            "quote": "If used in non-critical GMP applications, which do not have direct impact on patient safety, product quality or data integrity, personnel with adequate qualification and training should always be responsible for ensuring that the outputs from such models are suitable for the intended use, i.e. a human-in-the-loop…"
+          }
+        ]
+      },
+      {
+        "field": "model_type",
+        "value": "generative",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:1",
+            "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications."
+          }
+        ]
+      },
+      {
+        "field": "autonomy",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "LLM translation client docs DE->EN",
+      "what": "We received the client's process documentation, SOPs and batch record templates in German. Want to run them through an LLM translator to get English versions for our site, tech transfer timeline is tight!!",
+      "areas": [
+        "msat"
+      ],
+      "gmp_impact": {
+        "choice": "not_sure",
+        "explain": ""
+      },
+      "ai_type": {
+        "choice": "llm",
+        "explain": ""
+      },
+      "output_use": {
+        "choice": "not_sure",
+        "explain": ""
+      },
+      "who_checks": "not decided yet",
+      "replaces_check": {
+        "choice": null,
+        "explain": ""
+      },
+      "data": [
+        "client"
+      ],
+      "source": {
+        "choice": "not_sure",
+        "explain": ""
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "LLM translation client docs DE->EN",
+    "what": "We received the client's process documentation, SOPs and batch record templates in German. Want to run them through an LLM translator to get English versions for our site, tech transfer timeline is tight!!",
+    "areas": [
+      "msat"
+    ],
+    "gmp_impact": {
+      "choice": "not_sure",
+      "explain": ""
+    },
+    "ai_type": {
+      "choice": "llm",
+      "explain": ""
+    },
+    "output_use": {
+      "choice": "not_sure",
+      "explain": ""
+    },
+    "who_checks": "not decided yet",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [
+      "client"
+    ],
+    "source": {
+      "choice": "not_sure",
+      "explain": ""
+    }
+  },
+  "follow_up": [
+    {
+      "kind": "fields",
+      "question": "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?",
+      "fields": [
+        "output_use",
+        "who_checks"
+      ],
+      "blocking": true,
+      "contradiction": null
+    }
+  ],
+  "follow_up_allowed": true,
+  "meta": {
+    "request_id": "a7fc2d018355",
+    "created_at": "2026-11-24T06:52:10.830371Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "A11D:10.2:0",
+      "CH4D:4.27:1",
+      "A22:5.6:0",
+      "CH4D:4.27:0",
+      "FDA-DP:area-4:0",
+      "FDA-DP:area-4:1"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 213,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% import "_form_macros.html" as fm %}
+{% block title %}Submit your idea · GxP AI Use-Case Assistant{% endblock %}
+{#- Every question, option and help text comes from app/intake_form.py (QUESTIONS). Do not copy them here. -#}
+
+{% block content %}
+<section class="page-head">
+  <h1>Screen a proposed AI use case</h1>
+  <p class="lead">Answer the questions for one use case. Only the task description is required. Every other answer makes the screening more precise.</p>
+  {% if public_demo() %}<p class="notice demo-notice" data-demo-notice>{{ icon('info-circle') }}<span><strong>Public demo.</strong> Do not enter confidential or company information. Use made-up or public examples. Your answers may be sent to an external AI service.</span></p>{% endif %}
+  {% if not public_demo() %}<p class="notice">{{ icon('eye-off') }}<span>Do not enter confidential information. Your answers may be sent to an external AI service.</span></p>{% endif %}
+</section>
+
+{% if error %}
+<div class="alert" role="alert" id="form-alert">{{ icon('alert-triangle') }}
+  <div class="alert-body">
+    <p>{{ error }}</p>
+    {%- if error_detail %}
+    <details class="alert-detail">
+      <summary>{{ icon('chevron-down', 'chev') }}<span>Show technical details</span></summary>
+      <pre class="alert-detail-text">{{ error_detail }}</pre>
+    </details>
+    {%- endif %}
+  </div>
+</div>
+{% endif %}
+
+<div class="examples" role="group" aria-labelledby="examples-label">
+  <span id="examples-label" class="examples-label">Start from an example</span>
+  <div class="examples-buttons">
+    {% for e in examples %}
+    <button type="button" class="btn btn-secondary btn-sm" data-example="{{ loop.index0 }}">{{ e.name }}</button>
+    {% endfor %}
+    <button type="button" class="btn btn-quiet btn-sm" data-clear>Clear form</button>
+  </div>
+  <p class="examples-status" role="status" id="examples-status"></p>
+</div>
+<script type="application/json" id="examples-data">{{ examples | tojson }}</script>
+
+<form method="post" action="/assess" id="intake" class="intake" novalidate data-busy>
+  {#- A follow-up round that came back with an error stays in the same round and case (W44). -#}
+  {% if round > 1 %}
+  <input type="hidden" name="round" value="{{ round }}">
+  {% if parent_request_id %}<input type="hidden" name="parent_request_id" value="{{ parent_request_id }}">{% endif %}
+  <div class="notice round-notice">
+    {{ icon('message-question') }}
+    <p><strong>Follow-up round {{ round }} of {{ max_rounds }}.</strong> You are still working on the same use case. Correct what is needed below, then screen it again. <a href="/submit">Start a new use case instead</a></p>
+  </div>
+  {% endif %}
+  {% for title, ids in sections %}
+  {% set n = namespace(c=0) %}{% for qid in ids %}{% if answered[qid] %}{% set n.c = n.c + 1 %}{% endif %}{% endfor %}
+  <details class="section" open data-section>
+    <summary>
+      <span class="section-num" aria-hidden="true">{{ loop.index }}</span>
+      <h2>{{ title }}</h2>
+      <span class="section-count" data-count>{{ n.c }} of {{ ids | length }} answered</span>
+      {{ icon('chevron-down', 'chev') }}
+    </summary>
+    <div class="section-body">
+      {% for qid in ids %}{{ fm.question(questions[qid], form[qid], field_errors) }}{% endfor %}
+    </div>
+  </details>
+  {% endfor %}
+
+  {#- Answers to the tool's follow-up questions, re-posted as fu_q_<n> / fu_a_<n> pairs. No data-section / data-q:
+      the "answered" counters cover the form questions only. An emptied answer is simply left out by the server. -#}
+  {% if follow_up %}
+  {% set fu_err = field_errors.get('follow_up') %}
+  <details class="section section-fu" open>
+    <summary>
+      <span class="section-num" aria-hidden="true">{{ icon('message-question') }}</span>
+      <h2>Your answers to the tool's questions</h2>
+      <span class="section-count">From round {{ [round - 1, 1] | max }}</span>
+      {{ icon('chevron-down', 'chev') }}
+    </summary>
+    <div class="section-body">
+      <p class="q-help fu-note">You gave these answers in the previous round. Edit them if needed. An empty answer is left out.</p>
+      {{ fm.field_error('follow_up', field_errors) }}
+      <ol class="fu-items">
+        {% for item in follow_up %}{% set n = loop.index0 %}
+        <li class="fu-item">
+          <input type="hidden" name="fu_q_{{ n }}" value="{{ item.question }}">
+          <label class="fu-question" for="fu_a_{{ n }}">{{ item.question }}</label>
+          <textarea id="fu_a_{{ n }}" name="fu_a_{{ n }}" rows="2" maxlength="{{ max_length.explain }}" data-fu-answer{% if fu_err %} aria-invalid="true" aria-describedby="f-follow_up-error"{% endif %}>{{ item.answer }}</textarea>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </details>
+  {% endif %}
+
+  <div class="card submit-card">
+    {{ fm.provider_select(providers, selected) }}
+    <div class="submit-row">
+      {% set total = answered.values() | select | list | length %}
+      <p class="progress" id="progress" aria-live="polite"><span data-total>{{ total }} of {{ answered | length }} questions answered</span></p>
+      <button type="submit" class="btn btn-primary" data-busy-label="Screening">{{ icon('loader-2', 'spinner') }}<span class="btn-label">Screen use case</span></button>
+    </div>
+    {{ fm.screening_progress() }}
+  </div>
+</form>
+{% endblock %}

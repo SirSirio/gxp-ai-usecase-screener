@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% set status_class = {'draft': 'st-draft', 'in force': 'st-force', 'final': 'st-force'} %}
+{% block title %}{% if view %}{{ view.source.short }} {{ view.label }} {{ view.title }}{% else %}Section not found{% endif %} · GxP AI Use-Case Assistant{% endblock %}
+
+{#- One paragraph list. The first highlighted sentence on the page gets id="quoted" (target of "Go to the passage").
+    Many PDFs open a subsection with a run-in heading ("Intended use. The intended use of..."); the heading is
+    already shown above the text, so a first sentence that is just the title plus a full stop is left out (F11c). -#}
+{% macro paragraphs(paras, ns, title='') -%}
+{% set run_in = title.strip().rstrip('.').lower() ~ '.' if title else none %}
+{% for para in paras %}
+{% set sentences = para[1:] if loop.first and run_in and para and para[0].text.strip().lower() == run_in else para %}
+{% if sentences %}
+<p>{% for s in sentences %}{% if s.marked %}<mark{% if not ns.anchored %} id="quoted"{% set ns.anchored = true %}{% endif %}>{{ s.text }}</mark>{% else %}{{ s.text }}{% endif %}{{ ' ' if not loop.last }}{% endfor %}</p>
+{% endif %}
+{% endfor %}
+{%- endmacro %}
+
+{% block content %}
+{% if not view %}
+<section class="page-head">
+  <h1>Section not found</h1>
+  <p class="lead">There is no section “{{ section }}” in document “{{ doc }}” in the knowledge base.</p>
+  <p><a class="back" href="/sources">{{ icon('arrow-left') }}<span>All sources</span></a></p>
+</section>
+{% else %}
+{% set s = view.source %}
+{% set ns = namespace(anchored=false) %}
+<div class="result-top">
+  <a class="back" href="/sources#doc-{{ s.doc_id }}">{{ icon('arrow-left') }}<span>All sources</span></a>
+</div>
+
+<article class="reader" aria-labelledby="reader-title">
+  <header class="reader-head">
+    <p class="reader-doc">{{ s.title }}</p>
+    <h1 id="reader-title">{% if view.label %}<span class="reader-num">{{ view.label }}</span> {% endif %}{{ view.title }}</h1>
+    <p class="src-meta">
+      <span class="badge {{ status_class.get(s.status, '') }}">{{ s.status | capitalize }}</span>
+      <span class="muted">Dated {{ s.date }}</span>
+      {% if view.pages %}<span class="muted">{{ 'Page %d' % view.pages[0] if view.pages[0] == view.pages[1] else 'Pages %d-%d' % view.pages }} of the PDF</span>{% endif %}
+    </p>
+    <a class="btn btn-secondary btn-sm reader-official" href="{{ s.url }}" target="_blank" rel="noopener">{{ icon('external-link') }}<span>Official document<span class="sr-only"> (opens in a new tab)</span></span></a>
+  </header>
+
+  {% if view.draft_notice %}
+  <div class="callout" role="note"><p>{{ icon('alert-triangle') }}<span>{{ view.draft_notice }}</span></p></div>
+  {% endif %}
+  {% if view.quote_given %}
+  <p class="notice reader-hint">{{ icon('file-search') }}<span>{% if view.quote_found %}The passage quoted in your result is highlighted. <a href="#quoted">Go to the passage</a>{% else %}The quoted passage could not be found in this section, so nothing is highlighted. The full section is shown.{% endif %}</span></p>
+  {% endif %}
+
+  <div class="reader-body">
+    {% if view.head.paragraphs %}{{ paragraphs(view.head.paragraphs, ns, view.title) }}{% elif not view.subsections %}<p class="muted">This section has no text of its own in the knowledge base. See the official document.</p>{% endif %}
+    {% for sub in view.subsections %}
+    <section class="reader-sub" aria-labelledby="sub-{{ loop.index }}">
+      <h2 id="sub-{{ loop.index }}">{% if sub.label %}<span class="reader-num">{{ sub.label }}</span> {% endif %}{{ sub.title }}</h2>
+      {{ paragraphs(sub.paragraphs, ns, sub.title) }}
+    </section>
+    {% endfor %}
+  </div>
+
+  <footer class="reader-foot">
+    <p>Text as extracted from the official PDF. Paragraph breaks were added for reading; the official document is the reference.</p>
+    {% if view.quote_given %}<p>Your result is still open in the previous tab.</p>{% endif %}
+  </footer>
+</article>
+{% endif %}
+{% endblock %}

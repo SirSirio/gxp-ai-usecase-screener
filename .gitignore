@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/raw/*.pdf
+data/raw/*.html
+data/raw/*.txt
+data/index/
+data/audit/
+data/results/
+.fastembed_cache/
+*.log
+data/models/
+.out-of-code-insights/
+.playwright-mcp/
+review/review_cases.html
+data/usage/
+
+# Feature-check screenshots stay local (size); report, results and responses are committed
+qa/**/screenshots/
+qa/**/fixes/
+
+# Demo video and poster (large binaries; kept locally)
+media/

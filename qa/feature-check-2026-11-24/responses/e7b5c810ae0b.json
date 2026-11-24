@@ -1,0 +1,278 @@
+{
+  "description": "What should the AI do?\nwho actually writes GAMP 5 and is there a separate GAMP guide for AI",
+  "in_scope": true,
+  "title": "who actually writes GAMP 5 and is there a separate GAMP guide for AI",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "unclear",
+    "model_type": "generative",
+    "autonomy": "unclear"
+  },
+  "human_in_the_loop": "unclear",
+  "grid": {
+    "adaptiveness": "locked",
+    "autonomy": "unclear",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "needs_more_information",
+    "label": "Pending clarification: update any missing or conflicting details below",
+    "rule_id": "R3-unclear",
+    "explanation": "The description does not say enough to decide whether the use is GMP-critical or what kind of model it is. Both change the verdict.",
+    "citations": [
+      {
+        "chunk_id": "A22:1:0",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §1 Scope",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 2,
+        "quote": "This annex applies to all types of computerised systems used in the manufacturing of medicinal products and active substances, where Artificial Intelligence models are used in critical applications with direct impact on patient safety, product quality or data integrity, e.g. to predict or classify data.",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    },
+    {
+      "field": "model_type",
+      "value": "generative",
+      "label": "Generative AI / LLM",
+      "rationale": "Keyword baseline: it is a generative AI / LLM-type tool ('writes').",
+      "supported": true,
+      "citations": [
+        {
+          "chunk_id": "A22:1:1",
+          "doc_id": "A22",
+          "ref": "Annex 22 (draft) §1 Scope",
+          "doc_status": "draft",
+          "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+          "page": 2,
+          "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications.",
+          "support": 1.0
+        }
+      ],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "A22:1:1"
+      ],
+      "note": null
+    },
+    {
+      "field": "autonomy",
+      "value": "unclear",
+      "label": "Unclear",
+      "rationale": "Keyword baseline: the description does not give enough information for this field.",
+      "supported": true,
+      "citations": [],
+      "citations_proposed": 0,
+      "proposed_ids": [],
+      "note": "Not enough information in the proposal to classify this; see the questions."
+    }
+  ],
+  "controls": [],
+  "open_questions": [
+    "Is the AI output used in a GMP decision, as a GMP record or in a process control (e.g. batch release, QC results, deviation impact, an issued SOP or batch record)? Or does it only support people who then follow the normal GMP process?",
+    "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?"
+  ],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "e7b5c810ae0b",
+    "created_at": "2026-11-24T06:52:11.380835Z",
+    "title": "who actually writes GAMP 5 and is there a separate GAMP guide for AI",
+    "description": "What should the AI do?\nwho actually writes GAMP 5 and is there a separate GAMP guide for AI",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "unclear",
+      "model_type": "generative",
+      "autonomy": "unclear",
+      "human_in_the_loop": "unclear",
+      "grid": {
+        "adaptiveness": "locked",
+        "autonomy": "unclear"
+      }
+    },
+    "verdict": {
+      "code": "needs_more_information",
+      "label": "Pending clarification: update any missing or conflicting details below",
+      "rule_id": "R3-unclear",
+      "explanation": "The description does not say enough to decide whether the use is GMP-critical or what kind of model it is. Both change the verdict."
+    },
+    "required_controls": [],
+    "open_questions": [
+      "Is the AI output used in a GMP decision, as a GMP record or in a process control (e.g. batch release, QC results, deviation impact, an issued SOP or batch record)? Or does it only support people who then follow the normal GMP process?",
+      "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?"
+    ],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      },
+      {
+        "field": "model_type",
+        "value": "generative",
+        "supported": true,
+        "sources": [
+          {
+            "ref": "Annex 22 (draft) §1 Scope",
+            "chunk_id": "A22:1:1",
+            "quote": "Following the above, the document does not apply to Generative AI and Large Language Models (LLM), and such models should not be used in critical GMP applications."
+          }
+        ]
+      },
+      {
+        "field": "autonomy",
+        "value": "unclear",
+        "supported": true,
+        "sources": []
+      }
+    ],
+    "generated_by": {
+      "provider": "offline",
+      "model": "keyword-rules",
+      "prompt_version": "offline-1.4",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "",
+      "what": "who actually writes GAMP 5 and is there a separate GAMP guide for AI",
+      "areas": [],
+      "gmp_impact": {
+        "choice": null,
+        "explain": ""
+      },
+      "ai_type": {
+        "choice": null,
+        "explain": ""
+      },
+      "output_use": {
+        "choice": null,
+        "explain": ""
+      },
+      "who_checks": "",
+      "replaces_check": {
+        "choice": null,
+        "explain": ""
+      },
+      "data": [],
+      "source": {
+        "choice": null,
+        "explain": ""
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "",
+    "what": "who actually writes GAMP 5 and is there a separate GAMP guide for AI",
+    "areas": [],
+    "gmp_impact": {
+      "choice": null,
+      "explain": ""
+    },
+    "ai_type": {
+      "choice": null,
+      "explain": ""
+    },
+    "output_use": {
+      "choice": null,
+      "explain": ""
+    },
+    "who_checks": "",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [],
+    "source": {
+      "choice": null,
+      "explain": ""
+    }
+  },
+  "follow_up": [
+    {
+      "kind": "fields",
+      "question": "Is the AI output used in a GMP decision, as a GMP record or in a process control (e.g. batch release, QC results, deviation impact, an issued SOP or batch record)? Or does it only support people who then follow the normal GMP process?",
+      "fields": [
+        "gmp_impact"
+      ],
+      "blocking": true,
+      "contradiction": null
+    },
+    {
+      "kind": "fields",
+      "question": "Do trained, qualified staff review and approve each output before it is used, or does the output take effect automatically?",
+      "fields": [
+        "output_use",
+        "who_checks"
+      ],
+      "blocking": true,
+      "contradiction": null
+    }
+  ],
+  "follow_up_allowed": true,
+  "meta": {
+    "request_id": "e7b5c810ae0b",
+    "created_at": "2026-11-24T06:52:11.380835Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-WL:ai-use:0",
+      "FDA-DP:questions:0",
+      "AIA:art-50:0",
+      "FDA-CRED:IV.B:1",
+      "FDA-CRED:IV:0",
+      "FDA-CRED:IV.A.3:5"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 155,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

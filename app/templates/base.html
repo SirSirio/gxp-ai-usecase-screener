@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{% block title %}GxP AI Use-Case Assistant{% endblock %}</title>
+  <meta name="description" content="First-pass screening of proposed AI uses in GMP manufacturing, with cited public regulatory sources. QA decides.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/static/style.css?v={{ asset_v() }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2317594A'/><path d='M4 8.5l2.5 2.5L12 5' stroke='white' stroke-width='2' fill='none'/></svg>">
+  <script src="/static/app.js?v={{ asset_v() }}" defer></script>
+  {% block scripts %}{% endblock %}
+</head>
+<body class="page-{{ page | default('other') }}">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="/"{% if page == 'home' %} aria-current="page"{% endif %}>
+        <span class="brand-mark">{{ icon('shield-check') }}</span>
+        <span class="brand-text">GxP AI Use-Case Assistant</span>
+        {%- if public_demo() %}<span class="demo-badge" data-demo-badge>Demo</span>{% endif %}
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="/"{% if page == 'home' %} aria-current="page"{% endif %}>Overview</a>
+        <a href="/how-it-works"{% if page == 'how' %} aria-current="page"{% endif %}>How it works</a>
+        <a href="/submit"{% if page == 'submit' %} aria-current="page"{% endif %}>Submit your idea</a>
+        <a href="/sources"{% if page == 'sources' %} aria-current="page"{% endif %}>Sources</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1" class="{% block main_class %}narrow{% endblock %}">{% block content %}{% endblock %}</main>
+  <footer class="foot">
+    <div class="foot-inner">
+      <p>Decision support only, not a compliance decision or legal advice. QA decides. Built on public regulatory texts only:
+        EU GMP draft Annex 22, Annex 11 (2011 and draft), draft Chapter 4, ICH Q9(R1), EU AI Act, FDA AI guidance and warning letter 320-26-58.</p>
+      <p class="foot-links"><a href="/sources">{{ icon('books') }}<span>All sources with official links</span></a></p>
+    </div>
+  </footer>
+</body>
+</html>

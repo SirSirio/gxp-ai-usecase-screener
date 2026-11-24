@@ -1,0 +1,1658 @@
+{
+  "setup": {
+    "date": "2026-11-24",
+    "git_commit": "4cc0d5f Open items: Gemini key not rotated (owner decision)",
+    "app_version": "0.1.0",
+    "corpus_version": "e97079b5633b (591 chunks, 9 documents, dense retrieval on)",
+    "versions_shown": {
+      "offline prompt": "offline-1.4",
+      "gemini prompt": "prompt-1.6",
+      "rules": "rules-1.6",
+      "source_map": "map-1.1 (in saved results, audit and intake JSON; not shown on the page, see F04b)",
+      "gemini_model": "gemini-3.5-flash-lite"
+    },
+    "servers": {
+      "8010": "scratch app, offline default, Settings(audit_dir, results_dir) pointed at a temp folder via app.config.use_settings",
+      "8011": "scratch app with app.main.get_assessor patched to LLMAssessor(FailingClient, use_tools=False)",
+      "8000": "owner's server, not touched"
+    },
+    "real_audit_log_lines": {
+      "before": 78,
+      "after": 78
+    },
+    "real_results_dir_files": {
+      "before": 72,
+      "after": 72
+    },
+    "gemini_usage_file": {
+      "before": {
+        "2026-11-23": 100
+      },
+      "after": {
+        "2026-11-23": 108
+      },
+      "requests_used": 8,
+      "assessments": 6,
+      "note": "6 Gemini assessments (one ended in a real timeout); the QuotaGuard counted 8 HTTP attempts, so two attempts were retries inside the HTTP layer. Cap was 15."
+    },
+    "held_out_sets_opened": false
+  },
+  "counts": {
+    "pass": 21,
+    "flag": 7,
+    "info": 3,
+    "fail": 1
+  },
+  "checks": [
+    {
+      "id": "F01",
+      "area": "1 Landing and navigation",
+      "title": "Landing page, navigation landing -> submit -> sources -> back, skip link, page titles",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Browser at 1280x900: open /, Tab, Enter on skip link, click nav Submit your idea, Sources, browser Back x2, both landing CTAs, titles of /, /submit, /sources, /quick, /section (found and unknown)",
+      "expected": "Pages load, nav marks current page, skip link is first focusable and moves to #main, Back works, titles distinct",
+      "observed": "Titles: GxP AI Use-Case Assistant / Submit your idea · ... / Sources · ... / Quick mode · ... / Annex 22 (draft) §1 Scope · ... / Section not found · .... aria-current=page on the active nav item on all three pages. Skip link is first Tab stop, visible with 1.6px solid outline, Enter moves to <main id=main>. Back returns /submit then /. CTAs go to /submit and /sources. One h1 per page. No console errors except the intended 404 of the unknown section.",
+      "screenshots": [
+        "screenshots/F01_landing.png",
+        "screenshots/F01_skip_link_focus.png"
+      ],
+      "request_ids": []
+    },
+    {
+      "id": "F02",
+      "area": "2 Form",
+      "title": "Fill example buttons, Clear form, answered counters, inline validation, required hint",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "/submit: click each of the 3 example buttons in turn, then Clear form; type a title and tick LLM; description \"too short\" then blur, then submit; empty description then submit; then 55 characters. Also a no-JS POST /assess with description \"too short\".",
+      "expected": "Examples fill every field exactly as FORM_EXAMPLES; replacing answers asks for confirmation; Clear empties all; counters follow; error near the field, submit blocked, error clears when fixed; server re-renders with an inline error and keeps answers",
+      "observed": "All 3 examples fill all 10 fields with no difference from FORM_EXAMPLES; counters 4/4, 4/4, 2/2, total 10 of 10; status line names the example. Confirm dialog appears only when answers exist (2x Replace..., 1x Clear all answers?). Clear form empties all fields, counters 0, focus to the title. Manual input: 2 of 4 / 2 of 10. Blur: \"Please write at least 20 characters (9 so far).\" with aria-invalid; submit blocked, focus to the description; empty: \"Please describe what the AI should do (at least 20 characters).\"; error disappears at 20+. No-JS POST: HTTP 422, inline error under the description, title kept. Only the description is marked Required (with \"At least 20 characters\" in its help). No console errors.",
+      "screenshots": [
+        "screenshots/F02_example_1.png",
+        "screenshots/F02_example_2.png",
+        "screenshots/F02_example_3.png",
+        "screenshots/F02_inline_validation_blur.png",
+        "screenshots/F02_inline_validation_submit.png"
+      ],
+      "request_ids": []
+    },
+    {
+      "id": "F02b",
+      "area": "2 Form",
+      "title": "Question count: landing says nine questions, form counts ten",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "Open / and /submit",
+      "expected": "The landing page and the form give the same number of questions",
+      "observed": "The landing page says \"Describe your idea in nine questions\", \"Nine short questions...\" and \"Nine questions, and only the task description is required\" (README also says 9 questions). The form counter says \"0 of 10 questions answered\" (title, what, AI type, areas, GMP impact, output use, who checks, replaces check, data, source = 10).",
+      "why_flagged": "Copy inconsistency the owner should decide on: either title is not counted as a question in the copy, or the copy is out of date since form-1.2.",
+      "screenshots": [
+        "screenshots/F01_landing.png",
+        "screenshots/F02_example_1.png"
+      ],
+      "request_ids": []
+    },
+    {
+      "id": "F03a",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'should not proceed' with dev case D003",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D003 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict not_permitted_critical; page renders without errors",
+      "observed": "Outcome: \"Should not proceed: not for GMP-critical use (Annex 22 §1)\" (not_permitted_critical), tone class tone-stop (label colour rgb(163, 49, 42) on rgb(247, 234, 230)); Decided by rule R2-critical-nonstatic (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP-critical (1 source); Model type=Generative AI / LLM (1 source); Autonomy=AI acts autonomously (1 source); Human in the loop=no (0 source). Required controls (3). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "not_permitted_critical",
+      "got_verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "screenshots": [
+        "screenshots/F03_D003_result.png"
+      ],
+      "request_ids": [
+        "b3f796c57453"
+      ]
+    },
+    {
+      "id": "F03b",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'add human review' with dev case D013",
+      "provider": "offline",
+      "status": "info",
+      "inputs": "Dev case D013 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict not_permitted_critical; page renders without errors",
+      "observed": "Outcome: \"Not as described: add human review of each output (Annex 22 §1)\" (hitl_required), tone class tone-stop (label colour rgb(163, 49, 42) on rgb(247, 234, 230)); Decided by rule R6-genai-no-hitl (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP, non-critical (1 source); Model type=Generative AI / LLM (1 source); Autonomy=AI acts autonomously (1 source); Human in the loop=no (0 source). Required controls (8). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0. Expected label not_permitted_critical differs from the baseline outcome hitl_required: keyword baseline difference (offline scan of all 41 dev cases: 26 of 41 match the label), page behaves correctly.",
+      "expected_verdict": "not_permitted_critical",
+      "got_verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "screenshots": [
+        "screenshots/F03_D013_result.png"
+      ],
+      "request_ids": [
+        "96053115146b"
+      ]
+    },
+    {
+      "id": "F03c",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'full Annex 22 controls' with dev case D001",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D001 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict annex22_full; page renders without errors",
+      "observed": "Outcome: \"GMP-critical ML: proceed with full controls (Annex 22)\" (annex22_full), tone class tone-go (label colour rgb(19, 119, 58) on rgb(230, 244, 234)); Decided by rule R5-critical-static (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP-critical (1 source); Model type=Static ML model (1 source); Autonomy=AI acts autonomously (1 source); Human in the loop=no (0 source). Required controls (19). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "annex22_full",
+      "got_verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "screenshots": [
+        "screenshots/F03_D001_result.png"
+      ],
+      "request_ids": [
+        "960dc5a4d22e"
+      ]
+    },
+    {
+      "id": "F03d",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'generative AI with a person approving' with dev case D005",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D005 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict permitted_with_hitl; page renders without errors",
+      "observed": "Outcome: \"Generative AI: proceed if a person approves each output (Annex 22)\" (permitted_with_hitl), tone class tone-go (label colour rgb(19, 119, 58) on rgb(230, 244, 234)); Decided by rule R8-genai-hitl (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP, non-critical (1 source); Model type=Generative AI / LLM (1 source); Autonomy=AI recommends, human approves each output (1 source); Human in the loop=yes (0 source). Required controls (13). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "permitted_with_hitl",
+      "got_verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "screenshots": [
+        "screenshots/F03_D005_result.png"
+      ],
+      "request_ids": [
+        "4a81f1fb3dab"
+      ]
+    },
+    {
+      "id": "F03e",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'risk-based' with dev case D006",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D006 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict permitted_risk_based; page renders without errors",
+      "observed": "Outcome: \"Non-critical ML: proceed with risk-based controls (Annex 22 principles)\" (permitted_risk_based), tone class tone-go (label colour rgb(19, 119, 58) on rgb(230, 244, 234)); Decided by rule R9-noncritical-ml (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP, non-critical (1 source); Model type=Dynamic / adaptive model (1 source); Autonomy=AI recommends, human approves each output (1 source); Human in the loop=yes (0 source). Required controls (14). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "permitted_risk_based",
+      "got_verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "screenshots": [
+        "screenshots/F03_D006_result.png"
+      ],
+      "request_ids": [
+        "25722e62d6bb"
+      ]
+    },
+    {
+      "id": "F03f",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'not ML / Annex 11' with dev case D007",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D007 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict not_ai_annex11; page renders without errors",
+      "observed": "Outcome: \"Not ML: proceed as a standard GMP system (Annex 11)\" (not_ai_annex11), tone class tone-go (label colour rgb(19, 119, 58) on rgb(230, 244, 234)); Decided by rule R4-non-ml (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP, non-critical (1 source); Model type=Not ML (programmed logic) (1 source); Autonomy=AI acts autonomously (1 source); Human in the loop=no (0 source). Required controls (8). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "not_ai_annex11",
+      "got_verdict": "not_ai_annex11",
+      "rule_id": "R4-non-ml",
+      "screenshots": [
+        "screenshots/F03_D007_result.png"
+      ],
+      "request_ids": [
+        "ab43e1d80536"
+      ]
+    },
+    {
+      "id": "F03g",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'not GMP' with dev case D002",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D002 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict outside_gmp; page renders without errors",
+      "observed": "Outcome: \"Not GMP: proceed under normal IT rules (no Annex 22)\" (outside_gmp), tone class tone-neutral (label colour rgb(78, 85, 80) on rgb(236, 235, 228)); Decided by rule R1-outside-gmp (rules-1.6), not by the classifier. Judgments: GMP relevance=Not GMP (1 source); Model type=Generative AI / LLM (1 source); Autonomy=AI informs, human decides (1 source); Human in the loop=yes (0 source). Required controls (2). Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "outside_gmp",
+      "got_verdict": "outside_gmp",
+      "rule_id": "R1-outside-gmp",
+      "screenshots": [
+        "screenshots/F03_D002_result.png"
+      ],
+      "request_ids": [
+        "b8cf306e3318"
+      ]
+    },
+    {
+      "id": "F03h",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'not assessed (out of scope)' with dev case D009",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D009 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict out_of_scope; page renders without errors",
+      "observed": "Outcome: \"Not assessed: outside this tool's scope\" (out_of_scope), tone class tone-neutral (label colour rgb(78, 85, 80) on rgb(236, 235, 228)); Decided by rule R0-out-of-scope (rules-1.6), not by the classifier. Judgments: . No controls section. Warnings: none. Intake card: absent. Console errors: 0.",
+      "expected_verdict": "out_of_scope",
+      "got_verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "screenshots": [
+        "screenshots/F03_D009_result.png"
+      ],
+      "request_ids": [
+        "db471b3ff5d9"
+      ]
+    },
+    {
+      "id": "F03i",
+      "area": "3 Outcome types (offline)",
+      "title": "Full assessment, outcome type 'pending clarification' with dev case D004",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D004 form (eval/v2/dev_cases.jsonl) entered into /submit in the browser, provider offline, submitted",
+      "expected": "Label verdict needs_more_information; page renders without errors",
+      "observed": "Outcome: \"Pending clarification: update any missing or conflicting details below\" (needs_more_information), tone class tone-ask (label colour rgb(133, 80, 0) on rgb(250, 240, 220)); Decided by rule R3-unclear (rules-1.6), not by the classifier. Judgments: GMP relevance=GMP-critical (1 source); Model type=Unclear (0 source); Autonomy=AI recommends, human approves each output (1 source); Human in the loop=yes (0 source). No controls section. Warnings: Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.. Intake card: present. Console errors: 0.",
+      "expected_verdict": "needs_more_information",
+      "got_verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "screenshots": [
+        "screenshots/F03_D004_result.png"
+      ],
+      "request_ids": [
+        "c84b9cfea94c"
+      ]
+    },
+    {
+      "id": "F03j",
+      "area": "3 Outcome types (offline)",
+      "title": "Offline scan of all 41 dev cases through POST /api/assess (to choose the browser cases)",
+      "provider": "offline",
+      "status": "info",
+      "inputs": "Each dev case form posted to /api/assess on the scratch server, provider offline",
+      "expected": "HTTP 200 for every case; outcome compared with the label for information only",
+      "observed": "41 of 41 returned HTTP 200 with a valid result. 25 of 41 match the label. Differences (baseline, not app bugs): D008: label hitl_required -> got permitted_with_hitl (R8-genai-hitl); D013: label not_permitted_critical -> got hitl_required (R6-genai-no-hitl); D014: label not_permitted_critical -> got hitl_required (R6-genai-no-hitl); D016: label outside_gmp -> got permitted_with_hitl (R8-genai-hitl); D017: label not_permitted_critical -> got permitted_with_hitl (R8-genai-hitl); D019: label out_of_scope -> got needs_more_information (G1-review-not-stated); D020: label hitl_required -> got needs_more_information (G1-check-not-described); D023: label permitted_risk_based -> got annex22_full (R5-critical-static); D026: label annex22_full -> got not_permitted_critical (R2-critical-nonstatic); D029: label out_of_scope -> got needs_more_information (R3-unclear); D032: label needs_more_information -> got annex22_full (R5-critical-static); D034: label not_permitted_critical -> got permitted_risk_based (R9-noncritical-ml); D036: label outside_gmp -> got not_permitted_critical (R2-critical-nonstatic); D037: label out_of_scope -> got needs_more_information (R3-unclear); D038: label not_permitted_critical -> got needs_more_information (G1-check-not-described); D041: label outside_gmp -> got out_of_scope (R0-out-of-scope). The 8 outcome types the baseline produced all appear in the scan; hitl_required only appears on cases labelled not_permitted_critical.",
+      "screenshots": [],
+      "request_ids": [
+        "6e0509d8c4c3",
+        "0d0dcf1f53d9",
+        "9f040d09f50b",
+        "1dd12e8db5a9",
+        "d477009cb69e",
+        "1d473a48d0a5",
+        "0bb22713f8cf",
+        "5b9a4381bb95",
+        "fb16f5fba76f",
+        "3c64f65c4a8e",
+        "5e1236cfefc4",
+        "1804c6bc2fb7",
+        "1faed8dc913e",
+        "2dab1de82feb",
+        "db4cfbed3d3b",
+        "78c004339a84",
+        "bb248a74e69a",
+        "907d1a38e486",
+        "96ab1c514bc5",
+        "30388c70b7f0",
+        "8b1360c61d21",
+        "ae0cd73766d9",
+        "c00675de1d83",
+        "28ad4aa09577",
+        "cba989162992",
+        "36d02f81b252",
+        "8484cc428fde",
+        "c65892a43c5a",
+        "abf68c27f5f5",
+        "d110e8a1ffb2",
+        "d990613e443c",
+        "547ed7ac6ab1",
+        "9cfddb7144a0",
+        "65d397ff7741",
+        "a7fc2d018355",
+        "74bd3d666238",
+        "e7b5c810ae0b",
+        "121c21892984",
+        "b9b7fabe788a",
+        "2a62b35b8500",
+        "33a25c1d5ff7"
+      ]
+    },
+    {
+      "id": "F03k",
+      "area": "3 Outcome types (offline)",
+      "title": "'Pending clarification' explanation names both GMP relevance and model type even when only one is unclear",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "Dev case D004 (CDS AI peak integration add-on), offline; GMP question ticked 'Yes, directly', AI type 'A supplier's AI feature, details unknown'",
+      "expected": "The outcome text names what is actually missing (here: the model type only)",
+      "observed": "Outcome text: 'The description does not say enough to decide whether the use is GMP-critical or what kind of model it is. Both change the verdict.' while the Classification panel shows GMP relevance = GMP-critical (supported, sourced) and only Model type = Unclear. The follow-up correctly asks only about the model type. The text is fixed in rule R3-unclear (app/rules.py line 110) for both causes.",
+      "why_flagged": "Wording may confuse a proposer who already answered the GMP question clearly; owner to decide whether R3 should name only the unclear field.",
+      "screenshots": [
+        "screenshots/F03_D004_result.png"
+      ],
+      "request_ids": [
+        "c84b9cfea94c"
+      ]
+    },
+    {
+      "id": "F04",
+      "area": "4 Result page content",
+      "title": "Outcome label + tone, decided by rule, judgments with sources, controls, draft notice, JSON download, intake record, run details",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Example \"Vision model rejects vials\" submitted offline (request 35d94d20d75d); plus the 9 F03 result pages",
+      "expected": "All result sections present and working",
+      "observed": "Outcome label with icon and tone class (go green #13773A on #E6F4EA, stop #A3312A on #F7EAE6, ask #855000 on #FAF0DC, neutral #4E5550 on #ECEBE4); \"Decided by rule R5-critical-static (rules-1.6), not by the classifier.\"; outcome sources collapsed by default. Classification: each judgment with value, explanation and a Sources disclosure with quote, section link, Draft badge, page, chunk id and Official document link. Controls: \"Required controls (19)\", each opens with text and sourced quotes. Draft notice callout: \"Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025)...\" plus a Draft badge on each draft citation. Download JSON: file ai-intake-35d94d20d75d.json (Content-Disposition attachment, valid JSON with proposer_answers, status draft_for_qa_review, generated_by incl. rules-1.6 and map-1.1). Full result opens /api/results/<id> in a new tab (JSON). What you submitted lists all 10 answers. Out-of-scope result (D009) has no intake card and intake.json returns 404 \"no intake form for out-of-scope requests\" (by design). Run details: request, round, created, provider, prompt, corpus, passages, tool calls, latency, audit trail.",
+      "screenshots": [
+        "screenshots/F04_result_top.png",
+        "screenshots/F04_run_details.png",
+        "screenshots/F04_submitted_and_intake.png",
+        "screenshots/F03_D001_result.png"
+      ],
+      "request_ids": [
+        "35d94d20d75d",
+        "960dc5a4d22e",
+        "db471b3ff5d9"
+      ]
+    },
+    {
+      "id": "F04b",
+      "area": "4 Result page content",
+      "title": "Run details do not show the source map version (map-1.1) or the rules version",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "Any result page, open \"Run details\" (request 35d94d20d75d)",
+      "expected": "Versions shown in the app: prompt, rules-1.6 and the source map version",
+      "observed": "Run details list Prompt offline-1.4 and Corpus e97079b5633b, but no Rules and no Source map entry. rules-1.6 appears only in the outcome line (\"Decided by rule ... (rules-1.6)\"). map-1.1 appears nowhere on the page; it is in the saved result, the audit record and the downloaded intake JSON (generated_by.source_map_version).",
+      "why_flagged": "The checklist expects the source map version to be visible in the app; owner to decide whether Run details should add Rules and Source map rows (D24 says the map version is recorded with every result).",
+      "screenshots": [
+        "screenshots/F04_run_details.png"
+      ],
+      "request_ids": [
+        "35d94d20d75d"
+      ]
+    },
+    {
+      "id": "F05",
+      "area": "5 Source pages",
+      "title": "Citation links open /section pages with highlight, Go to the passage, official link; unknown section 404; /sources links",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "(a) All 68 distinct /section links found on the 9 F03 result pages visited one by one; (b) on result 0eca4cd56717 (example LLM drafts cleaning SOPs) clicked the first judgment citation (opens new tab), then Go to the passage, then All sources; (c) /section?doc=A22&section=99.9, doc=NOPE, no parameters, a q not in the section, a q containing a script tag; (d) /sources",
+      "expected": "Every cited section opens (200) with the quote highlighted and a working anchor; official link present; unknown section gives the 404 page",
+      "observed": "68 of 68 return 200, each with a <mark id=quoted>, a Go to the passage link and an Official document link; 48 show the draft notice (draft documents), 20 do not; no console errors. Citation link opens in a new tab (target=_blank, sr-only \"opens in a new tab\"). Go to the passage sets #quoted and scrolls the highlighted sentence into view. Official link target=_blank rel=noopener. All sources returns to /sources#doc-A22 (anchor exists). Unknown section/doc/empty: 404 \"Section not found\" page with a link to All sources. q not found: 200 with \"The quoted passage could not be located in this section...\". Script tag in q is not rendered as a script. /sources: 4 groups, 9 documents with ids doc-*, 9 official source links opening in a new tab.",
+      "screenshots": [
+        "screenshots/F05_section_page_top.png",
+        "screenshots/F05_section_go_to_passage.png",
+        "screenshots/F05_section_404.png",
+        "screenshots/F05_sources_page.png"
+      ],
+      "request_ids": [
+        "0eca4cd56717"
+      ]
+    },
+    {
+      "id": "F06",
+      "area": "6 Follow-up loop (offline)",
+      "title": "Pending clarification -> answer follow-up -> round 2 -> round 3 -> no further round + new-proposal message",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D004 (CDS AI peak integration add-on) offline; in each round the follow-up field (AI type, kept as \"supplier AI feature, details unknown\") got an explanation \"Round N: vendor still has not said how the model works.\"; then a direct POST /assess with round=4",
+      "expected": "Rounds 1, 2, 3 linked to their parents; after round 3 no follow-up form and the \"submit as new proposal\" message; round 4 refused",
+      "observed": "Round 1 (6c3d2dee471b): \"Answer to continue\", badge Round 1 of 3, follow-up shows the AI type question with its options, hidden round=2, parent=6c3d2dee471b, provider=offline. Round 2 (4568611751a0): Round 2 of 3, Run details \"Follow-up to request 6c3d2dee471b\", answer saved in form.ai_type.explain. Round 3 (84ad504473f8): heading \"Open questions\", Round 3 of 3, no form, message \"This proposal has had 3 rounds of questions, the most this tool allows. Please submit it again as a new proposal...\" with a Start a new proposal button; follow_up_allowed=false in the saved result. POST round=4: HTTP 422 with \"...already had 3 rounds of questions. Please submit it again as a new proposal...\".",
+      "screenshots": [
+        "screenshots/F06_round1.png",
+        "screenshots/F06_round2.png",
+        "screenshots/F06_round3.png"
+      ],
+      "request_ids": [
+        "6c3d2dee471b",
+        "4568611751a0",
+        "84ad504473f8"
+      ]
+    },
+    {
+      "id": "F06b",
+      "area": "6 Follow-up loop (offline)",
+      "title": "After the last round: label still says \"update ... details below\" and \"Screen again with Gemini\" is still offered",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "Round 3 result of the F06 chain (84ad504473f8)",
+      "expected": "At the end of the loop the page gives one clear next step (start a new proposal)",
+      "observed": "Outcome label: \"Pending clarification: update any missing or conflicting details below\", but below there is nothing to update (only the open question and \"Start a new proposal\"). The \"Compare with another classifier\" form is still shown with \"Screen again with: Gemini gemini-3.5-flash-lite\"; it re-posts the form with round=3, so a further screening of the same proposal is possible after the 3-round limit (not tried, to save Gemini quota).",
+      "why_flagged": "Mixed message at the end of the loop; owner to decide whether the label wording and the compare button should change at round 3 of 3.",
+      "screenshots": [
+        "screenshots/F06_round3.png"
+      ],
+      "request_ids": [
+        "84ad504473f8"
+      ]
+    },
+    {
+      "id": "F07",
+      "area": "7 Follow-up error path",
+      "title": "Follow-up round with a too-short description -> error page keeps answers, shows round N of 3, hidden round/parent; fix -> round N linked to parent",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Dev case D020 offline -> round 1 Pending clarification (c49664bbbd4c), follow-up asks output_use + who_checks. Typed who_checks \"QA reviews and approves each summary against the deviation records in the QMS before it is sent.\" and set the description to \"too short\" (the description is a hidden field in the follow-up form, so it was changed with JavaScript, the only way to reach this path from the result page). Submitted, then typed the original description back on the error page and submitted.",
+      "expected": "422 error page in the same round with answers kept; resubmission is round 2 linked to the round-1 request",
+      "observed": "HTTP 422 form page with notice \"Follow-up round 2 of 3. You are still working on the same use case... Start a new use case instead\" (link /submit); hidden round=2 and parent_request_id=c49664bbbd4c; inline error \"Please describe the task in at least 20 characters.\" under the description, focus on the description; the typed who_checks answer, the ticks and the title are kept. After the fix: result 9a4132c4ab08, Round 2 of 3, Run details \"Follow-up to request c49664bbbd4c\", outcome \"Generative AI: proceed if a person approves each output\" (R8). Note: offline follow-ups only ask form fields, so kept free-text follow-up answers (fu_a_) are checked with Gemini in F10d.",
+      "screenshots": [
+        "screenshots/F07_round1_followup_filled.png",
+        "screenshots/F07_error_page_round2.png",
+        "screenshots/F07_resubmitted_round2.png"
+      ],
+      "request_ids": [
+        "c49664bbbd4c",
+        "9a4132c4ab08"
+      ]
+    },
+    {
+      "id": "F08",
+      "area": "8 API error display",
+      "title": "Plain message, collapsed technical details, answers kept: kinds overloaded, daily_budget, auth, timeout",
+      "provider": "fake Gemini client (scratch server 8011, no real API call)",
+      "status": "pass",
+      "inputs": "Second scratch server on port 8011 with app.main.get_assessor patched to LLMAssessor(FailingClient, use_tools=False); the fake raises ProviderError with kind overloaded (HTTP 503 text), daily_budget, auth (HTTP 400 invalid key) and timeout. Example \"LLM drafts cleaning SOPs\", provider Gemini, submitted once per kind. Also POST /api/assess and POST /quick with kind timeout.",
+      "expected": "Plain-language message per kind, technical reason in a collapsed \"Show technical details\", answers kept",
+      "observed": "All 4: HTTP 502, red alert (role=alert, receives focus) with the FAILURE_MESSAGES text; native <details> collapsed by default (\"Show technical details\"), opening shows the technical text plus the request id; title, description, who checks, AI type and provider (gemini) kept. overloaded: \"Gemini is overloaded or briefly unavailable right now. Your answers are kept...\" / \"Gemini HTTP 503: The model is overloaded...\"; daily_budget: \"Today's Gemini budget for this app is used up. It resets at 09:00 Danish time; until then, choose the keyword baseline.\"; auth: \"Gemini did not accept the app's API key, so nothing was assessed...\" / \"Gemini HTTP 400: API key not valid...\"; timeout: \"Gemini took too long to answer, so the request was stopped. Your answers are kept...\". /api/assess returns 502 with message, kind, detail, request_id. Quick mode returns 502 with the same message, details and the description kept. Each failure is in the scratch audit log as assessment_rejected with failure_kind. The only console entries are the browser's automatic \"Failed to load resource: 502\" lines.",
+      "screenshots": [
+        "screenshots/F08_overloaded_collapsed.png",
+        "screenshots/F08_overloaded_expanded.png",
+        "screenshots/F08_daily_budget_collapsed.png",
+        "screenshots/F08_daily_budget_expanded.png",
+        "screenshots/F08_auth_collapsed.png",
+        "screenshots/F08_auth_expanded.png",
+        "screenshots/F08_timeout_collapsed.png",
+        "screenshots/F08_timeout_expanded.png"
+      ],
+      "request_ids": [
+        "a9cd32f288ef",
+        "c1bc3cb0613e",
+        "a64964316ec3",
+        "70923ede6c84",
+        "a2ac5f6057ea"
+      ]
+    },
+    {
+      "id": "F08b",
+      "area": "8 API error display",
+      "title": "daily_budget and auth messages do not say that the answers are kept",
+      "provider": "fake Gemini client",
+      "status": "flag",
+      "inputs": "F08 runs with kinds daily_budget (c1bc3cb0613e) and auth (a64964316ec3)",
+      "expected": "Every API error message reassures the proposer the same way (the answers are kept)",
+      "observed": "overloaded, timeout (and rate_limit, network, invalid_output in FAILURE_MESSAGES) say \"Your answers are kept\"; daily_budget (\"Today's Gemini budget for this app is used up...\") and auth (\"Gemini did not accept the app's API key...\") do not, although the answers are kept on the page. After any error the classifier select stays on Gemini, while the daily_budget/auth messages tell the user to choose the keyword baseline.",
+      "why_flagged": "Minor wording consistency; owner to decide whether all failure messages should share the reassurance and whether the selector should switch to the baseline for non-retryable kinds.",
+      "screenshots": [
+        "screenshots/F08_daily_budget_collapsed.png",
+        "screenshots/F08_auth_collapsed.png"
+      ],
+      "request_ids": [
+        "c1bc3cb0613e",
+        "a64964316ec3"
+      ]
+    },
+    {
+      "id": "F09",
+      "area": "9 Quick mode and JSON API",
+      "title": "/quick works; POST /api/assess returns a result (offline)",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "/quick: clicked the 3rd example (unchecked deviation summary), offline, submitted; then \"too short\". API: description \"HR wants an AI tool to screen CVs...\"; a minimal form (settle-plate colony counter, frozen model, GMP yes, person approves); invalid bodies (description 5 chars, both description and form, provider nonsense, unknown option); GET /api/results/zzz and /000000000000; GET /api/audit/verify",
+      "expected": "Quick result page; API returns AssessmentResult JSON; invalid input gives 4xx with a clear message",
+      "observed": "/quick (not in the nav, as documented): example fills the box, result 6694e8b5f8a3 \"Not as described: add human review of each output (Annex 22 §1)\" (R6), back link to /quick, What you submitted shows the free text, intake card present. Too short: browser validation \"Please lengthen this text to 20 characters or more\" blocks submit. API: a5ddadc3ef2b outside_gmp (R1), 8b9943080409 annex22_full (R5), both with judgments, controls and source_map_version map-1.1. Invalid: 422 string_too_short; 422 \"send either description or form\"; 422 \"unknown or unconfigured provider\"; 422 \"unknown option bogus; allowed: [...]\"; 400 invalid request id; 404 result not found. Scratch audit chain verifies ok.",
+      "screenshots": [
+        "screenshots/F09_quick_result.png",
+        "screenshots/F09_quick_too_short.png"
+      ],
+      "request_ids": [
+        "6694e8b5f8a3",
+        "a5ddadc3ef2b",
+        "8b9943080409"
+      ]
+    },
+    {
+      "id": "F10a",
+      "area": "10 Gemini",
+      "title": "Gemini, normal clear case (dev D001, label annex22_full)",
+      "provider": "gemini",
+      "status": "pass",
+      "inputs": "Dev case D001 (handheld NIR identity testing, frozen vendor model, pass releases the container, nobody checks) entered in /submit, provider Gemini",
+      "expected": "annex22_full (GMP-critical ML: proceed with full controls), sources shown",
+      "expected_verdict": "annex22_full",
+      "got_verdict": "annex22_full",
+      "observed": "HTTP 200 in 4.8 s (latency 2.6 s). \"GMP-critical ML: proceed with full controls (Annex 22)\", R5-critical-static, 19 controls. GMP-critical (A22 §1), Static ML model (A22 §1 + glossary), AI acts autonomously (FDA credibility guidance §IV.A.3, the clinical sole-determinant example, as designed in map-1.1); all three supported. Run details: gemini (gemini-3.5-flash-lite), prompt-1.6.",
+      "screenshots": [
+        "screenshots/F10a_gemini_D001.png"
+      ],
+      "request_ids": [
+        "4c3db442ca9f"
+      ]
+    },
+    {
+      "id": "F10b",
+      "area": "10 Gemini",
+      "title": "Guard G1b: 'person approves' ticked, who checks = 'QA receives it', non-critical LLM use",
+      "provider": "gemini",
+      "status": "pass",
+      "inputs": "Own synthetic form: LLM drafts multiple-choice questions for read-and-understand training after an SOP revision; GMP 'No, only indirectly'; AI type LLM; output use 'A trained person checks and approves each output'; who checks 'QA receives it'",
+      "expected": "Pending clarification with the who-checks question",
+      "expected_verdict": "needs_more_information",
+      "got_verdict": "needs_more_information",
+      "observed": "\"Pending clarification...\", rule G1-check-not-described: \"You ticked that a trained person checks and approves each output, but the form only says who receives it. Receiving or reading the output is not a check...\". Blocking question \"Who checks each output before it is used, against what, and where is the check recorded?\" with the output-use and who-checks fields; one free-text QA point. Gemini itself read the use as 'recommends, human approves' (the guard prevented the more permissive outcome). See F10e for the citations on this page.",
+      "screenshots": [
+        "screenshots/F10b_gemini_G1b.png"
+      ],
+      "request_ids": [
+        "8253096661bb"
+      ]
+    },
+    {
+      "id": "F10c",
+      "area": "10 Gemini",
+      "title": "Guard G2 contradiction ('Yes, directly' vs ideas through change control), then 'No, only indirectly' in round 2",
+      "provider": "gemini",
+      "status": "pass",
+      "inputs": "Own synthetic form: LLM suggests process-improvement ideas for downstream purification; engineers read them; any idea taken forward goes through change control with QA approval; output never used in a batch/record/release; GMP question 'Yes, directly'; output use 'Information only'. Round 2: GMP question changed to 'No, only indirectly' in the follow-up form.",
+      "expected": "Round 1 Pending clarification with the contradiction side by side; round 2 a proceed outcome",
+      "expected_verdict": "needs_more_information -> proceed",
+      "got_verdict": "needs_more_information -> permitted_with_hitl",
+      "observed": "Round 1 (252cdc79b4c5): rule G2-ticks-stricter, text \"Some of your answers in the form contradict your description...\". Side by side: You answered \"Yes, directly\" means GMP-critical -> would lead to \"Should not proceed\" (red pill) | or | Your description reads as GMP, non-critical -> would lead to \"Generative AI: proceed if a person approves each output\" (green pill), then How to resolve and the GMP question; 2 free-text QA points. Round 2 (0f37cdf60dae, follow-up to 252cdc79b4c5, Round 2 of 3): \"Generative AI: proceed if a person approves each output (Annex 22)\", R8-genai-hitl, tone go, 12 controls, all judgments supported.",
+      "screenshots": [
+        "screenshots/F10c_gemini_G2_round1.png",
+        "screenshots/F10c_gemini_G2_conflict_view.png",
+        "screenshots/F10c_gemini_G2_round2.png"
+      ],
+      "request_ids": [
+        "252cdc79b4c5",
+        "0f37cdf60dae"
+      ]
+    },
+    {
+      "id": "F10d",
+      "area": "10 Gemini",
+      "title": "Gemini follow-up question with a free-text answer box, answered (plus error path with the free-text answer kept)",
+      "provider": "gemini",
+      "status": "pass",
+      "inputs": "On the F10b result: free-text QA point fu_a_0 answered \"The coordinator compares every question with the changed sections of the SOP; QA approves the final quiz in the LMS.\" and who checks answered \"The training coordinator checks every quiz question against the revised SOP before it is used, and QA approves the quiz in the LMS, where the approval is recorded.\" First submitted with the hidden description set to 'short' (validation error, no Gemini call), then fixed.",
+      "expected": "Answer posted as a follow-up answer; round 2 linked to round 1; error page keeps the free-text answer",
+      "expected_verdict": "permitted_with_hitl",
+      "got_verdict": "permitted_with_hitl",
+      "observed": "Error page (422): \"Follow-up round 2 of 3\" notice, hidden round=2, parent_request_id=8253096661bb, fu_q_0 kept, the free-text answer shown in \"Your answers to the tool's questions\" and the who-checks answer kept. First resubmission hit a real Gemini timeout (see F10f). Second resubmission (18516db9a909): Round 2 of 3, follow-up to 8253096661bb, \"Generative AI: proceed if a person approves each output (Annex 22)\" (R8); What you submitted lists the question and the free-text answer.",
+      "screenshots": [
+        "screenshots/F10d_error_page_keeps_free_text_answer.png",
+        "screenshots/F10d_round2_after_free_text_answer.png"
+      ],
+      "request_ids": [
+        "8253096661bb",
+        "18516db9a909"
+      ]
+    },
+    {
+      "id": "F10e",
+      "area": "10 Gemini",
+      "title": "Valid citations dropped when Gemini writes chunk ids in square brackets: every judgment shows 'Unsupported / Not covered by the sources'",
+      "provider": "gemini",
+      "status": "fail",
+      "inputs": "F10b form (LLM training quiz, who checks 'QA receives it'), Gemini; and its round 2 (F10d)",
+      "expected": "Citations to map paragraphs are kept and shown as sources",
+      "observed": "In both results (8253096661bb, 18516db9a909) Gemini returned citations as \"[A22:1:1]\" and \"[A22:3.3:0]\" (raw_output in the audit record, proposed_ids in the saved result). The citation check compares the raw string with the allowed ids, so all were dropped: GMP relevance, Model type and Autonomy each show the badge 'Unsupported' and 'Not covered by the sources', plus the warning 'No supporting passage found for: gmp_relevance, model_type, autonomy'. Without the brackets these ids are in the retrieved set and in the source map for those answers (source_map.describe returns an entry for non_critical/generative/recommends + A22:1:1 and recommends + A22:3.3:0). The other Gemini results cite the same ids without brackets and show sources. Likely cause: the prompt tags passages and the map list as \"[<chunk id>]\" (app/llm/prompts.py lines 82 and 102) and app/citations.py check_judgment does not strip brackets.",
+      "why_flagged": "Clear wrong behaviour: correct, map-approved citations are hidden and the page tells the proposer the judgments are not backed by any source. Outcome unaffected (rules do not depend on citations).",
+      "screenshots": [
+        "screenshots/F10b_gemini_G1b.png",
+        "screenshots/F10d_round2_after_free_text_answer.png"
+      ],
+      "request_ids": [
+        "8253096661bb",
+        "18516db9a909"
+      ]
+    },
+    {
+      "id": "F10f",
+      "area": "10 Gemini",
+      "title": "Real Gemini timeout during a follow-up round: plain message, round and all answers kept",
+      "provider": "gemini",
+      "status": "info",
+      "inputs": "F10d first resubmission (round 2 of the F10b case) with Gemini",
+      "expected": "(unplanned) a Gemini failure is shown in plain language and loses nothing",
+      "observed": "After about 110 s: HTTP 502, \"Gemini took too long to answer, so the request was stopped. Your answers are kept...\", details \"timeout: ReadTimeout: The read operation timed out (request 9902d852e634)\" (httpx read timeout between bytes, not the 120 s total deadline). Page kept Follow-up round 2 of 3, parent 8253096661bb, the free-text answer, the who-checks answer and provider Gemini. Resubmitting once gave a normal result in 2.6 s. The QuotaGuard counter suggests this request used 2 HTTP attempts. Recorded as information: the error path worked; the latency itself is on Google's side.",
+      "screenshots": [
+        "screenshots/F10d_real_gemini_timeout_round2_kept.png"
+      ],
+      "request_ids": [
+        "9902d852e634"
+      ]
+    },
+    {
+      "id": "F11",
+      "area": "11 Visual and accessibility",
+      "title": "Landing, form, result, section page: light and dark, 1280 and 375 px, keyboard focus, console errors",
+      "provider": "offline",
+      "status": "pass",
+      "inputs": "Each page rendered with prefers-color-scheme light and dark at 1280x900 and 375x812 (result = example 'Unchecked deviation summary', offline; section = A22 §3). Tab pressed 25 times from the top of each page (light, desktop) and 8 times on the form in dark mode. Console and page errors collected throughout.",
+      "expected": "No horizontal page scroll at 375 px; both themes readable; focus visible on every stop; no console errors",
+      "observed": "16 renders: document scrollWidth equals clientWidth in all (no horizontal page scroll; at 375 px the layout is 360 px wide plus scrollbar). Light body #F4F3EE / text #1E2321, dark body #111513 / text #E5E8E2; tone colours, draft callouts, badges and citation blocks adapt in dark mode. No visible text under 12 px. Focus: every Tab stop on landing (23), result (25) and section (23) has a 1.6 px solid outline (#17594A light, #4CD4A2 dark); on the form, radio and checkbox inputs show the ring on their option box (.opt outline 1.6 px), checked in both themes. Skip link visible on focus. Console: no errors or page errors during this pass; over the whole session the only console errors were the browser's automatic 'Failed to load resource' lines for the intended 404 (unknown section), 422 (validation) and 502 (API error) responses.",
+      "screenshots": [
+        "screenshots/F11_landing_light_1280.png",
+        "screenshots/F11_form_light_1280.png",
+        "screenshots/F11_result_light_1280.png",
+        "screenshots/F11_section_light_1280.png",
+        "screenshots/F11_landing_light_375.png",
+        "screenshots/F11_form_light_375.png",
+        "screenshots/F11_result_light_375.png",
+        "screenshots/F11_section_light_375.png",
+        "screenshots/F11_landing_dark_1280.png",
+        "screenshots/F11_form_dark_1280.png",
+        "screenshots/F11_result_dark_1280.png",
+        "screenshots/F11_section_dark_1280.png",
+        "screenshots/F11_landing_dark_375.png",
+        "screenshots/F11_form_dark_375.png",
+        "screenshots/F11_result_dark_375.png",
+        "screenshots/F11_section_dark_375.png",
+        "screenshots/F11_focus_form_example.png",
+        "screenshots/F11_focus_form_dark.png",
+        "screenshots/F11_radio_focus_light.png",
+        "screenshots/F11_radio_focus_dark.png"
+      ],
+      "request_ids": []
+    },
+    {
+      "id": "F11b",
+      "area": "11 Visual and accessibility",
+      "title": "375 px: the adaptiveness/autonomy grid scrolls sideways and the position mark starts off-screen",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "Result 'Unchecked deviation summary' (offline) at 375x812, light",
+      "expected": "The marked grid cell is visible without sideways scrolling, or the scroll is obvious",
+      "observed": "The grid sits in .table-scroll (294 px visible, 520 px wide). The marked cell (Locked, AI acts alone) is at x=490-552 in a 360 px viewport, so it is hidden until the user swipes the table; the 'AI recommends' header is cut ('A recomm'). No scroll hint; the wrapper has no tabindex/label. The position is also written in text above the grid ('Position: Locked (frozen in use), AI acts alone.'), so no information is lost.",
+      "why_flagged": "Visual/mobile polish for the owner to judge (low impact).",
+      "screenshots": [
+        "screenshots/F11_grid_375.png",
+        "screenshots/F11_result_light_375.png"
+      ],
+      "request_ids": []
+    },
+    {
+      "id": "F11c",
+      "area": "11 Visual and accessibility",
+      "title": "Section pages repeat the subsection title at the start of the body text",
+      "provider": "offline",
+      "status": "flag",
+      "inputs": "/section?doc=A22&section=3 (dark, 375 px) and other A22 sections",
+      "expected": "Heading once, then the text",
+      "observed": "Heading '§3.1 Intended use' is followed by a paragraph starting 'Intended use. The intended use of a model...'; '§3.2 Subgroups' by 'Subgroups. Where applicable...'. The repeated words come from the PDF text (run-in headings), not from the template.",
+      "why_flagged": "Reads like a duplicate; owner to decide whether the reader page should strip a leading run-in title that equals the heading (the page already says paragraph breaks were added for reading).",
+      "screenshots": [
+        "screenshots/F11_section_dark_375.png"
+      ],
+      "request_ids": []
+    }
+  ],
+  "responses": [
+    {
+      "file": "responses/09a1eb174eee.json",
+      "request_id": "09a1eb174eee",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/0bb22713f8cf.json",
+      "request_id": "0bb22713f8cf",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "eQMS smart triage",
+      "verdict": "not_ai_annex11",
+      "rule_id": "R4-non-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/0d0dcf1f53d9.json",
+      "request_id": "0d0dcf1f53d9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "it helpdesk chatbot",
+      "verdict": "outside_gmp",
+      "rule_id": "R1-outside-gmp",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/0eca4cd56717.json",
+      "request_id": "0eca4cd56717",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM drafts of cleaning SOPs",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F05"
+      ]
+    },
+    {
+      "file": "responses/0f37cdf60dae.json",
+      "request_id": "0f37cdf60dae",
+      "provider": "gemini",
+      "round": 2,
+      "parent_request_id": "252cdc79b4c5",
+      "title": "LLM brainstorms process improvement ideas",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F10c"
+      ]
+    },
+    {
+      "file": "responses/121c21892984.json",
+      "request_id": "121c21892984",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "monthly EM trend report by LLM",
+      "verdict": "needs_more_information",
+      "rule_id": "G1-check-not-described",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/1804c6bc2fb7.json",
+      "request_id": "1804c6bc2fb7",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "annex 11 question",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/18516db9a909.json",
+      "request_id": "18516db9a909",
+      "provider": "gemini",
+      "round": 2,
+      "parent_request_id": "8253096661bb",
+      "title": "LLM drafts training quiz questions",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F10d",
+        "F10e"
+      ]
+    },
+    {
+      "file": "responses/191435ccb990.json",
+      "request_id": "191435ccb990",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/1d473a48d0a5.json",
+      "request_id": "1d473a48d0a5",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "qc planning tool",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/1dd12e8db5a9.json",
+      "request_id": "1dd12e8db5a9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "CDS AI peak integration add-on",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/1faed8dc913e.json",
+      "request_id": "1faed8dc913e",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "GPT tool to fill LIMS from instrument PDFs",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/252cdc79b4c5.json",
+      "request_id": "252cdc79b4c5",
+      "provider": "gemini",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM brainstorms process improvement ideas",
+      "verdict": "needs_more_information",
+      "rule_id": "G2-ticks-stricter",
+      "checks": [
+        "F10c"
+      ]
+    },
+    {
+      "file": "responses/25722e62d6bb.json",
+      "request_id": "25722e62d6bb",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "qc planning tool",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03e"
+      ]
+    },
+    {
+      "file": "responses/26d46226c58d.json",
+      "request_id": "26d46226c58d",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/28ad4aa09577.json",
+      "request_id": "28ad4aa09577",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "sales prospect prediction",
+      "verdict": "outside_gmp",
+      "rule_id": "R1-outside-gmp",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/2a62b35b8500.json",
+      "request_id": "2a62b35b8500",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "ChatGPT for self-assessments",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/2dab1de82feb.json",
+      "request_id": "2dab1de82feb",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "AI agent writes specs, SOPs, MBRs for new clients",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/30388c70b7f0.json",
+      "request_id": "30388c70b7f0",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "auto training quiz + slides from SOP revisions",
+      "verdict": "needs_more_information",
+      "rule_id": "G1-check-not-described",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/33a25c1d5ff7.json",
+      "request_id": "33a25c1d5ff7",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "eQMS AI triage (trained)",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/35d94d20d75d.json",
+      "request_id": "35d94d20d75d",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Camera inspection of filled vials",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F04",
+        "F04b"
+      ]
+    },
+    {
+      "file": "responses/36d02f81b252.json",
+      "request_id": "36d02f81b252",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Raman soft sensor glucose/lactate",
+      "verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/3c64f65c4a8e.json",
+      "request_id": "3c64f65c4a8e",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "self assessment",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/3e1f57fae3a7.json",
+      "request_id": "3e1f57fae3a7",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Camera inspection of filled vials",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": []
+    },
+    {
+      "file": "responses/4568611751a0.json",
+      "request_id": "4568611751a0",
+      "provider": "offline",
+      "round": 2,
+      "parent_request_id": "6c3d2dee471b",
+      "title": "CDS AI peak integration add-on",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F06"
+      ]
+    },
+    {
+      "file": "responses/4a81f1fb3dab.json",
+      "request_id": "4a81f1fb3dab",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM gap assesment for TT",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03d"
+      ]
+    },
+    {
+      "file": "responses/4c3db442ca9f.json",
+      "request_id": "4c3db442ca9f",
+      "provider": "gemini",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F10a"
+      ]
+    },
+    {
+      "file": "responses/547ed7ac6ab1.json",
+      "request_id": "547ed7ac6ab1",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "MES 'AI' review by exception",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/5b9a4381bb95.json",
+      "request_id": "5b9a4381bb95",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "client portal chatbot",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/5e1236cfefc4.json",
+      "request_id": "5e1236cfefc4",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Camera inspection fill-finish, new DL version",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/5fae7a6326a9.json",
+      "request_id": "5fae7a6326a9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": []
+    },
+    {
+      "file": "responses/65d397ff7741.json",
+      "request_id": "65d397ff7741",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "titer + aggregate prediction from day 7",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/6694e8b5f8a3.json",
+      "request_id": "6694e8b5f8a3",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "An AI agent writes the weekly deviation trend summary for site management and…",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": [
+        "F09"
+      ]
+    },
+    {
+      "file": "responses/6c3d2dee471b.json",
+      "request_id": "6c3d2dee471b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "CDS AI peak integration add-on",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F06"
+      ]
+    },
+    {
+      "file": "responses/6e0509d8c4c3.json",
+      "request_id": "6e0509d8c4c3",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/74bd3d666238.json",
+      "request_id": "74bd3d666238",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "CMC sections of a BLA with LLM",
+      "verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/78c004339a84.json",
+      "request_id": "78c004339a84",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "CV screening tool",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/7b3f6d45cd66.json",
+      "request_id": "7b3f6d45cd66",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": []
+    },
+    {
+      "file": "responses/8253096661bb.json",
+      "request_id": "8253096661bb",
+      "provider": "gemini",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM drafts training quiz questions",
+      "verdict": "needs_more_information",
+      "rule_id": "G1-check-not-described",
+      "checks": [
+        "F10b",
+        "F10d",
+        "F10e"
+      ]
+    },
+    {
+      "file": "responses/8484cc428fde.json",
+      "request_id": "8484cc428fde",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "EM 'AI' excel",
+      "verdict": "not_ai_annex11",
+      "rule_id": "R4-non-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/84ad504473f8.json",
+      "request_id": "84ad504473f8",
+      "provider": "offline",
+      "round": 3,
+      "parent_request_id": "4568611751a0",
+      "title": "CDS AI peak integration add-on",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F06",
+        "F06b"
+      ]
+    },
+    {
+      "file": "responses/88f7ee6bdc02.json",
+      "request_id": "88f7ee6bdc02",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/8b1360c61d21.json",
+      "request_id": "8b1360c61d21",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "AI camera station PFS line",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/8b9943080409.json",
+      "request_id": "8b9943080409",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "A trained vision model counts colonies on settle plates; a microbiologist…",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F09"
+      ]
+    },
+    {
+      "file": "responses/907d1a38e486.json",
+      "request_id": "907d1a38e486",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "RL feed controller 2000L",
+      "verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/96053115146b.json",
+      "request_id": "96053115146b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "GPT tool to fill LIMS from instrument PDFs",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": [
+        "F03b"
+      ]
+    },
+    {
+      "file": "responses/960dc5a4d22e.json",
+      "request_id": "960dc5a4d22e",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03c",
+        "F04"
+      ]
+    },
+    {
+      "file": "responses/96ab1c514bc5.json",
+      "request_id": "96ab1c514bc5",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Copilot compliance",
+      "verdict": "needs_more_information",
+      "rule_id": "G1-review-not-stated",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/9a4132c4ab08.json",
+      "request_id": "9a4132c4ab08",
+      "provider": "offline",
+      "round": 2,
+      "parent_request_id": "c49664bbbd4c",
+      "title": "auto training quiz + slides from SOP revisions",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F07"
+      ]
+    },
+    {
+      "file": "responses/9cfddb7144a0.json",
+      "request_id": "9cfddb7144a0",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "automated colony counter",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/9f040d09f50b.json",
+      "request_id": "9f040d09f50b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "AI agent for EBR review",
+      "verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/a5ddadc3ef2b.json",
+      "request_id": "a5ddadc3ef2b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "HR wants an AI tool to screen CVs and rank candidates for operator roles",
+      "verdict": "outside_gmp",
+      "rule_id": "R1-outside-gmp",
+      "checks": [
+        "F09"
+      ]
+    },
+    {
+      "file": "responses/a7fc2d018355.json",
+      "request_id": "a7fc2d018355",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM translation client docs DE->EN",
+      "verdict": "needs_more_information",
+      "rule_id": "R7-genai-autonomy-unclear",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/ab43e1d80536.json",
+      "request_id": "ab43e1d80536",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "eQMS smart triage",
+      "verdict": "not_ai_annex11",
+      "rule_id": "R4-non-ml",
+      "checks": [
+        "F03f"
+      ]
+    },
+    {
+      "file": "responses/abf68c27f5f5.json",
+      "request_id": "abf68c27f5f5",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "AI on batch data",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/ae0cd73766d9.json",
+      "request_id": "ae0cd73766d9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "GMP Q&A assistant",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/b3f796c57453.json",
+      "request_id": "b3f796c57453",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "AI agent for EBR review",
+      "verdict": "not_permitted_critical",
+      "rule_id": "R2-critical-nonstatic",
+      "checks": [
+        "F03a"
+      ]
+    },
+    {
+      "file": "responses/b8cf306e3318.json",
+      "request_id": "b8cf306e3318",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "it helpdesk chatbot",
+      "verdict": "outside_gmp",
+      "rule_id": "R1-outside-gmp",
+      "checks": [
+        "F03g"
+      ]
+    },
+    {
+      "file": "responses/b9b7fabe788a.json",
+      "request_id": "b9b7fabe788a",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "predictive maintenance WFI pumps + AHU fans",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/bb248a74e69a.json",
+      "request_id": "bb248a74e69a",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM deviation classification + hold proposal",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/c00675de1d83.json",
+      "request_id": "c00675de1d83",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "anomaly detection on bioreactor trends",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/c49664bbbd4c.json",
+      "request_id": "c49664bbbd4c",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "auto training quiz + slides from SOP revisions",
+      "verdict": "needs_more_information",
+      "rule_id": "G1-check-not-described",
+      "checks": [
+        "F07"
+      ]
+    },
+    {
+      "file": "responses/c65892a43c5a.json",
+      "request_id": "c65892a43c5a",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "deviation summary + similar cases",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/c84b9cfea94c.json",
+      "request_id": "c84b9cfea94c",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "CDS AI peak integration add-on",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F03i",
+        "F03k"
+      ]
+    },
+    {
+      "file": "responses/cba989162992.json",
+      "request_id": "cba989162992",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "client lawsuit",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/d110e8a1ffb2.json",
+      "request_id": "d110e8a1ffb2",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "reorder points / safety stock tool",
+      "verdict": "permitted_risk_based",
+      "rule_id": "R9-noncritical-ml",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/d477009cb69e.json",
+      "request_id": "d477009cb69e",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "LLM gap assesment for TT",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/d990613e443c.json",
+      "request_id": "d990613e443c",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "farewell speech",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/da4ed037ebc9.json",
+      "request_id": "da4ed037ebc9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "handheld NIR ID testing in warehouse",
+      "verdict": "annex22_full",
+      "rule_id": "R5-critical-static",
+      "checks": []
+    },
+    {
+      "file": "responses/db471b3ff5d9.json",
+      "request_id": "db471b3ff5d9",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Q9 vs Q9(R1)",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03h",
+        "F04"
+      ]
+    },
+    {
+      "file": "responses/db4cfbed3d3b.json",
+      "request_id": "db4cfbed3d3b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Copilot first drafts SOP / spec / MBR",
+      "verdict": "permitted_with_hitl",
+      "rule_id": "R8-genai-hitl",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/ded2c08d0da3.json",
+      "request_id": "ded2c08d0da3",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/e7b5c810ae0b.json",
+      "request_id": "e7b5c810ae0b",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "who actually writes GAMP 5 and is there a separate GAMP guide for AI",
+      "verdict": "needs_more_information",
+      "rule_id": "R3-unclear",
+      "checks": [
+        "F03j"
+      ]
+    },
+    {
+      "file": "responses/e8078ed66461.json",
+      "request_id": "e8078ed66461",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Weekly deviation trend email",
+      "verdict": "hitl_required",
+      "rule_id": "R6-genai-no-hitl",
+      "checks": []
+    },
+    {
+      "file": "responses/fb16f5fba76f.json",
+      "request_id": "fb16f5fba76f",
+      "provider": "offline",
+      "round": 1,
+      "parent_request_id": null,
+      "title": "Q9 vs Q9(R1)",
+      "verdict": "out_of_scope",
+      "rule_id": "R0-out-of-scope",
+      "checks": [
+        "F03j"
+      ]
+    }
+  ]
+}

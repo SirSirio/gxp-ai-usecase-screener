@@ -1,0 +1,1146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GxP case review</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Review page for the labelled evaluation cases of the GxP AI use-case assistant.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Noto+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<!--
+  Built by scripts/build_review_page.py, which injects the case data and the data hash.
+  Design: Minimalism / Swiss style for trust-first internal tooling (dials: variance 3, motion 2, density 5).
+  Tokens: one accent (deep green #17594A on a warm neutral base, mint green in dark mode; no blue), the same
+  palette as the web app (app/static/style.css). Status and outcome tones are functional
+  and always paired with text. Radius rule: 8px for panels, controls, buttons and tooltips; full pill
+  for chips, status pills and the switch.
+  Icons: Tabler Icons, outline set, v3.19.0 (MIT). Path data copied from @tabler/icons/icons/outline/*.svg.
+-->
+<style>
+:root {
+  color-scheme: light dark;
+  --font-head: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body: "Noto Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --bg: #F4F3EE;
+  --surface: #FCFCF9;
+  --sunk: #ECEBE4;
+  --text: #1E2321;
+  --muted: #565D58;
+  --border: #E1DFD6;
+  --control: #858A83;
+  --accent: #17594A;
+  --accent-hover: #10463A;
+  --on-accent: #FAFBF8;
+  --accent-soft: #E4EEE8;
+  --accent-text: #17594A;
+  --focus: #17594A;
+  --tip-bg: #26302B;
+  --tip-text: #F4F3EE;
+
+  --ok-text: #13773A;  --ok-bg: #E6F4EA;  --ok-bar: #279645;
+  --warn-text: #855000; --warn-bg: #FAF0DC; --warn-bar: #C48A1E;
+  --stop-text: #A3312A; --stop-bg: #F7EAE6; --stop-bar: #C0574B;
+  --neutral-text: #4E5550; --neutral-bg: #ECEBE4; --neutral-bar: #9DA29B;
+
+  --shadow-raised: 0 1px 2px rgb(30 35 33 / .06), 0 4px 12px rgb(30 35 33 / .06);
+  --shadow-tip: 0 4px 16px rgb(30 35 33 / .18);
+
+  --r: 8px;
+  --r-pill: 999px;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  --dur: 150ms;
+  --ease: cubic-bezier(.2, 0, .2, 1);
+  --header-h: 0px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111513; --surface: #181D1A; --sunk: #1F2522; --text: #E5E8E2; --muted: #A6ADA5;
+    --border: #2B322E; --control: #6C756E; --accent: #4CD4A2; --accent-hover: #74E0BA; --on-accent: #0B1A14;
+    --accent-soft: #142F26; --accent-text: #70DDB4; --focus: #70DDB4; --tip-bg: #E5E8E2; --tip-text: #1E2321;
+    --ok-text: #6FD982; --ok-bg: #12291A; --ok-bar: #2F9E52;
+    --warn-text: #E9BC6A; --warn-bg: #2A2113; --warn-bar: #B8892F;
+    --stop-text: #F2A497; --stop-bg: #2B1916; --stop-bar: #C0574B;
+    --neutral-text: #C6CBC4; --neutral-bg: #1F2522; --neutral-bar: #6C756E;
+    --shadow-raised: 0 1px 2px rgb(0 0 0 / .3), 0 4px 12px rgb(0 0 0 / .25);
+    --shadow-tip: 0 4px 16px rgb(0 0 0 / .45);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111513; --surface: #181D1A; --sunk: #1F2522; --text: #E5E8E2; --muted: #A6ADA5;
+  --border: #2B322E; --control: #6C756E; --accent: #4CD4A2; --accent-hover: #74E0BA; --on-accent: #0B1A14;
+  --accent-soft: #142F26; --accent-text: #70DDB4; --focus: #70DDB4; --tip-bg: #E5E8E2; --tip-text: #1E2321;
+  --ok-text: #6FD982; --ok-bg: #12291A; --ok-bar: #2F9E52;
+  --warn-text: #E9BC6A; --warn-bg: #2A2113; --warn-bar: #B8892F;
+  --stop-text: #F2A497; --stop-bg: #2B1916; --stop-bar: #C0574B;
+  --neutral-text: #C6CBC4; --neutral-bg: #1F2522; --neutral-bar: #6C756E;
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / .3), 0 4px 12px rgb(0 0 0 / .25);
+  --shadow-tip: 0 4px 16px rgb(0 0 0 / .45);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 16px/1.55 var(--font-body);
+  min-height: 100dvh;
+}
+h1, h2, h3, h4 { font-family: var(--font-head); margin: 0; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.ic { width: 18px; height: 18px; flex: none; }
+.muted { color: var(--muted); }
+kbd {
+  font: 500 12px/1 var(--font-body); padding: 3px 6px; border-radius: 4px;
+  border: 1px solid var(--border); border-bottom-width: 2px; background: var(--surface); color: var(--muted);
+}
+.skip { position: absolute; left: var(--s4); top: -60px; padding: var(--s2) var(--s3); background: var(--accent); color: var(--on-accent); border-radius: var(--r); z-index: 200; }
+.skip:focus { top: var(--s2); }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--s4); }
+
+/* Header */
+.top { background: var(--surface); border-bottom: 1px solid var(--border); z-index: 50; }
+@media (min-width: 960px) {
+  .top { position: sticky; top: 0; }
+  html { scroll-padding-top: calc(var(--header-h) + 12px); }
+}
+.top-inner { display: grid; gap: var(--s3); padding-top: var(--s3); padding-bottom: var(--s3); }
+.top-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s5); justify-content: space-between; }
+.brand h1 { font-size: 20px; font-weight: 700; letter-spacing: -.01em; line-height: 1.25; }
+.brand p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
+.saved { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.saved.is-warn { color: var(--warn-text); }
+.saved .ic { width: 16px; height: 16px; }
+.progress { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); font-size: 14px; }
+.progress-text strong { font-family: var(--font-head); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+.bar { display: flex; width: 140px; height: 6px; border-radius: var(--r-pill); overflow: hidden; background: var(--sunk); box-shadow: inset 0 0 0 1px var(--border); }
+.bar span { display: block; height: 100%; }
+.bar .b-approved { background: var(--ok-bar); }
+.bar .b-rewrite { background: var(--warn-bar); }
+.bar .b-rejected { background: var(--stop-bar); }
+.counts { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); list-style: none; margin: 0; padding: 0; color: var(--muted); font-size: 13px; }
+.counts li { display: inline-flex; align-items: center; gap: 5px; font-variant-numeric: tabular-nums; }
+.counts .ic { width: 16px; height: 16px; }
+.counts b { color: var(--text); font-weight: 600; }
+.reviewer { display: flex; align-items: center; gap: var(--s2); font-size: 14px; }
+.reviewer label { color: var(--muted); font-weight: 500; }
+.reviewer input { width: 13rem; max-width: 100%; height: 36px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2);
+  height: 40px; padding: 0 var(--s4); border-radius: var(--r); white-space: nowrap;
+  font: 600 14px/1 var(--font-head); border: 1px solid transparent;
+  transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--accent-text); border-color: var(--control); }
+.btn-secondary:hover { background: var(--accent-soft); }
+.linkbtn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 2px; border: 0; background: none;
+  color: var(--accent-text); font: 600 14px/1.3 var(--font-body); text-decoration: underline; text-underline-offset: 3px; border-radius: 4px;
+}
+.linkbtn .ic { width: 16px; height: 16px; }
+@media (pointer: coarse) { .btn { height: 44px; } }
+
+/* Inputs */
+.input {
+  width: 100%; min-height: 40px; padding: 8px 12px; border: 1px solid var(--control); border-radius: var(--r);
+  background: var(--surface); color: var(--text); line-height: 1.45;
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.input::placeholder { color: var(--muted); opacity: 1; }
+.input:hover { border-color: var(--muted); }
+.input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.input:disabled { opacity: .55; cursor: not-allowed; }
+textarea.input { resize: vertical; field-sizing: content; min-height: 64px; }
+textarea.input.one-line { min-height: 40px; }
+.select { position: relative; display: block; }
+.select select { appearance: none; -webkit-appearance: none; padding-right: 36px; cursor: pointer; }
+.select .ic { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
+@media (pointer: coarse) { .input { min-height: 44px; font-size: 16px; } }
+
+/* Toolbar */
+.toolbar { padding-top: var(--s5); }
+.filters { display: grid; gap: var(--s3); grid-template-columns: minmax(0, 2fr) repeat(4, minmax(0, 1fr)); align-items: end; }
+.ctl { display: grid; gap: 6px; min-width: 0; }
+.ctl > label { font-size: 13px; font-weight: 500; color: var(--muted); }
+.search { position: relative; }
+.search .ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input { padding-left: 36px; }
+.toolbar-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s4); margin-top: var(--s3); min-height: 32px; }
+.shown { font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: var(--s3); }
+.shown b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.kbd-hint { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.kbd-hint .ic { width: 16px; height: 16px; }
+.kbd-hint span { margin-right: 6px; }
+@media (max-width: 960px) { .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } .filters .ctl-search { grid-column: 1 / -1; } }
+@media (max-width: 760px), (pointer: coarse) { .kbd-hint { display: none; } }
+
+/* Notice */
+.notice { display: flex; align-items: flex-start; gap: var(--s3); margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r); border: 1px solid var(--border); background: var(--surface); font-size: 14px; box-shadow: inset 3px 0 0 var(--neutral-bar); }
+.notice.is-warn { background: var(--warn-bg); color: var(--warn-text); box-shadow: inset 3px 0 0 var(--warn-bar); border-color: transparent; }
+.notice.is-ok { background: var(--ok-bg); color: var(--ok-text); box-shadow: inset 3px 0 0 var(--ok-bar); border-color: transparent; }
+.notice p { flex: 1; padding-top: 2px; }
+.iconbtn { display: inline-grid; place-items: center; width: 32px; height: 32px; flex: none; border: 0; border-radius: var(--r-pill); background: transparent; color: inherit; }
+.iconbtn:hover { background: var(--sunk); }
+
+/* Case list */
+.cases { list-style: none; margin: var(--s3) 0 var(--s7); padding: 0; display: grid; gap: var(--s2); }
+.case { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); transition: box-shadow var(--dur) var(--ease); }
+.case.is-open { box-shadow: var(--shadow-raised); }
+.case-h { font: inherit; }
+.case-toggle {
+  display: grid; width: 100%; align-items: center; gap: var(--s4);
+  grid-template-columns: 4.25rem minmax(0, 1fr) minmax(11rem, 17rem) 8.75rem 20px;
+  padding: var(--s3) var(--s4); border: 0; background: none; text-align: left; border-radius: var(--r);
+  transition: background-color var(--dur) var(--ease);
+}
+.case-toggle:hover { background: var(--sunk); }
+.case.is-open .case-toggle { border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 1px solid var(--border); }
+.c-id { font-weight: 600; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.c-main { display: grid; min-width: 0; gap: 1px; }
+.c-title { font: 600 16px/1.35 var(--font-head); overflow-wrap: anywhere; }
+.c-title.is-empty { color: var(--muted); font-style: italic; font-weight: 500; font-family: var(--font-body); }
+.c-meta { font-size: 13px; color: var(--muted); }
+.o-pill { display: block; padding: 2px 0 2px 10px; border-left: 3px solid var(--tone-bar, var(--neutral-bar)); font-size: 14px; line-height: 1.35; }
+.o-pill small { display: block; font-size: 12px; color: var(--muted); }
+.chev { color: var(--muted); transition: transform var(--dur) var(--ease); }
+.case-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+@media (max-width: 760px) {
+  .case-toggle { grid-template-columns: minmax(0, 1fr) auto 20px; grid-template-areas: "id status chev" "main main main" "outcome outcome outcome"; gap: var(--s2) var(--s3); }
+  .c-id { grid-area: id; } .c-main { grid-area: main; } .c-outcome { grid-area: outcome; } .c-status { grid-area: status; } .case-toggle > .chev { grid-area: chev; }
+}
+
+/* Tones */
+.tone-ok { --tone-text: var(--ok-text); --tone-bg: var(--ok-bg); --tone-bar: var(--ok-bar); }
+.tone-warn { --tone-text: var(--warn-text); --tone-bg: var(--warn-bg); --tone-bar: var(--warn-bar); }
+.tone-stop { --tone-text: var(--stop-text); --tone-bg: var(--stop-bg); --tone-bar: var(--stop-bar); }
+.tone-neutral { --tone-text: var(--neutral-text); --tone-bg: var(--neutral-bg); --tone-bar: var(--neutral-bar); }
+
+/* Status pills */
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 7px; border-radius: var(--r-pill); font-size: 13px; font-weight: 500; line-height: 1.3; white-space: nowrap; border: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+.pill .ic { width: 16px; height: 16px; }
+.pill.st-approved { color: var(--ok-text); background: var(--ok-bg); border-color: transparent; }
+.pill.st-rewrite { color: var(--warn-text); background: var(--warn-bg); border-color: transparent; }
+.pill.st-rejected { color: var(--stop-text); background: var(--stop-bg); border-color: transparent; }
+
+/* Expanded body */
+.case-body { padding: var(--s4); }
+.body-grid { display: grid; gap: var(--s4); }
+.body-grid .col { display: grid; gap: var(--s4); align-content: start; }
+@media (min-width: 1024px) { .body-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; } }
+.sec { border: 1px solid var(--border); border-radius: var(--r); background: var(--surface); }
+.sec-h { font-size: 15px; font-weight: 600; }
+.sec-toggle { display: flex; align-items: center; gap: var(--s2); width: 100%; padding: var(--s3) var(--s4); border: 0; background: none; text-align: left; font: 600 15px/1.3 var(--font-head); border-radius: var(--r); }
+.sec-toggle:hover { background: var(--sunk); }
+.sec-toggle .chev { transform: rotate(-90deg); }
+.sec-toggle[aria-expanded="true"] .chev { transform: rotate(0deg); }
+.sec-count { margin-left: auto; font: 500 13px var(--font-body); color: var(--muted); }
+.sec-body { padding: 0 var(--s4) var(--s4); }
+
+.tag { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: var(--r-pill); font: 500 12px/1.5 var(--font-body); white-space: nowrap; }
+.tag .ic { width: 14px; height: 14px; }
+.tag-edit { color: var(--accent-text); background: var(--accent-soft); }
+.tag-edited { color: var(--accent-text); background: var(--accent-soft); }
+.tag-warn { color: var(--warn-text); background: var(--warn-bg); }
+
+/* Fields (section 1) */
+.field { padding: var(--s3) 0 var(--s3) var(--s3); border-top: 1px solid var(--border); box-shadow: inset 3px 0 0 transparent; transition: box-shadow var(--dur) var(--ease); }
+.sec-body > .field:first-child, .sec-body > .field.first { border-top: 0; }
+.field.is-edited { box-shadow: inset 3px 0 0 var(--accent); }
+.f-head, .f-legend { display: block; margin-bottom: 4px; line-height: 28px; }
+.f-label { font-size: 14px; font-weight: 500; color: var(--muted); line-height: 1.45; }
+.f-head .info, .f-legend .info { margin: -4px 0 -4px 2px; }
+.f-head .tag, .f-legend .tag { margin-left: var(--s1); vertical-align: middle; }
+fieldset.f-set { border: 0; margin: 0; padding: 0; min-width: 0; }
+.f-legend { padding: 0; float: left; width: 100%; }
+.f-legend + * { clear: both; }
+.ans { overflow-wrap: anywhere; }
+.ans-choice { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; }
+.na { color: var(--muted); font-style: italic; }
+.explain { margin-top: 6px; padding-left: var(--s3); border-left: 2px solid var(--border); color: var(--muted); font-size: 15px; overflow-wrap: anywhere; }
+.sub-label { display: block; margin: var(--s2) 0 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.row-inline { display: flex; align-items: center; gap: var(--s1); }
+.row-inline .select { flex: 1; min-width: 0; }
+.opt-info { flex: none; min-width: 28px; }
+.field.is-contested .f-label { color: var(--warn-text); }
+
+/* Info (i) */
+.info { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; padding: 0; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--muted); cursor: help; vertical-align: middle; transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+.info:hover, .info[data-active] { color: var(--accent-text); background: var(--accent-soft); }
+.info .ic { width: 18px; height: 18px; }
+.tooltip {
+  position: absolute; z-index: 100; max-width: min(320px, calc(100vw - 16px)); padding: 10px 12px;
+  background: var(--tip-bg); color: var(--tip-text); border-radius: var(--r); box-shadow: var(--shadow-tip);
+  font-size: 14px; line-height: 1.5;
+}
+
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.chip { display: inline-flex; align-items: center; gap: 0; min-height: 32px; padding: 0 2px 0 12px; border-radius: var(--r-pill); background: var(--sunk); border: 1px solid var(--border); font-size: 14px; line-height: 1.3; max-width: 100%; }
+.chip.no-info { padding-right: 12px; }
+.chip-plain { min-height: 26px; padding: 0 10px; font-size: 13px; color: var(--muted); background: transparent; }
+.chip-check { padding-left: 4px; background: var(--surface); border-color: var(--control); }
+.chip-check label { display: inline-flex; align-items: center; gap: 6px; padding: 4px 4px 4px 6px; cursor: pointer; }
+.chip-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.chip-check:has(input:checked) { background: var(--accent-soft); border-color: var(--accent-text); }
+.chip-check:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.chip-check input:focus-visible { outline: none; }
+
+/* Expected (section 2) */
+.scope-line { font-size: 14px; color: var(--muted); margin-bottom: var(--s3); }
+.labels { display: grid; gap: var(--s2); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.labels-edit { grid-template-columns: 1fr; }
+.labels-edit .tile-edit { grid-template-columns: minmax(7rem, auto) minmax(0, 1fr); align-items: center; column-gap: var(--s3); }
+.labels-edit .tile-edit .tag { grid-column: 2; }
+@media (max-width: 560px) { .labels, .labels-edit .tile-edit { grid-template-columns: 1fr; } .labels-edit .tile-edit .tag { grid-column: auto; } }
+.tile { display: grid; align-content: start; gap: 4px; padding: 10px 12px; border-radius: var(--r); background: var(--sunk); border: 1px solid transparent; min-width: 0; }
+.tile .t-name { font-size: 13px; font-weight: 500; color: var(--muted); }
+.tile .t-val { font-weight: 600; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+.tile.is-contested { border-color: var(--warn-bar); background: var(--warn-bg); }
+.tile.is-contested .t-name { color: var(--warn-text); }
+.tile .tag { justify-self: start; }
+.tile.is-edited { border-color: var(--accent-text); }
+.tile-edit { background: transparent; border-color: var(--border); }
+.switch-row { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+.switch { appearance: none; -webkit-appearance: none; position: relative; width: 40px; height: 24px; margin: 0; flex: none; border-radius: var(--r-pill); background: var(--control); cursor: pointer; transition: background-color var(--dur) var(--ease); }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); transition: transform var(--dur) var(--ease); }
+.switch:checked { background: var(--accent); }
+.switch:checked::after { transform: translateX(16px); }
+.switch-row label { font-weight: 500; cursor: pointer; }
+.switch-state { font-size: 14px; color: var(--muted); }
+.edit-field { padding: 0 0 var(--s3); margin-bottom: var(--s3); border-bottom: 1px solid var(--border); }
+.edit-field.is-edited { box-shadow: inset 3px 0 0 var(--accent); padding-left: var(--s3); }
+.help { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.outcome { margin-top: var(--s3); padding: var(--s3) var(--s4); border-radius: var(--r); background: var(--tone-bg); color: var(--tone-text); box-shadow: inset 4px 0 0 var(--tone-bar); }
+.o-name { display: block; font-size: 13px; font-weight: 500; opacity: .9; }
+.o-val { display: block; font: 700 16px/1.35 var(--font-head); }
+.o-was { display: block; font-size: 13px; margin-top: 2px; }
+.o-note { margin-top: var(--s2); font-size: 13px; color: var(--muted); }
+.flag { display: flex; gap: var(--s2); align-items: flex-start; margin-top: var(--s2); font-size: 14px; color: var(--warn-text); }
+.flag .ic { margin-top: 2px; }
+.block { margin-top: var(--s4); }
+.block h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.block p { font-size: 15px; overflow-wrap: anywhere; }
+.contested { display: flex; gap: var(--s2); align-items: flex-start; margin-top: var(--s3); padding: var(--s2) var(--s3); border-radius: var(--r); background: var(--warn-bg); color: var(--warn-text); font-size: 14px; }
+.contested .ic { margin-top: 2px; }
+.sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 15px; }
+.sources li { display: flex; gap: var(--s2); align-items: flex-start; }
+.sources .ic { color: var(--muted); margin-top: 3px; }
+.meta { margin-top: var(--s4); font-size: 13px; color: var(--muted); }
+
+/* Review (section 3) */
+.decide { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s2); }
+@media (max-width: 420px) { .decide { grid-template-columns: 1fr; } }
+.dbtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: 44px; padding: 0 var(--s3);
+  border-radius: var(--r); border: 1px solid var(--control); background: var(--surface); color: var(--text);
+  font: 600 14px/1.25 var(--font-head); text-align: center; padding-block: 6px; transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.dbtn:hover { background: var(--sunk); }
+.dbtn:active { transform: translateY(1px); }
+.dbtn[aria-pressed="true"] { border-width: 2px; padding: 0 calc(var(--s3) - 1px); }
+.dbtn-approved[aria-pressed="true"] { background: var(--ok-bg); color: var(--ok-text); border-color: var(--ok-bar); }
+.dbtn-rewrite[aria-pressed="true"] { background: var(--warn-bg); color: var(--warn-text); border-color: var(--warn-bar); }
+.dbtn-rejected[aria-pressed="true"] { background: var(--stop-bg); color: var(--stop-text); border-color: var(--stop-bar); }
+.decide-help { display: flex; gap: var(--s2); align-items: flex-start; margin-top: var(--s2); padding: var(--s2) var(--s3); border-radius: var(--r); background: var(--sunk); font-size: 13px; line-height: 1.5; }
+.decide-help .ic { width: 16px; height: 16px; margin-top: 2px; color: var(--accent-text); }
+/* Secondary "Mark as open": only rendered when the case has a decision. */
+.decide-foot { margin-top: var(--s2); display: flex; }
+.decide-foot .linkbtn { min-height: 32px; padding: 4px var(--s1); color: var(--muted); }
+.decide-foot .linkbtn:hover { color: var(--text); }
+@media (pointer: coarse) { .decide-foot .linkbtn { min-height: 44px; } }
+.edit-summary:not(:empty) { margin-top: var(--s3); padding: var(--s3); border-radius: var(--r); background: var(--accent-soft); font-size: 14px; display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); align-items: center; }
+.edit-summary p { flex: 1 1 14rem; }
+.review-comment { margin-top: var(--s4); display: grid; gap: 4px; }
+
+/* Empty states */
+.empty { margin: var(--s5) 0 var(--s7); padding: var(--s6) var(--s5); border: 1px dashed var(--control); border-radius: var(--r); text-align: center; display: grid; gap: var(--s2); justify-items: center; }
+.empty-title { font: 600 17px/1.3 var(--font-head); }
+.empty p:not(.empty-title) { color: var(--muted); font-size: 15px; }
+.empty .btn { margin-top: var(--s2); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 640px) {
+  .brand h1 { font-size: 18px; }
+  .actions { width: 100%; }
+  .actions .btn { flex: 1 1 auto; }
+  .saved { width: 100%; order: 3; }
+  .reviewer { width: 100%; }
+  .reviewer input { flex: 1; width: auto; }
+  .case-body { padding: var(--s3); }
+  .sec-body { padding: 0 var(--s3) var(--s3); }
+  .sec-toggle { padding: var(--s3); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#cases">Skip to the cases</a>
+
+<header class="top" id="top">
+  <div class="wrap top-inner">
+    <div class="top-row">
+      <div class="brand">
+        <h1>Evaluation case review</h1>
+        <p id="built"></p>
+      </div>
+      <div class="actions">
+        <span class="saved" id="saved"></span>
+        <button type="button" class="btn btn-secondary" id="import-btn"><svg class="ic" aria-hidden="true"></svg>Import decisions</button>
+        <button type="button" class="btn btn-primary" id="export-btn"><svg class="ic" aria-hidden="true"></svg>Export decisions</button>
+      </div>
+    </div>
+    <div class="top-row">
+      <div class="progress">
+        <span class="progress-text" id="progress-text"></span>
+        <span class="bar" id="bar" aria-hidden="true"></span>
+        <ul class="counts" id="counts" aria-label="Cases by review status"></ul>
+      </div>
+      <div class="reviewer">
+        <label for="reviewer">Reviewer</label>
+        <input id="reviewer" class="input" type="text" autocomplete="name" placeholder="Your name (optional)">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="toolbar" aria-label="Filters">
+    <div class="filters">
+      <div class="ctl ctl-search">
+        <label for="f-q">Search</label>
+        <div class="search"><svg class="ic" aria-hidden="true"></svg><input id="f-q" class="input" type="search" placeholder="Title, description or case id" autocomplete="off"></div>
+      </div>
+      <div class="ctl"><label for="f-set">Set</label><div class="select"><select id="f-set" class="input"></select></div></div>
+      <div class="ctl"><label for="f-status">Status</label><div class="select"><select id="f-status" class="input"></select></div></div>
+      <div class="ctl"><label for="f-outcome">Outcome</label><div class="select"><select id="f-outcome" class="input"></select></div></div>
+      <div class="ctl"><label for="f-category">Category</label><div class="select"><select id="f-category" class="input"></select></div></div>
+    </div>
+    <div class="toolbar-foot">
+      <p class="shown"><span id="shown" aria-live="polite"></span><button type="button" class="linkbtn" id="clear-filters" hidden>Clear filters</button></p>
+      <p class="kbd-hint" id="kbd-hint"></p>
+    </div>
+  </section>
+
+  <div class="notice" id="notice" role="status" hidden><p id="notice-text"></p><button type="button" class="iconbtn" id="notice-close" aria-label="Dismiss message"></button></div>
+
+  <ol class="cases" id="cases" aria-label="Evaluation cases"></ol>
+  <div class="empty" id="empty" hidden></div>
+</main>
+
+<div class="tooltip" id="tooltip" aria-hidden="true" hidden></div>
+<div class="sr-only" id="sr-live" aria-live="polite"></div>
+<input type="file" id="import-file" accept="application/json,.json" hidden>
+
+<script>
+"use strict";
+const DATA = /*__DATA__*/null;
+const DATA_HASH = "__DATA_HASH__";
+const STORE_KEY = "gxp-case-review:" + DATA_HASH;
+
+/* Tabler Icons (outline, v3.19.0, MIT): inner path data copied from the published SVG files. */
+const ICONS = {
+  "check": '<path d="M5 12l5 5l10 -10"/>',
+  "x": '<path d="M18 6l-12 12"/><path d="M6 6l12 12"/>',
+  "pencil": '<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/>',
+  "info-circle": '<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 9h.01"/><path d="M11 12h1v4h1"/>',
+  "chevron-down": '<path d="M6 9l6 6l6 -6"/>',
+  "download": '<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4l0 12"/>',
+  "upload": '<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 9l5 -5l5 5"/><path d="M12 4l0 12"/>',
+  "search": '<path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/>',
+  "arrow-back-up": '<path d="M9 14l-4 -4l4 -4"/><path d="M5 10h11a4 4 0 1 1 0 8h-1"/>',
+  "keyboard": '<path d="M2 6m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z"/><path d="M6 10l0 .01"/><path d="M10 10l0 .01"/><path d="M14 10l0 .01"/><path d="M18 10l0 .01"/><path d="M6 14l0 .01"/><path d="M18 14l0 .01"/><path d="M10 14l4 .01"/>',
+  "alert-triangle": '<path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"/><path d="M12 16h.01"/>',
+  "circle-dashed": '<path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95"/><path d="M3.69 8.56a9 9 0 0 0 -.69 3.44"/><path d="M3.69 15.44a9 9 0 0 0 1.95 2.92"/><path d="M8.56 20.31a9 9 0 0 0 3.44 .69"/><path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95"/><path d="M20.31 15.44a9 9 0 0 0 .69 -3.44"/><path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92"/><path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69"/>',
+  "file-text": '<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 9l1 0"/><path d="M9 13l6 0"/><path d="M9 17l6 0"/>',
+  "circle-check": '<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 12l2 2l4 -4"/>',
+  "circle-x": '<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M10 10l4 4m0 -4l-4 4"/>'
+};
+function icon(name, cls) {
+  return '<svg class="ic' + (cls ? " " + cls : "") + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + (ICONS[name] || "") + "</svg>";
+}
+function setIcon(svg, name) { svg.outerHTML = icon(name); }
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const $ = id => document.getElementById(id);
+
+/* Presentation constants (no rules here: outcomes come from DATA.outcomes, built from app/rules.py). */
+const STATUS = {
+  open: { label: "Open", icon: "circle-dashed" },
+  approved: { label: "Approved", verb: "Approve", icon: "circle-check", key: "A" },
+  rewrite: { label: "Needs rewrite", verb: "Needs rewrite", icon: "pencil", key: "R" },
+  rejected: { label: "Rejected", verb: "Reject", icon: "circle-x", key: "X" }
+};
+const STATUS_ORDER = ["open", "approved", "rewrite", "rejected"];
+const LABEL_FIELDS = [["gmp_relevance", "GMP relevance"], ["model_type", "Model type"], ["autonomy", "Autonomy"]];
+const LABEL_NAME = Object.fromEntries(LABEL_FIELDS);
+const TONE = { permitted_with_hitl: "ok", permitted_risk_based: "ok", annex22_full: "ok", not_permitted_critical: "stop", hitl_required: "stop", needs_more_information: "warn" };
+const CATEGORY_LABELS = { clear: "Clear", borderline: "Borderline", out_of_scope: "Out of scope" };
+const SET_LABELS = { dev: "Dev set", test: "Test set" };
+
+const cases = DATA && Array.isArray(DATA.cases) ? DATA.cases : [];
+const QUESTIONS = DATA && Array.isArray(DATA.questions) ? DATA.questions : [];
+const ui = cases.map(() => ({ open: false, secs: { form: true, expected: true, review: true } }));
+const F = { q: "", set: "", status: "", outcome: "", category: "" };
+let storageOK = true;
+let lastCaseIdx = -1;
+
+/* ---------- State ---------- */
+let state = { reviewer: "", decisions: {}, dirty: false, exported_at: null };
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s && typeof s === "object" && s.decisions && typeof s.decisions === "object") state = Object.assign(state, s);
+    }
+  } catch (e) { storageOK = false; }
+}
+function saveState() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); storageOK = true; } catch (e) { storageOK = false; }
+  renderSaved();
+}
+let saveTimer = null;
+function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(saveState, 300); }
+function touch(soon) { state.dirty = true; if (soon) { saveSoon(); renderSaved(); } else saveState(); }
+
+const EMPTY_DEC = Object.freeze({ status: "open", comment: "", edited_form: {}, edited_expected: {} });
+function dec(id) { return state.decisions[id] || EMPTY_DEC; }
+function ensureDec(id) {
+  let d = state.decisions[id];
+  if (!d) d = state.decisions[id] = { status: "open", comment: "", edited_form: {}, edited_expected: {} };
+  d.edited_form = d.edited_form || {};
+  d.edited_expected = d.edited_expected || {};
+  return d;
+}
+function pruneDec(id) {
+  const d = state.decisions[id];
+  if (d && (d.status || "open") === "open" && !d.comment && !Object.keys(d.edited_form || {}).length && !Object.keys(d.edited_expected || {}).length) delete state.decisions[id];
+}
+const isEditing = c => dec(c.id).status === "rewrite";
+
+/* ---------- Effective values ---------- */
+const qById = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
+const opt = (q, v) => (q.options || []).find(o => o.value === v);
+function norm(q, v) {
+  if (!q) return JSON.stringify(v == null ? null : v);
+  if (q.type === "multi") return JSON.stringify((Array.isArray(v) ? v.slice() : []).sort());
+  if (q.type === "single") return JSON.stringify({ c: (v && v.choice) || null, e: (v && v.explain) || "" });
+  return JSON.stringify(v == null ? "" : String(v));
+}
+function effForm(c) {
+  const base = c.form || {};
+  return isEditing(c) ? Object.assign({}, base, dec(c.id).edited_form || {}) : base;
+}
+function rawExpected(c) {
+  const b = c.expected || {};
+  const m = { in_scope: b.in_scope !== false, gmp_relevance: b.gmp_relevance || null, model_type: b.model_type || null, autonomy: b.autonomy || null };
+  if (isEditing(c)) Object.assign(m, dec(c.id).edited_expected || {});
+  return m;
+}
+function rulesVerdict(m) {
+  if (m.in_scope === false) return "out_of_scope";
+  const k = [m.gmp_relevance, m.model_type, m.autonomy];
+  if (!k.every(Boolean)) return null;
+  return (DATA.outcomes || {})[k.join("|")] || null;
+}
+function effExpected(c) {
+  const m = rawExpected(c);
+  const out = Object.assign({}, m);
+  if (out.in_scope === false) { out.gmp_relevance = null; out.model_type = null; out.autonomy = null; }
+  const edited = Object.keys(expectedDiff(c)).length > 0;
+  out.verdict = edited ? rulesVerdict(out) : ((c.expected || {}).verdict || rulesVerdict(out));
+  return out;
+}
+function expectedDiff(c) {
+  if (!isEditing(c)) return {};
+  const b = c.expected || {};
+  const m = rawExpected(c);
+  const e = Object.assign({}, m);
+  if (e.in_scope === false) { e.gmp_relevance = null; e.model_type = null; e.autonomy = null; }
+  const base = { in_scope: b.in_scope !== false, gmp_relevance: b.gmp_relevance || null, model_type: b.model_type || null, autonomy: b.autonomy || null };
+  const diff = {};
+  for (const k of ["in_scope", "gmp_relevance", "model_type", "autonomy"]) if (e[k] !== base[k]) diff[k] = e[k];
+  return diff;
+}
+function formEditedKeys(c) { return isEditing(c) ? Object.keys(dec(c.id).edited_form || {}) : []; }
+const verdictLabel = code => code ? ((DATA.verdict_labels || {})[code] || code) : "";
+const labelText = (k, v) => v ? (((DATA.field_labels || {})[k] || {})[v] || v) : "";
+const toneOf = code => TONE[code] || "neutral";
+function sourceLabel(s) {
+  const doc = (DATA.doc_names || {})[s.doc] || s.doc;
+  const title = (DATA.section_titles || {})[s.doc + "|" + s.section] || "";
+  const sec = String(s.section || "");
+  const numeric = /^[0-9IVX]/.test(sec);
+  if (!sec) return doc;
+  if (numeric) return doc + " §" + sec + (title ? " " + title : "");
+  return doc + ", " + (title || sec);
+}
+const fieldName = f => LABEL_NAME[f] || (qById[f] && qById[f].label) || String(f).replace(/_/g, " ");
+
+/* ---------- Tooltips: hover, focus and click; Escape closes ---------- */
+let tipSeq = 0;
+function info(text, name) {
+  if (!text) return "";
+  const id = "tip-" + (++tipSeq);
+  return '<button type="button" class="info" aria-label="Explain: ' + esc(name) + '" aria-describedby="' + id + '" data-tip="' + id + '">' + icon("info-circle") + '</button><span hidden id="' + id + '">' + esc(text) + "</span>";
+}
+const tipEl = $("tooltip");
+let tipOwner = null, tipPinned = false, tipHideTimer = null;
+function showTip(btn, pin) {
+  clearTimeout(tipHideTimer);
+  const src = document.getElementById(btn.dataset.tip);
+  if (!src) return;
+  if (tipOwner && tipOwner !== btn) tipOwner.removeAttribute("data-active");
+  tipOwner = btn; tipPinned = !!pin || (tipPinned && tipOwner === btn);
+  btn.setAttribute("data-active", "");
+  tipEl.textContent = src.textContent;
+  tipEl.hidden = false;
+  tipEl.style.left = "0px"; tipEl.style.top = "0px";
+  const r = btn.getBoundingClientRect();
+  const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+  const vw = document.documentElement.clientWidth, vh = window.innerHeight;
+  let left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, vw - w - 8));
+  let top = r.bottom + 6;
+  if (top + h > vh - 8 && r.top - h - 6 > 8) top = r.top - h - 6;
+  tipEl.style.left = (left + window.scrollX) + "px";
+  tipEl.style.top = (top + window.scrollY) + "px";
+}
+function hideTip() {
+  clearTimeout(tipHideTimer);
+  tipEl.hidden = true; tipPinned = false;
+  if (tipOwner) tipOwner.removeAttribute("data-active");
+  tipOwner = null;
+}
+function hideTipSoon() { clearTimeout(tipHideTimer); tipHideTimer = setTimeout(() => { if (!tipPinned) hideTip(); }, 150); }
+document.addEventListener("pointerover", e => {
+  const b = e.target.closest && e.target.closest(".info");
+  if (b && e.pointerType === "mouse") showTip(b, false);
+});
+document.addEventListener("pointerout", e => {
+  const b = e.target.closest && e.target.closest(".info");
+  if (!b || e.pointerType !== "mouse") return;
+  const to = e.relatedTarget;
+  if (to && (b.contains(to) || tipEl.contains(to))) return;
+  if (document.activeElement !== b) hideTipSoon();
+});
+tipEl.addEventListener("pointerenter", () => clearTimeout(tipHideTimer));
+tipEl.addEventListener("pointerleave", () => { if (!tipOwner || document.activeElement !== tipOwner) hideTipSoon(); });
+document.addEventListener("focusin", e => {
+  const b = e.target.closest && e.target.closest(".info");
+  if (b) showTip(b, false); else if (tipOwner && !tipEl.contains(e.target)) hideTip();
+});
+document.addEventListener("focusout", e => {
+  const b = e.target.closest && e.target.closest(".info");
+  if (b && b === tipOwner) hideTipSoon();
+});
+
+/* ---------- Rendering: header ---------- */
+function renderHeader() {
+  $("built").textContent = DATA ? ("Built " + DATA.built_at + ". Form " + DATA.form_version + ". " + cases.length + " cases.") : "No data in this file.";
+  setIcon(document.querySelector("#import-btn svg"), "upload");
+  setIcon(document.querySelector("#export-btn svg"), "download");
+  setIcon(document.querySelector(".search svg"), "search");
+  $("notice-close").innerHTML = icon("x");
+  document.querySelectorAll(".select").forEach(el => el.insertAdjacentHTML("beforeend", icon("chevron-down")));
+  $("kbd-hint").innerHTML = icon("keyboard") + '<kbd>J</kbd><kbd>K</kbd><span>next, previous</span><kbd>Enter</kbd><span>open</span><kbd>A</kbd><span>approve</span><kbd>R</kbd><span>rewrite</span><kbd>X</kbd><span>reject</span>';
+  $("reviewer").value = state.reviewer || "";
+}
+function renderProgress() {
+  const n = { open: 0, approved: 0, rewrite: 0, rejected: 0 };
+  for (const c of cases) n[STATUS[dec(c.id).status] ? dec(c.id).status : "open"]++;
+  const total = cases.length, done = total - n.open;
+  $("progress-text").innerHTML = "<strong>" + done + " of " + total + "</strong> reviewed";
+  $("bar").innerHTML = ["approved", "rewrite", "rejected"].map(s => '<span class="b-' + s + '" style="width:' + (total ? (n[s] / total * 100) : 0) + '%"></span>').join("");
+  $("counts").innerHTML = STATUS_ORDER.map(s => "<li>" + icon(STATUS[s].icon) + STATUS[s].label + " <b>" + n[s] + "</b></li>").join("");
+}
+function renderSaved() {
+  const el = $("saved");
+  let html, warn = false;
+  if (!storageOK) { warn = true; html = icon("alert-triangle") + "Browser storage is blocked. Export before you close the page."; }
+  else if (state.dirty) html = icon("check") + "Saved in this browser. Not exported yet.";
+  else if (state.exported_at) html = icon("check") + "Saved and exported " + new Date(state.exported_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + ".";
+  else if (!Object.keys(state.decisions).length) html = "Changes save automatically in this browser.";
+  else html = icon("check") + "Saved";
+  el.innerHTML = html;
+  el.classList.toggle("is-warn", warn);
+}
+
+/* ---------- Rendering: filters ---------- */
+function fillSelect(id, items) { $(id).innerHTML = items.map(([v, l]) => '<option value="' + esc(v) + '">' + esc(l) + "</option>").join(""); }
+function renderFilters() {
+  const sets = [...new Set(cases.map(c => c.set).filter(Boolean))];
+  fillSelect("f-set", [["", "All sets"]].concat(sets.map(s => [s, SET_LABELS[s] || s])));
+  fillSelect("f-status", [["", "All statuses"]].concat(STATUS_ORDER.map(s => [s, STATUS[s].label])));
+  fillSelect("f-outcome", [["", "All outcomes"]].concat(Object.entries(DATA.verdict_labels || {})));
+  const cats = [...new Set(cases.map(c => c.category).filter(Boolean))];
+  fillSelect("f-category", [["", "All categories"]].concat(cats.map(c => [c, CATEGORY_LABELS[c] || c])));
+}
+function matches(c) {
+  const st = dec(c.id).status || "open";
+  if (F.set && c.set !== F.set) return false;
+  if (F.status && st !== F.status) return false;
+  if (F.category && c.category !== F.category) return false;
+  if (F.outcome && effExpected(c).verdict !== F.outcome) return false;
+  if (F.q) {
+    const f = effForm(c);
+    const hay = (c.id + " " + (f.title || "") + " " + (f.what || "")).toLowerCase();
+    if (!hay.includes(F.q)) return false;
+  }
+  return true;
+}
+function applyFilters() {
+  let n = 0;
+  cases.forEach((c, i) => { const li = $("case-" + i); const ok = matches(c); li.hidden = !ok; if (ok) n++; });
+  const active = Object.values(F).some(Boolean);
+  $("shown").innerHTML = "<b>" + n + "</b> " + (n === 1 ? "case" : "cases") + " shown" + (active ? " of " + cases.length : "");
+  $("clear-filters").hidden = !active;
+  const empty = $("empty");
+  if (n === 0) {
+    empty.innerHTML = '<p class="empty-title">No cases match these filters</p><p>Change a filter, or clear them all to see every case.</p><button type="button" class="btn btn-secondary" data-clear-filters>Clear filters</button>';
+    empty.hidden = false;
+  } else empty.hidden = true;
+}
+function clearFilters() {
+  Object.keys(F).forEach(k => F[k] = "");
+  ["f-q", "f-set", "f-status", "f-outcome", "f-category"].forEach(id => $(id).value = "");
+  applyFilters();
+  $("f-q").focus();
+}
+
+/* ---------- Rendering: case rows ---------- */
+function statusPill(st) { return '<span class="pill st-' + st + '">' + icon(STATUS[st].icon) + STATUS[st].label + "</span>"; }
+function rowInner(c) {
+  const st = STATUS[dec(c.id).status] ? dec(c.id).status : "open";
+  const e = effExpected(c);
+  const title = effForm(c).title;
+  const edited = isEditing(c) && (formEditedKeys(c).length || Object.keys(expectedDiff(c)).length);
+  const meta = [SET_LABELS[c.set] || c.set, CATEGORY_LABELS[c.category] || c.category].filter(Boolean).join(" · ");
+  return '<span class="c-id">' + esc(c.id) + "</span>" +
+    '<span class="c-main"><span class="c-title' + (title ? "" : " is-empty") + '">' + (title ? esc(title) : "No title given") + "</span>" +
+    '<span class="c-meta">' + esc(meta) + "</span></span>" +
+    '<span class="c-outcome"><span class="o-pill tone-' + toneOf(e.verdict) + '"><span class="sr-only">Expected outcome: </span>' +
+    (e.verdict ? esc(verdictLabel(e.verdict)) : '<span class="muted">No outcome yet</span>') + (edited ? "<small>Edited in your rewrite</small>" : "") + "</span></span>" +
+    '<span class="c-status"><span class="sr-only">Review status: </span>' + statusPill(st) + "</span>" + icon("chevron-down", "chev");
+}
+function renderRows() {
+  $("cases").innerHTML = cases.map((c, i) =>
+    '<li class="case" id="case-' + i + '" data-idx="' + i + '">' +
+    '<h2 class="case-h"><button type="button" class="case-toggle" id="case-' + i + '-btn" aria-expanded="false" aria-controls="case-' + i + '-body">' + rowInner(c) + "</button></h2>" +
+    '<div class="case-body" id="case-' + i + '-body" role="region" aria-labelledby="case-' + i + '-btn" hidden></div></li>').join("");
+}
+function updateRow(i) { $("case-" + i + "-btn").innerHTML = rowInner(cases[i]); }
+
+/* ---------- Rendering: expanded case ---------- */
+const NA = '<p class="na">Not answered</p>';
+function editedTag(on) { return '<span class="tag tag-edited" data-edited-tag' + (on ? "" : " hidden") + ">Edited</span>"; }
+function fieldRead(q, v, edited) {
+  let h = '<div class="f-head"><span class="f-label">' + esc(q.label) + "</span>" + info(q.help, q.label) + editedTag(edited) + "</div>";
+  if (q.type === "single") {
+    const ch = v && v.choice, ex = v && v.explain;
+    if (ch) {
+      const o = opt(q, ch);
+      h += '<p class="ans ans-choice">' + (o ? esc(o.label) + info(o.help, o.label) : esc(ch) + ' <span class="muted">(not a form option)</span>') + "</p>";
+    } else h += NA;
+    if (ex) h += '<p class="explain"><span class="sr-only">Their explanation: </span>' + esc(ex) + "</p>";
+  } else if (q.type === "multi") {
+    const arr = Array.isArray(v) ? v : [];
+    if (!arr.length) h += NA;
+    else h += '<ul class="chips">' + arr.map(x => { const o = opt(q, x); return o ? '<li class="chip">' + esc(o.label) + info(o.help, o.label) + "</li>" : '<li class="chip no-info">' + esc(x) + " (not a form option)</li>"; }).join("") + "</ul>";
+  } else {
+    h += v ? '<p class="ans">' + esc(v) + "</p>" : NA;
+  }
+  return h;
+}
+function fieldEdit(q, v, i, edited) {
+  const fid = "f-" + i + "-" + q.id;
+  if (q.type === "multi") {
+    const arr = Array.isArray(v) ? v : [];
+    const extra = arr.filter(x => !opt(q, x));
+    return '<fieldset class="f-set"><legend class="f-legend"><span class="f-label">' + esc(q.label) + "</span>" + info(q.help, q.label) + editedTag(edited) + "</legend>" +
+      '<div class="chips">' + (q.options || []).map(o =>
+        '<span class="chip chip-check"><label><input type="checkbox" data-multi-key="' + esc(q.id) + '" value="' + esc(o.value) + '"' + (arr.includes(o.value) ? " checked" : "") + ">" + esc(o.label) + "</label>" + info(o.help, o.label) + "</span>").join("") +
+      extra.map(x => '<span class="chip chip-check no-info"><label><input type="checkbox" data-multi-key="' + esc(q.id) + '" value="' + esc(x) + '" checked>' + esc(x) + " (not a form option)</label></span>").join("") +
+      "</div></fieldset>";
+  }
+  let h = '<div class="f-head"><label class="f-label" for="' + fid + '">' + esc(q.label) + "</label>" + info(q.help, q.label) + editedTag(edited) + "</div>";
+  if (q.type === "single") {
+    const ch = (v && v.choice) || "", ex = (v && v.explain) || "";
+    const known = !ch || opt(q, ch);
+    h += '<div class="row-inline"><div class="select"><select id="' + fid + '" class="input" data-choice-key="' + esc(q.id) + '">' +
+      '<option value="">No answer</option>' + (q.options || []).map(o => '<option value="' + esc(o.value) + '"' + (o.value === ch ? " selected" : "") + ">" + esc(o.label) + "</option>").join("") +
+      (known ? "" : '<option value="' + esc(ch) + '" selected>' + esc(ch) + " (not a form option)</option>") +
+      "</select>" + icon("chevron-down") + '</div><span class="opt-info" data-opt-info>' + (opt(q, ch) ? info(opt(q, ch).help, opt(q, ch).label) : "") + "</span></div>";
+    if (q.explain) h += '<label class="sub-label" for="' + fid + '-ex">Their explanation</label><textarea id="' + fid + '-ex" class="input" rows="2" data-explain-key="' + esc(q.id) + '">' + esc(ex) + "</textarea>";
+  } else {
+    h += '<textarea id="' + fid + '" class="input' + (q.type === "text" ? " one-line" : "") + '" rows="' + (q.type === "text" ? 1 : 3) + '" data-form-key="' + esc(q.id) + '">' + esc(v || "") + "</textarea>";
+  }
+  return h;
+}
+function formSection(c, i, editing) {
+  const f = effForm(c), edited = new Set(formEditedKeys(c));
+  return QUESTIONS.map((q, n) => '<div class="field' + (n === 0 ? " first" : "") + (edited.has(q.id) ? " is-edited" : "") + (c.contested_field === q.id ? " is-contested" : "") + '" data-q="' + esc(q.id) + '">' +
+    (editing ? fieldEdit(q, f[q.id], i, edited.has(q.id)) : fieldRead(q, f[q.id], edited.has(q.id))) + "</div>").join("");
+}
+function outcomeBox(c, editing) {
+  const e = effExpected(c), b = c.expected || {};
+  const changed = editing && Object.keys(expectedDiff(c)).length && e.verdict !== b.verdict;
+  let h = '<div class="outcome tone-' + toneOf(e.verdict) + '"><span class="o-name">Outcome</span><strong class="o-val">' +
+    (e.verdict ? esc(verdictLabel(e.verdict)) : "Choose all three labels to see the outcome") + "</strong>" +
+    (changed ? '<span class="o-was">Was: ' + esc(verdictLabel(b.verdict) || "none") + "</span>" : "") + "</div>" +
+    '<p class="o-note">The rules layer derives the outcome from the labels. It is not labelled by hand.</p>';
+  if (!editing) {
+    const rv = rulesVerdict(rawExpected(c));
+    if (rv && b.verdict && rv !== b.verdict) h += '<p class="flag">' + icon("alert-triangle") + "<span>The stored outcome differs from what the rules give for these labels: " + esc(verdictLabel(rv)) + ".</span></p>";
+  }
+  return h;
+}
+function expectedSection(c, i, editing) {
+  const e = effExpected(c), raw = rawExpected(c), diff = expectedDiff(c);
+  let h = "";
+  if (editing) {
+    h += '<div class="edit-field' + ("in_scope" in diff ? " is-edited" : "") + '" data-l="in_scope"><div class="switch-row">' +
+      '<input type="checkbox" role="switch" class="switch" id="is-' + i + '" data-inscope' + (raw.in_scope !== false ? " checked" : "") + ' aria-describedby="is-' + i + '-help">' +
+      '<label for="is-' + i + '">In scope for this tool</label><span class="switch-state" data-inscope-text>' + (raw.in_scope !== false ? "Yes" : "No") + "</span>" + editedTag("in_scope" in diff) + "</div>" +
+      '<p class="help" id="is-' + i + '-help">Off means the case is out of scope and gets no labels.</p></div>';
+    h += '<div class="labels labels-edit">' + LABEL_FIELDS.map(([k, name]) => {
+      const vals = (DATA.field_values || {})[k] || [];
+      const contested = c.contested_field === k;
+      return '<div class="tile tile-edit' + (k in diff ? " is-edited" : "") + (contested ? " is-contested" : "") + '" data-l="' + k + '"><label class="t-name" for="l-' + i + "-" + k + '">' + esc(name) + "</label>" +
+        '<div class="select"><select class="input" id="l-' + i + "-" + k + '" data-label-key="' + k + '"' + (raw.in_scope === false ? " disabled" : "") + '><option value="">Choose a label</option>' +
+        vals.map(v => '<option value="' + esc(v) + '"' + (raw[k] === v ? " selected" : "") + ">" + esc(labelText(k, v)) + "</option>").join("") + "</select>" + icon("chevron-down") + "</div>" +
+        editedTag(k in diff) + (contested ? '<span class="tag tag-warn">' + icon("alert-triangle") + "Contested</span>" : "") + "</div>";
+    }).join("") + "</div>";
+  } else if (e.in_scope === false) {
+    h += '<p class="scope-line">Out of scope for this tool, so the case has no labels.</p>';
+  } else {
+    h += '<div class="labels">' + LABEL_FIELDS.map(([k, name]) => {
+      const contested = c.contested_field === k;
+      return '<div class="tile' + (contested ? " is-contested" : "") + '"><span class="t-name">' + esc(name) + '</span><span class="t-val">' + (e[k] ? esc(labelText(k, e[k])) : '<span class="na">No label</span>') + "</span>" +
+        (contested ? '<span class="tag tag-warn">' + icon("alert-triangle") + "Contested</span>" : "") + "</div>";
+    }).join("") + "</div>";
+  }
+  h += '<div data-outcome' + (editing ? ' aria-live="polite"' : "") + ">" + outcomeBox(c, editing) + "</div>";
+  if (c.contested_field) h += '<p class="contested">' + icon("alert-triangle") + "<span><strong>Contested field: " + esc(fieldName(c.contested_field)) + ".</strong> Reviewers may reasonably disagree on this one.</span></p>";
+  h += '<div class="block"><h4>Rationale</h4>' + (c.rationale ? "<p>" + esc(c.rationale) + "</p>" : NA) + "</div>";
+  if (Array.isArray(c.key_sources) && c.key_sources.length) h += '<div class="block"><h4>Key sources</h4><ul class="sources">' + c.key_sources.map(s => "<li>" + icon("file-text") + "<span>" + esc(sourceLabel(s)) + "</span></li>").join("") + "</ul></div>";
+  if (Array.isArray(c.chaos) && c.chaos.length) h += '<div class="block"><h4>Input quirks in this case</h4><ul class="chips">' + c.chaos.map(t => '<li class="chip chip-plain">' + esc(String(t).replace(/_/g, " ")) + "</li>").join("") + "</ul></div>";
+  const meta = [c.origin ? "Origin: " + c.origin + "." : "", c.label_status ? "Label status: " + c.label_status + "." : ""].filter(Boolean).join(" ");
+  if (meta) h += '<p class="meta">' + esc(meta) + "</p>";
+  return h;
+}
+function editSummary(c) {
+  const d = dec(c.id);
+  const nf = formEditedKeys(c).length, nl = Object.keys(expectedDiff(c)).length;
+  if (d.status === "rewrite") {
+    const parts = [];
+    if (nf) parts.push(nf + (nf === 1 ? " answer" : " answers"));
+    if (nl) parts.push(nl + (nl === 1 ? " label" : " labels"));
+    const txt = parts.length ? parts.join(" and ") + " changed." : "Edit mode is on. Change the answers or labels above.";
+    return "<p>" + txt + "</p>" + (parts.length ? '<button type="button" class="linkbtn" data-reset>' + icon("arrow-back-up") + "Reset to original</button>" : "");
+  }
+  const stored = Object.keys(d.edited_form || {}).length + Object.keys(d.edited_expected || {}).length;
+  if (stored) {
+    const ee = d.edited_expected || {}, fl = DATA.field_labels || {};
+    const parts = Object.keys(ee).map(k => k === "in_scope" ? (ee[k] ? "in scope" : "out of scope")
+      : (LABEL_NAME[k] || k) + ": " + ((fl[k] || {})[ee[k]] || ee[k]));
+    const nfs = Object.keys(d.edited_form || {}).length;
+    if (nfs) parts.push(nfs + (nfs === 1 ? " changed answer" : " changed answers"));
+    return "<p><strong>Proposed change:</strong> " + esc(parts.join("; ")) + ". It is exported only if you choose Use proposed change.</p>";
+  }
+  return "";
+}
+function commentHelp(st) {
+  return st === "rewrite" ? "Say what you changed and why." : st === "rejected" ? "Say why this case should be dropped." : "Optional. Anything the case author should know.";
+}
+/* A proposed change (imported or typed) is stored as edited labels or answers. Then "Approve" would keep the
+   ORIGINAL case and drop the proposal, so the buttons say so: "Keep original" and "Use proposed change"
+   (= status Needs rewrite, which is what exports the change). The export format does not change. */
+const hasProposal = c => Object.keys(dec(c.id).edited_expected || {}).length + Object.keys(dec(c.id).edited_form || {}).length > 0;
+const PROPOSAL_VERB = { approved: "Keep original", rewrite: "Use proposed change" };
+function decideHTML(c) {
+  const d = dec(c.id), st = d.status || "open", prop = hasProposal(c);
+  const btn = s => '<button type="button" class="dbtn dbtn-' + s + '" data-status-btn="' + s + '" aria-pressed="' + (st === s) + '" aria-keyshortcuts="' + STATUS[s].key + '"' +
+    (prop ? ' aria-describedby="decide-help-' + esc(c.id) + '"' : "") + ">" +
+    icon(STATUS[s].icon) + "<span>" + ((prop && PROPOSAL_VERB[s]) || STATUS[s].verb) + "</span></button>";
+  return '<div class="decide" role="group" aria-label="Decision for case ' + esc(c.id) + '">' + btn("approved") + btn("rewrite") + btn("rejected") + "</div>" +
+    (prop ? '<p class="decide-help" id="decide-help-' + esc(c.id) + '">' + icon("info-circle") + "<span>This case has a proposed change. <strong>Keep original</strong> approves the case as it was and drops the proposal. <strong>Use proposed change</strong> keeps the edits (status Needs rewrite) so they are exported.</span></p>" : "");
+}
+function reviewSection(c, i) {
+  const d = dec(c.id), st = d.status || "open";
+  return '<div data-decide>' + decideHTML(c) + "</div>" +
+    (st !== "open" ? '<div class="decide-foot"><button type="button" class="linkbtn" data-status-reset>' + icon("arrow-back-up") + "Mark as open</button></div>" : "") +
+    '<div class="edit-summary" data-edit-summary>' + editSummary(c) + "</div>" +
+    '<div class="review-comment"><label class="f-label" for="cmt-' + i + '">Comment</label>' +
+    '<p class="help" id="cmt-' + i + '-help" data-comment-help>' + commentHelp(st) + "</p>" +
+    '<textarea id="cmt-' + i + '" class="input" rows="3" aria-describedby="cmt-' + i + '-help" data-comment>' + esc(d.comment || "") + "</textarea></div>";
+}
+function sectionHTML(i, key, title, inner, editing) {
+  const open = ui[i].secs[key];
+  return '<section class="sec" data-sec="' + key + '"><h3 class="sec-h"><button type="button" class="sec-toggle" aria-expanded="' + open + '" aria-controls="s-' + i + "-" + key + '" data-sec-toggle="' + key + '">' +
+    icon("chevron-down", "chev") + "<span>" + esc(title) + "</span>" + (editing ? '<span class="tag tag-edit">' + icon("pencil") + "Editing</span>" : "") +
+    '<span class="sec-count" data-count="' + key + '"></span></button></h3>' +
+    '<div class="sec-body" id="s-' + i + "-" + key + '"' + (open ? "" : " hidden") + ">" + inner + "</div></section>";
+}
+function renderBody(i) {
+  const c = cases[i], editing = isEditing(c);
+  $("case-" + i + "-body").innerHTML = '<div class="body-grid">' +
+    sectionHTML(i, "form", "What the user wrote", formSection(c, i, editing), editing) +
+    '<div class="col">' + sectionHTML(i, "expected", "Expected classification", expectedSection(c, i, editing), editing) +
+    sectionHTML(i, "review", "Your review", reviewSection(c, i), false) + "</div></div>";
+  refreshCounts(i);
+}
+function refreshCounts(i) {
+  const c = cases[i], body = $("case-" + i + "-body");
+  const nf = formEditedKeys(c).length, nl = Object.keys(expectedDiff(c)).length;
+  const fc = body.querySelector('[data-count="form"]'), ec = body.querySelector('[data-count="expected"]');
+  if (fc) fc.textContent = nf ? nf + " edited" : "";
+  if (ec) ec.textContent = nl ? nl + " edited" : "";
+}
+/* Targeted refresh after an edit, so the focused control keeps focus. */
+function refreshEdits(i) {
+  const c = cases[i], body = $("case-" + i + "-body");
+  const fk = new Set(formEditedKeys(c)), diff = expectedDiff(c);
+  body.querySelectorAll(".field[data-q]").forEach(el => { const on = fk.has(el.dataset.q); el.classList.toggle("is-edited", on); const t = el.querySelector("[data-edited-tag]"); if (t) t.hidden = !on; });
+  body.querySelectorAll("[data-l]").forEach(el => { const on = el.dataset.l in diff; el.classList.toggle("is-edited", on); const t = el.querySelector("[data-edited-tag]"); if (t) t.hidden = !on; });
+  const out = body.querySelector("[data-outcome]"); if (out) out.innerHTML = outcomeBox(c, isEditing(c));
+  const sum = body.querySelector("[data-edit-summary]"); if (sum) sum.innerHTML = editSummary(c);
+  // relabel the decision buttons when a proposed change appears or disappears (focus is in the edited field, not here)
+  const dg = body.querySelector("[data-decide]"); if (dg && dg.contains(document.activeElement) === false) dg.innerHTML = decideHTML(c);
+  refreshCounts(i);
+  updateRow(i);
+}
+
+/* ---------- Actions ---------- */
+function announce(msg) { const el = $("sr-live"); el.textContent = ""; setTimeout(() => el.textContent = msg, 30); }
+function setExpanded(i, open) {
+  ui[i].open = open;
+  const li = $("case-" + i), btn = $("case-" + i + "-btn"), body = $("case-" + i + "-body");
+  btn.setAttribute("aria-expanded", String(open));
+  li.classList.toggle("is-open", open);
+  if (open) { renderBody(i); body.hidden = false; }
+  else { if (tipOwner && body.contains(tipOwner)) hideTip(); body.hidden = true; body.innerHTML = ""; }
+}
+/* Sets a status. Never toggles: picking the active status again keeps it, so a
+   double click cannot silently drop a decision. "open" comes only from the
+   explicit "Mark as open" control; pruneDec keeps comment and edits. */
+function setStatus(i, s) {
+  const c = cases[i], d = ensureDec(c.id), prev = d.status || "open";
+  if (prev === s) { pruneDec(c.id); announce("Case " + c.id + " is already " + STATUS[s].label + "."); return; }
+  d.status = s;
+  pruneDec(c.id);
+  touch(false);
+  updateRow(i); renderProgress();
+  if (s === "rewrite" && !ui[i].open) setExpanded(i, true);
+  if (ui[i].open) {
+    const body = $("case-" + i + "-body");
+    const hadFocusInBody = body.contains(document.activeElement);
+    renderBody(i);
+    // After a reset the control is gone: land on the status that was just cleared.
+    if (hadFocusInBody) { const b = body.querySelector('[data-status-btn="' + (s === "open" ? prev : s) + '"]'); if (b) b.focus(); }
+  }
+  announce(s === "open" ? "Case " + c.id + ": decision cleared, back to Open." : "Case " + c.id + ": " + STATUS[s].label + ".");
+}
+function setFormValue(i, key, value) {
+  const c = cases[i], d = ensureDec(c.id), q = qById[key];
+  if (norm(q, value) === norm(q, (c.form || {})[key])) delete d.edited_form[key]; else d.edited_form[key] = value;
+  touch(true); refreshEdits(i);
+}
+function setExpectedValue(i, key, value) {
+  const c = cases[i], d = ensureDec(c.id), b = c.expected || {};
+  const base = key === "in_scope" ? b.in_scope !== false : (b[key] || null);
+  if (value === base) delete d.edited_expected[key]; else d.edited_expected[key] = value;
+  touch(true); refreshEdits(i);
+}
+function resetEdits(i) {
+  const d = ensureDec(cases[i].id);
+  d.edited_form = {}; d.edited_expected = {};
+  touch(false); renderBody(i); updateRow(i);
+  const b = $("case-" + i + "-body").querySelector('[data-status-btn="rewrite"]'); if (b) b.focus();
+  announce("Edits for case " + cases[i].id + " reset to the original.");
+}
+function currentSingle(body, key) {
+  const sel = body.querySelector('[data-choice-key="' + CSS.escape(key) + '"]');
+  const ex = body.querySelector('[data-explain-key="' + CSS.escape(key) + '"]');
+  return { choice: sel && sel.value ? sel.value : null, explain: ex ? ex.value : (effForm(cases[+body.closest(".case").dataset.idx])[key] || {}).explain || "" };
+}
+
+/* ---------- Export / import ---------- */
+function localDate() { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function buildExport() {
+  const decisions = {};
+  for (const c of cases) {
+    const d = state.decisions[c.id];
+    if (!d || !STATUS[d.status] || d.status === "open") continue;
+    const out = { status: d.status, comment: d.comment || "", edited_form: {}, edited_expected: {} };
+    if (d.status === "rewrite") {
+      out.edited_form = Object.assign({}, d.edited_form || {});
+      const diff = expectedDiff(c);
+      if (Object.keys(diff).length) out.edited_expected = Object.assign({}, diff, { verdict: effExpected(c).verdict });
+    }
+    decisions[c.id] = out;
+  }
+  return { exported_at: new Date().toISOString(), data_hash: DATA_HASH, form_version: DATA.form_version, reviewer: (state.reviewer || "").trim(), decisions };
+}
+function exportDecisions() {
+  saveState();
+  const obj = buildExport();
+  const name = "review_decisions_" + localDate() + ".json";
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  state.dirty = false; state.exported_at = obj.exported_at; saveState();
+  const n = Object.keys(obj.decisions).length;
+  notify("Exported " + n + (n === 1 ? " decision" : " decisions") + " to " + name + ". Open cases are not included.", "ok");
+}
+function importDecisions(obj) {
+  if (!obj || typeof obj !== "object" || !obj.decisions || typeof obj.decisions !== "object") { notify("This file is not a decisions export. Nothing was imported.", "warn"); return; }
+  const ids = new Set(cases.map(c => c.id));
+  let n = 0, skipped = 0;
+  for (const [id, dd] of Object.entries(obj.decisions)) {
+    if (!ids.has(id) || !dd || !STATUS[dd.status]) { skipped++; continue; }
+    const ee = Object.assign({}, dd.edited_expected || {}); delete ee.verdict;
+    state.decisions[id] = { status: dd.status, comment: dd.comment || "", edited_form: Object.assign({}, dd.edited_form || {}), edited_expected: ee };
+    n++;
+  }
+  if (obj.reviewer && !state.reviewer) { state.reviewer = obj.reviewer; $("reviewer").value = obj.reviewer; }
+  touch(false);
+  cases.forEach((c, i) => { updateRow(i); if (ui[i].open) renderBody(i); });
+  renderProgress(); applyFilters();
+  let msg = "Imported " + n + (n === 1 ? " decision" : " decisions") + (skipped ? ", skipped " + skipped + " with unknown case ids" : "") + ".";
+  let tone = "ok";
+  if (obj.data_hash && obj.data_hash !== DATA_HASH) { msg += " The file comes from a different data version (" + obj.data_hash + ", this page is " + DATA_HASH + "). Check the imported cases, their content may have changed."; tone = "warn"; }
+  notify(msg, tone);
+}
+function notify(msg, tone) {
+  const n = $("notice");
+  n.className = "notice" + (tone === "warn" ? " is-warn" : tone === "ok" ? " is-ok" : "");
+  $("notice-text").textContent = msg;
+  n.hidden = false;
+}
+
+/* ---------- Keyboard navigation ---------- */
+function visibleIdx() { return cases.map((c, i) => i).filter(i => !$("case-" + i).hidden); }
+function caseOf(el) { const li = el && el.closest ? el.closest(".case") : null; return li ? +li.dataset.idx : -1; }
+function move(dir) {
+  const vis = visibleIdx(); if (!vis.length) return;
+  let cur = caseOf(document.activeElement); if (cur < 0) cur = lastCaseIdx;
+  let pos = vis.indexOf(cur);
+  pos = pos < 0 ? (dir > 0 ? 0 : vis.length - 1) : Math.max(0, Math.min(vis.length - 1, pos + dir));
+  const btn = $("case-" + vis[pos] + "-btn");
+  btn.focus(); btn.scrollIntoView({ block: "nearest" });
+}
+
+/* ---------- Wiring ---------- */
+function init() {
+  loadState();
+  renderHeader();
+  if (!DATA || !cases.length) {
+    $("export-btn").disabled = true; $("import-btn").disabled = true;
+    $("progress-text").textContent = "No cases";
+    document.querySelector(".toolbar").hidden = true;
+    const e = $("empty");
+    e.innerHTML = '<p class="empty-title">This page has no case data</p><p>Build it with scripts/build_review_page.py, then open review/review_cases.html.</p>';
+    e.hidden = false; renderSaved();
+    return;
+  }
+  renderFilters(); renderRows(); renderProgress(); applyFilters(); renderSaved();
+
+  const top = $("top");
+  const setH = () => document.documentElement.style.setProperty("--header-h", top.offsetHeight + "px");
+  setH(); if (window.ResizeObserver) new ResizeObserver(setH).observe(top);
+
+  let qTimer = null;
+  $("f-q").addEventListener("input", e => { clearTimeout(qTimer); qTimer = setTimeout(() => { F.q = e.target.value.trim().toLowerCase(); applyFilters(); }, 120); });
+  [["f-set", "set"], ["f-status", "status"], ["f-outcome", "outcome"], ["f-category", "category"]].forEach(([id, k]) => $(id).addEventListener("change", e => { F[k] = e.target.value; applyFilters(); }));
+  $("clear-filters").addEventListener("click", clearFilters);
+  $("empty").addEventListener("click", e => { if (e.target.closest("[data-clear-filters]")) clearFilters(); });
+  $("reviewer").addEventListener("input", e => { state.reviewer = e.target.value; touch(true); });
+  $("export-btn").addEventListener("click", exportDecisions);
+  $("import-btn").addEventListener("click", () => $("import-file").click());
+  $("import-file").addEventListener("change", async e => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    try { importDecisions(JSON.parse(await f.text())); } catch (err) { notify("Could not read " + f.name + ": it is not valid JSON. Nothing was imported.", "warn"); }
+    e.target.value = "";
+  });
+  $("notice-close").addEventListener("click", () => { $("notice").hidden = true; });
+
+  const list = $("cases");
+  list.addEventListener("focusin", e => { const i = caseOf(e.target); if (i >= 0) lastCaseIdx = i; });
+  list.addEventListener("click", e => {
+    const t = e.target;
+    const infoBtn = t.closest(".info");
+    if (infoBtn) { e.preventDefault(); if (tipOwner === infoBtn && tipPinned) hideTip(); else showTip(infoBtn, true); return; }
+    const i = caseOf(t); if (i < 0) return;
+    if (t.closest(".case-toggle")) { setExpanded(i, !ui[i].open); return; }
+    const sec = t.closest("[data-sec-toggle]");
+    if (sec) {
+      const key = sec.dataset.secToggle, open = sec.getAttribute("aria-expanded") !== "true";
+      ui[i].secs[key] = open; sec.setAttribute("aria-expanded", String(open));
+      $("s-" + i + "-" + key).hidden = !open; return;
+    }
+    const sb = t.closest("[data-status-btn]"); if (sb) { setStatus(i, sb.dataset.statusBtn); return; }
+    if (t.closest("[data-status-reset]")) { setStatus(i, "open"); return; }
+    if (t.closest("[data-reset]")) resetEdits(i);
+  });
+  list.addEventListener("input", e => {
+    const t = e.target, i = caseOf(t); if (i < 0) return;
+    const body = $("case-" + i + "-body"), c = cases[i];
+    if (t.matches("[data-comment]")) { const d = ensureDec(c.id); d.comment = t.value; pruneDec(c.id); touch(true); return; }
+    if (t.matches("[data-form-key]")) { setFormValue(i, t.dataset.formKey, t.value); return; }
+    if (t.matches("[data-explain-key]")) { setFormValue(i, t.dataset.explainKey, currentSingle(body, t.dataset.explainKey)); return; }
+  });
+  list.addEventListener("change", e => {
+    const t = e.target, i = caseOf(t); if (i < 0) return;
+    const body = $("case-" + i + "-body");
+    if (t.matches("[data-choice-key]")) {
+      const key = t.dataset.choiceKey, q = qById[key], o = opt(q, t.value);
+      const slot = t.closest(".field").querySelector("[data-opt-info]");
+      if (slot) { if (tipOwner && slot.contains(tipOwner)) hideTip(); slot.innerHTML = o ? info(o.help, o.label) : ""; }
+      setFormValue(i, key, currentSingle(body, key)); return;
+    }
+    if (t.matches("[data-multi-key]")) {
+      const key = t.dataset.multiKey, q = qById[key];
+      const checked = [...body.querySelectorAll('[data-multi-key="' + CSS.escape(key) + '"]:checked')].map(x => x.value);
+      const order = (q.options || []).map(o => o.value);
+      checked.sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
+      setFormValue(i, key, checked); return;
+    }
+    if (t.matches("[data-label-key]")) { setExpectedValue(i, t.dataset.labelKey, t.value || null); return; }
+    if (t.matches("[data-inscope]")) {
+      body.querySelectorAll("[data-label-key]").forEach(s => s.disabled = !t.checked);
+      const txt = body.querySelector("[data-inscope-text]"); if (txt) txt.textContent = t.checked ? "Yes" : "No";
+      setExpectedValue(i, "in_scope", t.checked); return;
+    }
+  });
+
+  document.addEventListener("click", e => { if (tipPinned && !e.target.closest(".info") && !tipEl.contains(e.target)) hideTip(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !tipEl.hidden) { hideTip(); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+    const t = e.target;
+    if (t && t.closest && t.closest("input, textarea, select, [contenteditable='true']")) return;
+    const k = e.key.toLowerCase();
+    if (k === "j" || k === "k") { e.preventDefault(); move(k === "j" ? 1 : -1); return; }
+    const map = { a: "approved", r: "rewrite", x: "rejected" };
+    if (map[k]) { const i = caseOf(t); if (i < 0) return; e.preventDefault(); setStatus(i, map[k]); }
+  });
+  window.addEventListener("beforeunload", e => { if (state.dirty) { e.preventDefault(); e.returnValue = ""; } });
+}
+init();
+</script>
+</body>
+</html>

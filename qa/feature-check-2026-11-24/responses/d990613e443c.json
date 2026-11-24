@@ -1,0 +1,93 @@
+{
+  "description": "Short title\nfarewell speech\n\nWhat should the AI do?\nWrite a short, funny farewell speech for our head of QA, who is retiring after 30 years in biologics.",
+  "in_scope": false,
+  "title": "farewell speech",
+  "out_of_scope_reason": "No AI or automation use is described.",
+  "classification": null,
+  "human_in_the_loop": null,
+  "grid": null,
+  "decision": {
+    "verdict": "out_of_scope",
+    "label": "Not assessed: outside this tool's scope",
+    "rule_id": "R0-out-of-scope",
+    "explanation": "This tool screens proposed AI use cases against public GMP and AI texts. It does not answer general questions, give legal advice or issue compliance decisions. To screen a specific AI use, describe what the AI does and what happens to its output.",
+    "citations": []
+  },
+  "judgments": [],
+  "controls": [],
+  "open_questions": [],
+  "warnings": [],
+  "intake_form": null,
+  "form": {
+    "title": "farewell speech",
+    "what": "Write a short, funny farewell speech for our head of QA, who is retiring after 30 years in biologics.",
+    "areas": [],
+    "gmp_impact": {
+      "choice": null,
+      "explain": ""
+    },
+    "ai_type": {
+      "choice": null,
+      "explain": ""
+    },
+    "output_use": {
+      "choice": null,
+      "explain": ""
+    },
+    "who_checks": "",
+    "replaces_check": {
+      "choice": null,
+      "explain": ""
+    },
+    "data": [],
+    "source": {
+      "choice": null,
+      "explain": ""
+    }
+  },
+  "follow_up": [],
+  "follow_up_allowed": false,
+  "meta": {
+    "request_id": "d990613e443c",
+    "created_at": "2026-11-24T06:52:09.679048Z",
+    "provider": "offline",
+    "model": "keyword-rules",
+    "prompt_version": "offline-1.4",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "FDA-CRED:IV.C:5",
+      "FDA-CRED:IV:0",
+      "FDA-CRED:IV.C:4",
+      "CH4D:4.77:0",
+      "FDA-CRED:IV.B:3",
+      "FDA-CRED:I:7",
+      "FDA-CRED:IV.B:0",
+      "FDA-CRED:III:0"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 106,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

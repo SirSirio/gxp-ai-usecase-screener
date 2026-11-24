@@ -1,0 +1,248 @@
+{
+  "exported_at": "2026-11-22T09:35:14.874Z",
+  "data_hash": "6b38a2ab83",
+  "form_version": "form-1.0",
+  "reviewer": "",
+  "decisions": {
+    "D001": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D002": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D003": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D004": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D005": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D006": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D007": {
+      "status": "approved",
+      "comment": "I think there should be another similat to this, as this smart feature is decalred here as simply rules or automation, but I think there could be another version that is actually a ML model.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D008": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D009": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D010": {
+      "status": "rewrite",
+      "comment": "This is similat to the previous one, and I think you can in this case fill in certain fields as if the user expects and LLM to be used. So simply the user expects and LLM to don the task described, and fills in the fields accordingly. The outcome should be the same, but with all the fields filled the output of the app might be different, and it should be trained for this as well.",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D011": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D012": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D013": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D014": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D015": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D016": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D017": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D018": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D019": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D020": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D021": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D022": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D023": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D024": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D025": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D026": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D027": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D028": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D029": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D030": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D031": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D032": {
+      "status": "approved",
+      "comment": "I think it's ok, maybe can you verify this calssification? seems a bit uncertain to me, but maybe i am  wrong",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D033": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D034": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D035": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D036": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D037": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D038": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D039": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    },
+    "D040": {
+      "status": "approved",
+      "comment": "",
+      "edited_form": {},
+      "edited_expected": {}
+    }
+  }
+}

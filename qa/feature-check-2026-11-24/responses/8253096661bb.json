@@ -1,0 +1,273 @@
+{
+  "description": "Short title\nLLM drafts training quiz questions\n\nWhat should the AI do?\nAn LLM writes draft multiple-choice questions for the read-and-understand training that follows an SOP revision. The questions are based on the revised SOP text. The training coordinator loads them into the learning management system for operators.\n\nWhere will it be used?\nManufacturing / production, QA / quality systems\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNo, only indirectly. Training material only; it does not touch a batch, record, QC result or release.\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM). A general-purpose chatbot.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nQA receives it\n\nDoes the AI replace or reduce a check or step that people do today?\nNo, everything done today stays; the AI adds to it\n\nWhat data goes into it?\nInternal, not confidential\n\nWho provides it?\nCloud or online service",
+  "in_scope": true,
+  "title": "LLM drafts training quiz questions",
+  "out_of_scope_reason": null,
+  "classification": {
+    "gmp_relevance": "non_critical",
+    "model_type": "generative",
+    "autonomy": "recommends"
+  },
+  "human_in_the_loop": "yes",
+  "grid": {
+    "adaptiveness": "locked",
+    "autonomy": "recommends",
+    "note": "Simplified grid inspired by the GAMP AI adaptiveness × autonomy concept; levels defined in this project."
+  },
+  "decision": {
+    "verdict": "needs_more_information",
+    "label": "Pending clarification: update any missing or conflicting details below",
+    "rule_id": "G1-check-not-described",
+    "explanation": "You ticked that a trained person checks and approves each output, but the form only says who receives it. Receiving or reading the output is not a check, and whether each output is checked decides the outcome. Say who checks it, against what, and where the check is recorded.",
+    "citations": [
+      {
+        "chunk_id": "A22:3.3:0",
+        "doc_id": "A22",
+        "ref": "Annex 22 (draft) §3.3 Human-in-the-loop",
+        "doc_status": "draft",
+        "url": "https://health.ec.europa.eu/document/download/5f38a92d-bb8e-4264-8898-ea076e926db6_en?filename=mp_vol4_chap4_annex22_consultation_guideline_en.pdf",
+        "page": 3,
+        "quote": "Where a model is used to give an input to a decision made by a human operator (human-in-the-loop), and where the effort to test such model has been diminished, the description of the intended use should include the responsibility of the operator.",
+        "support": 1.0
+      }
+    ]
+  },
+  "judgments": [
+    {
+      "field": "gmp_relevance",
+      "value": "non_critical",
+      "label": "GMP, non-critical",
+      "rationale": "The LLM generates draft training quiz questions for SOP revisions, which support training workflows rather than having a direct impact on patient safety, product quality, or data integrity.",
+      "supported": false,
+      "citations": [],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "[A22:1:1]"
+      ],
+      "note": "Not covered by the sources."
+    },
+    {
+      "field": "model_type",
+      "value": "generative",
+      "label": "Generative AI / LLM",
+      "rationale": "The system uses an LLM to write and create text content based on SOP documents.",
+      "supported": false,
+      "citations": [],
+      "citations_proposed": 1,
+      "proposed_ids": [
+        "[A22:1:1]"
+      ],
+      "note": "Not covered by the sources."
+    },
+    {
+      "field": "autonomy",
+      "value": "recommends",
+      "label": "AI recommends, human approves each output",
+      "rationale": "The AI generates proposed quiz questions, and a qualified person reviews and approves each output before it is loaded into the learning management system.",
+      "supported": false,
+      "citations": [],
+      "citations_proposed": 2,
+      "proposed_ids": [
+        "[A22:1:1]",
+        "[A22:3.3:0]"
+      ],
+      "note": "Not covered by the sources."
+    }
+  ],
+  "controls": [],
+  "open_questions": [
+    "What specific prompt instructions and validation checks are used by QA to ensure the generated quiz questions accurately and comprehensively reflect the critical requirements of the revised SOP?",
+    "Who checks each output before it is used, against what, and where is the check recorded?"
+  ],
+  "warnings": [
+    "Draft Annex 22, the draft Annex 11 and the draft Chapter 4 are consultation drafts (July 2025). The final texts may differ.",
+    "No supporting passage found for: gmp_relevance, model_type, autonomy. Treat those judgments with care."
+  ],
+  "intake_form": {
+    "form_version": "1.0",
+    "status": "draft_for_qa_review",
+    "request_id": "8253096661bb",
+    "created_at": "2026-11-24T07:04:30.074153Z",
+    "title": "LLM drafts training quiz questions",
+    "description": "Short title\nLLM drafts training quiz questions\n\nWhat should the AI do?\nAn LLM writes draft multiple-choice questions for the read-and-understand training that follows an SOP revision. The questions are based on the revised SOP text. The training coordinator loads them into the learning management system for operators.\n\nWhere will it be used?\nManufacturing / production, QA / quality systems\n\nDoes the AI output directly affect a batch, a GMP record, a QC result, a release or a process setting?\nNo, only indirectly. Training material only; it does not touch a batch, record, QC result or release.\n\nWhat kind of AI is it?\nGenerative AI: writes or creates text, images or code (LLM). A general-purpose chatbot.\n\nWhat happens with the output?\nA trained person checks and approves each output before it is used\n\nWho checks the output, and how?\nQA receives it\n\nDoes the AI replace or reduce a check or step that people do today?\nNo, everything done today stays; the AI adds to it\n\nWhat data goes into it?\nInternal, not confidential\n\nWho provides it?\nCloud or online service",
+    "proposer": {
+      "name": null,
+      "department": null,
+      "contact": null
+    },
+    "classification": {
+      "gmp_relevance": "non_critical",
+      "model_type": "generative",
+      "autonomy": "recommends",
+      "human_in_the_loop": "yes",
+      "grid": {
+        "adaptiveness": "locked",
+        "autonomy": "recommends"
+      }
+    },
+    "verdict": {
+      "code": "needs_more_information",
+      "label": "Pending clarification: update any missing or conflicting details below",
+      "rule_id": "G1-check-not-described",
+      "explanation": "You ticked that a trained person checks and approves each output, but the form only says who receives it. Receiving or reading the output is not a check, and whether each output is checked decides the outcome. Say who checks it, against what, and where the check is recorded."
+    },
+    "required_controls": [],
+    "open_questions": [
+      "What specific prompt instructions and validation checks are used by QA to ensure the generated quiz questions accurately and comprehensively reflect the critical requirements of the revised SOP?",
+      "Who checks each output before it is used, against what, and where is the check recorded?"
+    ],
+    "evidence": [
+      {
+        "field": "gmp_relevance",
+        "value": "non_critical",
+        "supported": false,
+        "sources": []
+      },
+      {
+        "field": "model_type",
+        "value": "generative",
+        "supported": false,
+        "sources": []
+      },
+      {
+        "field": "autonomy",
+        "value": "recommends",
+        "supported": false,
+        "sources": []
+      }
+    ],
+    "generated_by": {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "prompt_version": "prompt-1.6",
+      "rules_version": "rules-1.6",
+      "corpus_version": "e97079b5633b",
+      "source_map_version": "map-1.1",
+      "app_version": "0.1.0"
+    },
+    "proposer_answers": {
+      "title": "LLM drafts training quiz questions",
+      "what": "An LLM writes draft multiple-choice questions for the read-and-understand training that follows an SOP revision. The questions are based on the revised SOP text. The training coordinator loads them into the learning management system for operators.",
+      "areas": [
+        "manufacturing",
+        "qa"
+      ],
+      "gmp_impact": {
+        "choice": "no",
+        "explain": "Training material only; it does not touch a batch, record, QC result or release."
+      },
+      "ai_type": {
+        "choice": "llm",
+        "explain": "A general-purpose chatbot."
+      },
+      "output_use": {
+        "choice": "person_approves",
+        "explain": ""
+      },
+      "who_checks": "QA receives it",
+      "replaces_check": {
+        "choice": "no",
+        "explain": ""
+      },
+      "data": [
+        "internal"
+      ],
+      "source": {
+        "choice": "cloud_service",
+        "explain": ""
+      }
+    },
+    "disclaimer": "First-pass screening generated by a decision-support tool from public regulatory texts. Not a compliance decision. The quality unit decides."
+  },
+  "form": {
+    "title": "LLM drafts training quiz questions",
+    "what": "An LLM writes draft multiple-choice questions for the read-and-understand training that follows an SOP revision. The questions are based on the revised SOP text. The training coordinator loads them into the learning management system for operators.",
+    "areas": [
+      "manufacturing",
+      "qa"
+    ],
+    "gmp_impact": {
+      "choice": "no",
+      "explain": "Training material only; it does not touch a batch, record, QC result or release."
+    },
+    "ai_type": {
+      "choice": "llm",
+      "explain": "A general-purpose chatbot."
+    },
+    "output_use": {
+      "choice": "person_approves",
+      "explain": ""
+    },
+    "who_checks": "QA receives it",
+    "replaces_check": {
+      "choice": "no",
+      "explain": ""
+    },
+    "data": [
+      "internal"
+    ],
+    "source": {
+      "choice": "cloud_service",
+      "explain": ""
+    }
+  },
+  "follow_up": [
+    {
+      "kind": "fields",
+      "question": "Who checks each output before it is used, against what, and where is the check recorded?",
+      "fields": [
+        "output_use",
+        "who_checks"
+      ],
+      "blocking": true,
+      "contradiction": null
+    },
+    {
+      "kind": "text",
+      "question": "What specific prompt instructions and validation checks are used by QA to ensure the generated quiz questions accurately and comprehensively reflect the critical requirements of the revised SOP?",
+      "fields": [],
+      "blocking": false,
+      "contradiction": null
+    }
+  ],
+  "follow_up_allowed": true,
+  "meta": {
+    "request_id": "8253096661bb",
+    "created_at": "2026-11-24T07:04:30.074153Z",
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "prompt_version": "prompt-1.6",
+    "rules_version": "rules-1.6",
+    "corpus_version": "e97079b5633b",
+    "app_version": "0.1.0",
+    "retrieved_chunk_ids": [
+      "A22:1:0",
+      "A22:1:1",
+      "A22:3.3:0",
+      "A22:10.5:0",
+      "A11:principle:0",
+      "A11D:1:0",
+      "FDA-CRED:II:0",
+      "A22:glossary:1",
+      "FDA-WL:ai-use:1",
+      "FDA-CRED:IV.A.2:1",
+      "FDA-CRED:IV.A.3:4",
+      "AIA:art-14:2",
+      "FDA-CRED:IV.A.3:1",
+      "FDA-CRED:IV.A.2:2",
+      "A11D:9.1:0",
+      "A11D:4.4:0",
+      "AIA:art-4:0",
+      "AIA:art-50:4",
+      "A22:2.1:0",
+      "FDA-CRED:IV.A.4.a:2",
+      "A22:5.6:0",
+      "FDA-DP:questions:0"
+    ],
+    "source_map_version": "map-1.1",
+    "tool_calls": [],
+    "latency_ms": 2261,
+    "round": 1,
+    "parent_request_id": null
+  }
+}

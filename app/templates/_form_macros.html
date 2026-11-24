@@ -1,0 +1,104 @@
+{#- Form inputs shared by the intake form (submit.html) and the follow-up section of the result page.
+    Every question, option and help text comes from app/intake_form.py (QUESTIONS). Do not copy them here. -#}
+
+{% macro tip(qid, o) -%}
+<button type="button" class="info" aria-label="More about: {{ o.label }}" aria-describedby="tip-{{ qid }}-{{ o.value }}">{{ icon('info-circle') }}</button>
+<span class="tip" role="tooltip" id="tip-{{ qid }}-{{ o.value }}">{{ o.help }}</span>
+{%- endmacro %}
+
+{% macro field_error(qid, field_errors) -%}
+{% set err = field_errors.get(qid) %}
+<p class="field-error" id="f-{{ qid }}-error"{% if not err %} hidden{% endif %}>{{ icon('alert-triangle') }}<span data-msg>{{ err or '' }}</span></p>
+{%- endmacro %}
+
+{#- One question with its current answer `v` (canonical shape from normalize_form). -#}
+{% macro question(q, v, field_errors={}) %}
+{% set qid = q.id %}{% set minlen = min_length.get(qid) %}
+{% if q.type in ('text', 'textarea') %}
+<div class="q" data-q="{{ qid }}" data-type="{{ q.type }}">
+  <label class="q-label" for="f-{{ qid }}">{{ q.label }}{% if minlen %} <span class="req">Required</span>{% endif %}</label>
+  <p class="q-help" id="f-{{ qid }}-help">{{ q.help }}{% if minlen %} At least {{ minlen }} characters.{% endif %}</p>
+  {% if q.type == 'text' %}
+  <input type="text" id="f-{{ qid }}" name="{{ qid }}" value="{{ v }}" maxlength="{{ max_length.text }}" autocomplete="off"
+    aria-describedby="f-{{ qid }}-help f-{{ qid }}-error"{% if field_errors.get(qid) %} aria-invalid="true"{% endif %}>
+  {% else %}
+  <textarea id="f-{{ qid }}" name="{{ qid }}" rows="{{ 5 if minlen else 3 }}" maxlength="{{ max_length.textarea }}"
+    {% if minlen %}required minlength="{{ minlen }}" data-min="{{ minlen }}" {% endif %}aria-describedby="f-{{ qid }}-help f-{{ qid }}-error"{% if field_errors.get(qid) %} aria-invalid="true"{% endif %}>{{ v }}</textarea>
+  {% endif %}
+  {{ field_error(qid, field_errors) }}
+</div>
+{% elif q.type == 'single' %}
+{% set compact = (q.options | map(attribute='label') | map('length') | max) <= 32 %}
+<fieldset class="q" data-q="{{ qid }}" data-type="single" aria-describedby="f-{{ qid }}-help">
+  <legend class="q-label">{{ q.label }}</legend>
+  <p class="q-help" id="f-{{ qid }}-help">{{ q.help }}</p>
+  <div class="options{{ ' options-compact' if compact }}">
+    {% for o in q.options %}
+    <div class="opt">
+      <input type="radio" id="f-{{ qid }}-{{ o.value }}" name="{{ qid }}" value="{{ o.value }}" aria-describedby="tip-{{ qid }}-{{ o.value }}"{% if v.choice == o.value %} checked{% endif %}>
+      <label for="f-{{ qid }}-{{ o.value }}">{{ o.label }}</label>
+      {{ tip(qid, o) }}
+    </div>
+    {% endfor %}
+  </div>
+  {% if q.explain %}
+  <div class="explain">
+    <label for="f-{{ qid }}-explain">Explain (optional)</label>
+    <textarea id="f-{{ qid }}-explain" name="{{ qid }}_explain" rows="2" maxlength="{{ max_length.explain }}">{{ v.explain }}</textarea>
+  </div>
+  {% endif %}
+</fieldset>
+{% else %}
+<fieldset class="q" data-q="{{ qid }}" data-type="multi" aria-describedby="f-{{ qid }}-help">
+  <legend class="q-label">{{ q.label }}</legend>
+  <p class="q-help" id="f-{{ qid }}-help">{{ q.help }}</p>
+  <div class="chips">
+    {% for o in q.options %}
+    <div class="opt chip">
+      <input type="checkbox" id="f-{{ qid }}-{{ o.value }}" name="{{ qid }}" value="{{ o.value }}" aria-describedby="tip-{{ qid }}-{{ o.value }}"{% if o.value in v %} checked{% endif %}>
+      <label for="f-{{ qid }}-{{ o.value }}">{{ o.label }}</label>
+      {{ tip(qid, o) }}
+    </div>
+    {% endfor %}
+  </div>
+</fieldset>
+{% endif %}
+{% endmacro %}
+
+{#- Progress shown while a screening request runs (W52). One per form[data-busy]; app.js fills it in.
+    The request is a plain form POST, so there is no server progress to read: the bar follows elapsed time
+    and never reaches the end, and the steps are the pipeline's real order (retrieve, classify, check the
+    citations, apply the rules). Only the step that takes real time (the classifier) is shown as current. -#}
+{% macro screening_progress() %}
+<div class="screening" data-progress hidden>
+  <div class="screening-head">
+    {{ icon('circle-check', 'screening-icon') }}
+    <p class="screening-title" data-progress-title>Your answers were sent for screening.</p>
+    <span class="screening-time" data-progress-time aria-hidden="true"></span>
+  </div>
+  <div class="screening-bar" role="progressbar" aria-label="Screening progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-progress-bar>
+    <span class="screening-fill" data-progress-fill></span>
+  </div>
+  <ol class="screening-steps">
+    <li data-step>{{ icon('check', 'step-done') }}{{ icon('loader-2', 'step-now') }}<span>Finding the relevant regulatory passages</span></li>
+    <li data-step>{{ icon('check', 'step-done') }}{{ icon('loader-2', 'step-now') }}<span data-step-classify data-ai="The AI classifies the use case and cites its sources" data-keyword="The keyword checklist classifies the use case">The classifier labels the use case</span></li>
+    <li data-step>{{ icon('check', 'step-done') }}{{ icon('loader-2', 'step-now') }}<span>Checking every citation against its source</span></li>
+    <li data-step>{{ icon('check', 'step-done') }}{{ icon('loader-2', 'step-now') }}<span>Fixed rules decide the outcome</span></li>
+  </ol>
+  <p class="screening-note" data-progress-slow hidden>{{ icon('info-circle') }}<span>This is taking longer than usual. Your answers are safe. Keep this page open: the result opens as soon as it is ready.</span></p>
+</div>
+<p class="submit-status sr-only" role="status" aria-live="polite" data-status></p>
+{% endmacro %}
+
+{#- Classifier selector, shared by the form page and quick mode. -#}
+{% macro provider_select(providers, selected) %}
+<div class="field">
+  <label class="q-label" for="provider">Classifier</label>
+  <p class="q-help" id="provider-help">The classifier only classifies and explains. The outcome always comes from the same fixed rules.</p>
+  <select id="provider" name="provider" aria-describedby="provider-help">
+    {% for code, label in providers.items() %}
+    <option value="{{ code }}" {{ 'selected' if code == selected else '' }}{% if code != 'offline' %} data-slow{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+</div>
+{% endmacro %}
