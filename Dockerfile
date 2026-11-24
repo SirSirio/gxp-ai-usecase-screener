@@ -17,6 +17,10 @@ RUN pip install -r requirements.txt
 
 COPY app ./app
 COPY scripts ./scripts
+# The 9 public source documents are part of the repo (W66): no downloads at build time (publisher sites block cloud
+# runners, and the FDA warning letter is a web page whose layout changes). download_sources.py skips files that exist
+# and only checks their SHA-256 hashes.
+COPY data/raw ./data/raw
 
 # Corpus and index at build time. A hash mismatch fails the build on purpose: the source map is pinned to one corpus
 # version (app/source_map.py CORPUS_VERSION), so a changed publisher file must be re-reviewed before it is used.

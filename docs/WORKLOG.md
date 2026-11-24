@@ -549,6 +549,11 @@ Commit ids and tags mentioned here (e.g. `v1.0-freeze`) refer to the development
 ## W65 · 2026-11-24 · Public-demo setting (`GXP_PUBLIC_DEMO=1`)
 - **What:** off by default; when on (the Azure deployment sets it): the intake form and quick mode show "Public demo. Do not enter confidential or company information. Use made-up or public examples. Your answers may be sent to an external AI service." (it replaces the usual confidentiality line, so the two do not repeat); the result page says under Run details that the audit log is not kept (storage resets when the container restarts; records are for demonstration only); a small "Demo" badge in the header. Built by a UI subagent (loaded ui-ux-pro-max and design-taste-frontend first, checked in its transcript); `app/config.py` `public_demo`, Jinja global in `app/main.py`. 4 tests; 316 pass. Browser-checked on a scratch server (light, dark, 375 px).
 
+## W66 · 2026-11-24 · First image build failed on the corpus download; the 9 public documents are now part of the repo
+- **Failure (GitHub Actions, first "Build image" run, log via the deployment chat):** `download_sources.py`: 7 documents ok; **AIA: not a PDF** (EUR-Lex refused the GitHub runner, a bot check page); **FDA-WL CHANGED** (the warning letter is a web page converted to text; FDA's page changed, so the text no longer matches the pinned hash). Both would also break the freeze: the source map is pinned to corpus `e97079b5633b`.
+- **Fix:** the 9 source files are versioned in `data/raw/` (with `data/raw/SOURCES.md`: publisher and reuse terms for each: EU documents reusable with acknowledgement, ICH with copyright acknowledgement, FDA documents public domain); stored byte-identical (`.gitattributes`: `data/raw/* -text`, so no line-ending conversion changes a hash); the Dockerfile copies them and `download_sources.py` only checks their SHA-256 hashes (it skips files that exist), so the build needs no network for the corpus and the image matches the tested corpus exactly. Hashes verified locally. Option chosen with the deployment chat's analysis (live download with a browser header would still leave the FDA text changed, not compatible with the freeze).
+- **Published** as the second release snapshot on the public repository.
+
 ---
 
 ## Open items

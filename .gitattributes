@@ -2,3 +2,5 @@
 *.pdf binary
 *.png binary
 *.bat text eol=crlf
+# Source documents must stay byte-identical (their SHA-256 hashes are checked): no line-ending conversion.
+data/raw/* -text

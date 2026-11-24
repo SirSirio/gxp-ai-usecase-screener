@@ -3,9 +3,8 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .env
-data/raw/*.pdf
-data/raw/*.html
-data/raw/*.txt
+# data/raw: the 9 public source documents ARE versioned (W66), so the container build needs no downloads;
+# hashes are checked by scripts/download_sources.py
 data/index/
 data/audit/
 data/results/
