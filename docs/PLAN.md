@@ -11,7 +11,7 @@ A lightweight spec: what each step delivers and how it is checked. Status is upd
 | 4 | Tool call + audit | `get_section` tool (agent pattern), hash-chained audit log | Tool loop tested with a scripted fake LLM; audit chain verifies | ✅ |
 | 5 | Front end | Web form → result page, JSON download | Manual run + API test | ✅ redesigned (landing, submit, follow-up rounds, source pages, How it works); feature check W50 |
 | 6 | LLM providers | Gemini + Azure OpenAI clients behind one interface | Gemini run live and evaluated (0.87 on test); Azure OpenAI client still untested live | ✅ Gemini |
-| 7 | Azure deployment | Azure Container Apps, scale to zero, budget alert (D27) | Needs the owner's personal Azure free account | ⏳ decided, after the test run |
+| 7 | Azure deployment | Azure Container Apps, scale to zero, budget alert (D27) | Live demo running (W67) | ✅ live; credit expires 2026-12-20 (upgrade or delete) |
 | 8 | Docs | README (business first), validation note, walkthrough, decisions, architecture | Reviewed by an independent reader agent | ✅; final numbers after the test run; 15-s demo video made (W60) |
 
 ## Acceptance criteria

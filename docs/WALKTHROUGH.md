@@ -2,7 +2,9 @@
 
 A learning guide. Read it top to bottom with the code open. Each part names the concept, where it lives and what to notice, and ends with something to try. Functions are named instead of line numbers, so the guide stays valid when the code changes.
 
-Tip: step through the git history (`git log --oneline`, then `git show <commit>`) to see the project grow in the same order.
+Tip: step through the git history (`git log --oneline`, then `git show <commit>`) to see the project grow in the same order. The full history is in the private development repository; the public repository holds release snapshots.
+
+**Scope of this guide:** it explains the core (ingestion, retrieval, classification, citation check, rules, guards G1/G2, audit log, evaluation). Parts added later are documented elsewhere: guard G1b and follow-up rounds (WORKLOG W33, W41, D23), the source map and the definition-vs-consequence principle (D24, D26), the freeze and the retry option (W59), the How it works page (W58), and the deployment (D27, `docs/DEPLOYMENT.md`).
 
 ---
 

@@ -518,11 +518,12 @@ Commit ids and tags mentioned here (e.g. `v1.0-freeze`) refer to the development
 - **Label (owner):** "Gemini 3.5 Flash-Lite (AI classifier)" / "Keyword baseline (a fixed checklist, no AI)" instead of the repeated model id (page text only, freeze unaffected).
 - **Next (owner asked about publishing):** Hugging Face Spaces after the test run and before the LinkedIn post (Dockerfile, public-demo cap, confidentiality notice, demo-only audit log; a separate free Gemini key recommended so the demo does not share the test quota).
 
-## W61 · 2026-11-24 · LinkedIn post drafted; process-flow image
+## W61a · 2026-11-24 · LinkedIn post drafted; process-flow image
 - **Goal (owner):** a short, catchy LinkedIn post for the project, with the demo video, a preview of the process flow and a couple of emojis; paraphrased by Gemini.
 - **What:** `media/linkedin-post.md` (local, git-ignored): drafted by Claude, rewritten by Gemini (web, temporary chat), meaning-checked by Claude: passed after 2 fixes ("right now" kept; plain link instead of Markdown, which LinkedIn shows raw). `media/linkedin-process-flow.png` (2385×1249, 1.91:1): the flow strip and principle line of /how-it-works, captured at 2× from a local server.
-- **Why:** no company or application name in the post (data policy); numbers taken from the README (W31 test run).
-- **Open:** the numbers are from the W31 run (form-1.0); update them after the frozen test run (W59) before posting. LinkedIn does not allow a video and an image in the same post: video in the post, flow image in the first comment (or a later post).
+- **Why:** no company names in the post (data policy); numbers taken from the README (W31 test run).
+- **Owner edits (same day):** shorter; hook "With draft Annex 22 out, every AI idea in EU GMP starts here"; accuracy and the keyword-checklist comparison removed (the number undersells the tool and nobody screens with a keyword list); instead the contradiction check and follow-up questions; "111 cases, labels checked by hand", with the 0 dangerous errors tied to the 70 held-out cases only; app link (Azure Container Apps) and GitHub link. Then opened with the problem: AI is spreading, pharma struggles because of regulation, rightly so (GMP rules protect patients). Second Gemini pass on this version: passed after 1 fix (links back to plain URLs). Owner added the Azure / Gemini API line; hashtags changed to #GMP #Annex22 #AIinPharma #ComputerSystemValidation #QualityAssurance (#CSV is read as the file format, #AI is too broad). New opening in the owner's words (2026-11-28): AI in pharma is not as simple as elsewhere, GMP protects patients, every AI idea needs a regulatory check first; the "Can we use AI for this?" hook dropped (too vague); "GMP screen", not "compliance screen" (the post says it is not a compliance decision). Opening question (owner's pick of 5): "Where does EU GMP draw the line for AI? 🤔". Results line made confident, no extra numbers: "Tested on 100+ realistic cases, every one checked by hand. Not a single unsafe call in the final test." ("unsafe call" = dangerous error; "in the final test" keeps it tied to the held-out run.)
+- **Open:** "0 dangerous errors" is from the W31 run (form-1.0); confirm it after the frozen test run (W59) before posting. LinkedIn does not allow a video and an image in the same post: video in the post, flow image in the first comment (or a later post).
 
 ## W61 · 2026-11-24 · Deployment decision: Azure Container Apps on a personal free account (D27); documents brought up to date
 - **Owner:** Azure if possible, at no cost; the DTU student account and its credits are used for something else, so not that one.
@@ -554,9 +555,54 @@ Commit ids and tags mentioned here (e.g. `v1.0-freeze`) refer to the development
 - **Fix:** the 9 source files are versioned in `data/raw/` (with `data/raw/SOURCES.md`: publisher and reuse terms for each: EU documents reusable with acknowledgement, ICH with copyright acknowledgement, FDA documents public domain); stored byte-identical (`.gitattributes`: `data/raw/* -text`, so no line-ending conversion changes a hash); the Dockerfile copies them and `download_sources.py` only checks their SHA-256 hashes (it skips files that exist), so the build needs no network for the corpus and the image matches the tested corpus exactly. Hashes verified locally. Option chosen with the deployment chat's analysis (live download with a browser header would still leave the FDA text changed, not compatible with the freeze).
 - **Published** as the second release snapshot on the public repository.
 
+## W67 · 2026-11-24 · Live on Azure Container Apps
+- **URL:** https://gxp-ai-screener.bluebeach-adbc15fa.northeurope.azurecontainerapps.io (image `ghcr.io/sirsirio/gxp-ai-usecase-screener`, built by GitHub Actions from the public snapshot; second build green after W66). The owner ran a keyword-baseline and a Gemini screening successfully.
+- **Lessons from the portal steps (deployment chat):** a revision that activates with the wrong ingress port (80 instead of 8000) is not retried after the port is fixed: a new revision is needed; probes copied from the quickstart image do not fit; an HTTP probe on `/api/health` made the container crash-loop, because the health endpoint loads the index and embedding model on first call and `get_index()` has no lock, so each 1-second probe on 0.5 vCPU started another load. Running with TCP probes; details and settings in `docs/DEPLOYMENT.md`.
+- **Proposed fix (owner to decide):** lock around the index/embedder load, a cheap `/api/live` probe endpoint, warm-up in the background at startup, gunicorn access log. It changes when the index loads, not what it contains, so screening results and the freeze are unaffected.
+- **Still to confirm (owner, with the deployment chat):** budget alert at €1, scale-to-zero observed, a separate no-billing Gemini key, the GitHub "About" box.
+
+## W68 · 2026-11-28 · Project paused: documentation checked and brought up to date
+- **Owner:** the project is at a good enough point to pause; everything must be in order to resume in about a month.
+- **Done:** README brought up to date (live demo link, "every label reviewed manually" instead of "SME", the W31 numbers marked as form-1.0 results with the frozen version's own test run still to do, How it works page, guard G1b, follow-up rounds, source map principle, documents in `data/raw`, Container Apps deployment); WALKTHROUGH says which later parts are documented elsewhere; VIDEO_SCRIPT marked outdated; duplicate entry number fixed (W61a); open items rewritten (current list on top, the earlier table kept below as an archive); `docs/DEPLOYMENT.md` gained the release-snapshot procedure; the "Where things stand" section below written for the restart.
+
+---
+
+## Where things stand (2026-11-28) and how to resume
+
+**State**
+- **Live demo:** https://gxp-ai-screener.bluebeach-adbc15fa.northeurope.azurecontainerapps.io (Azure Container Apps, North Europe, scale to zero, public-demo notice on). Image `ghcr.io/sirsirio/gxp-ai-usecase-screener`, built by the GitHub Actions workflow "Build image". Health probes are TCP (the HTTP-probe fix is proposed, not built; see open items).
+- **Public repository:** https://github.com/SirSirio/gxp-ai-usecase-screener holds release snapshots only (W63). The full history is in this local repository (`main`); the local branch `public` is what gets pushed. How to publish: `docs/DEPLOYMENT.md`, "Publishing a release snapshot".
+- **Frozen version for the held-out test run:** local tag `v1.0-freeze` (prompt-1.9, rules-1.10, source map map-1.3, form-1.2, corpus `e97079b5633b`, `gemini-3.5-flash-lite`). Changes since the tag are page texts, deployment and docs only (allowed by the freeze, W59). 316 tests pass.
+- **Results so far:** held-out test (W31, form-1.0, prompt-1.3): 0 dangerous errors, accuracy 0.87. Latest full dev run (W51, prompt-1.7): 0 dangerous (8 cases lost to Google's 503). Smoke run (W58, prompt-1.9, 10 dev cases): 0 dangerous, citations from the approved list 100 %.
+- **Not done:** the held-out test run on `v1.0-freeze`; the LinkedIn post (draft in `media/linkedin-post.md`; its "not a single unsafe call" line should be confirmed by that run first).
+
+**Deadline: Azure free credit expires on 2026-12-20.** Before that date, upgrade the subscription to pay-as-you-go (no cost within the free Container Apps allowance; budget alert at €1) or delete the resource group `rg-gxp-ai`. Otherwise the subscription is disabled and the live demo stops.
+
+**Kept only on this computer (not in any repository):** `.env` (Gemini key), `media/` (15-second video, poster, LinkedIn post draft, process-flow image), `data/audit/` and `data/results/` (audit log and saved results), `data/usage/` (Gemini counter), `.claude/paraphrase.md` (settings for the paraphrase skill), `qa/**/screenshots` and `qa/**/fixes` (feature-check screenshots). The local git history is the only full history: back up the project folder.
+
+**How to resume**
+1. Read this section and the open items below; `docs/DECISIONS.md` (D18-D27) for why things are as they are; `CLAUDE.md` for the rules.
+2. Run locally: `start.bat` (press R to restart a running server) or `.venv/Scripts/python -m uvicorn app.main:app`; tests: `.venv/Scripts/python -m pytest -q`.
+3. Held-out test run on the frozen version (on the owner's go): `git checkout v1.0-freeze` (or check that nothing frozen changed), then a dev check `.venv/Scripts/python -m eval.run_eval --set dev --provider gemini`, then `GEMINI_MAX_RPM=3 .venv/Scripts/python -m eval.run_eval --set test --provider gemini` in the Danish morning, then `--retry-unanswered <result file>` for cases lost to HTTP 503. Report totals only; record it as a re-use of the test set (validation note §8).
+4. After the test run: README, validation note and the LinkedIn post with the final numbers.
+5. Publishing a change: commit on `main`, build a snapshot on `public`, push it, run "Build image" on GitHub, create a new revision in the Azure portal (`docs/DEPLOYMENT.md`).
+
 ---
 
 ## Open items
+| Item | Owner | Status |
+|---|---|---|
+| **Azure credit expires 2026-12-20:** upgrade to pay-as-you-go or delete `rg-gxp-ai`, otherwise the demo stops | Sirio | before 2026-12-20 |
+| Held-out test run on `v1.0-freeze` (dev check first; slow; `--retry-unanswered` for 503 losses) | Claude, on the owner's go | open |
+| README, validation note and LinkedIn post with the final numbers | Claude + Sirio | after the test run |
+| Health-probe fix: lock around the index/embedder load, `/api/live` for probes, warm-up at startup, gunicorn access log (W67; results unaffected) | Sirio decides, Claude builds | proposed |
+| Confirm in Azure: budget alert at €1, scale-to-zero observed, a separate no-billing Gemini key for the demo | Sirio | open |
+| Confirm the labels written at the owner's request: D010, D041, D042, D043 | Sirio | open |
+| `/paraphrase` pass on the How it works page (Gemini website failed, W58) | Claude | when Gemini is available |
+| Ideas, not planned: citations outside the map as "related, not verified" (W46); guidance on next steps after an accepted use (W46); give the LLM the checklist suggestion to confirm (W23, experiment); improve out-of-scope refusal and retrieval (tuned on dev only); a 2-minute walkthrough video (script outdated) | Sirio | later |
+| Watch in the next dev run: Gemini reads more models as "probabilistic" (D023, D024) | Claude | next dev run |
+
+### Open-items archive (table as of 2026-11-24; superseded by the list above)
 | Item | Owner | Status |
 |---|---|---|
 | Review test labels (3 open cases in `eval/TESTSET_NOTES.md`) | Sirio (SME) | open |
@@ -595,7 +641,7 @@ Commit ids and tags mentioned here (e.g. `v1.0-freeze`) refer to the development
 | Guide the proposer on what has to be done next once a use is accepted (idea, W46) | Sirio | later, out of scope for now |
 | Azure deployment | Sirio + Claude | dropped for now (no account, costs money); Hugging Face Spaces planned instead (W60) |
 | Upgrade the Azure free account to pay-as-you-go before **2026-12-20** (credit expires; otherwise the app stops; no cost within the free allowance) | Sirio | before 2026-12-20 |
-| Deploy on Azure Container Apps (D27; after the test run, before the LinkedIn post) | Sirio (personal Azure free account, Gemini secret) + Claude (Dockerfile, image, settings, budget alert) | next |
+| Deploy on Azure Container Apps (D27) | Sirio + deployment chat (portal) + Claude (image, docs) | done (W67): live; probe fix proposed; budget alert, scale-to-zero, separate key to confirm |
 | Held-out test run on `v1.0-freeze` (dev check first; slow; retry provider failures) | Claude, on the owner's go | morning |
 | Docs with the final numbers (README: "reviewed manually" instead of "SME"; validation note; walkthrough) and the LinkedIn post | Claude + Sirio | after the test run |
 | `/paraphrase` pass on the How it works page (Gemini website failed, W58) | Claude | when Gemini is available |

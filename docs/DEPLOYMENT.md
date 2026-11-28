@@ -1,6 +1,6 @@
 # Deployment
 
-Status: **decided, not yet run** (D27): Azure Container Apps on a personal Azure free account. The App Service guide below is kept as the alternative. Data policy as in `CLAUDE.md`: personal account, secrets only in Azure settings, never in the repo.
+Status: **live since 2026-11-24** (D27): Azure Container Apps on a personal Azure free account: **https://gxp-ai-screener.bluebeach-adbc15fa.northeurope.azurecontainerapps.io** (public demo; the first visit after idle waits while the container starts). The App Service guide below is kept as the alternative. Data policy as in `CLAUDE.md`: personal account, secrets only in Azure settings, never in the repo.
 
 ## Plan: Azure Container Apps (free within the monthly allowance)
 - **What runs:** one container with the app (Python, FastAPI). The image installs the app, downloads the 9 public documents (hash-checked) and builds the search index at build time, so the container starts without network downloads.
@@ -12,9 +12,23 @@ Status: **decided, not yet run** (D27): Azure Container Apps on a personal Azure
 - **Azure resources (created by the owner in the portal, 2026-11-24, guided by a separate deployment chat):** subscription "Azure subscription 1" (personal), resource group `rg-gxp-ai`, Container Apps environment `cae-gxp-ai` (Consumption only, no zone redundancy, public network access, no own VNet; logs to Azure Monitor with no diagnostic setting yet, so nothing is stored or billed), container app `gxp-ai-screener` (container `gxp-ai`), region **North Europe** (closest to Denmark). No Azure Container Registry.
 - **Image:** `Dockerfile` (python:3.10-slim; at build time it downloads and hash-checks the 9 documents, builds the index, bakes in the embedding model and checks the corpus version against the source map; runs as a non-root user; `startup.sh` serves on `$PORT`, default 8000). Built and pushed by the GitHub Actions workflow `.github/workflows/image.yml` ("Build image", run by hand or on a `v*` tag) to `ghcr.io/sirsirio/gxp-ai-usecase-screener:latest` and `:<commit>`; the workflow also starts the image and runs a smoke test (health, home page, one keyword-baseline screening). The owner has no local Docker or Azure CLI, so the build runs on GitHub.
 - **Portal steps (owner, guided by the deployment chat):** make the ghcr package public; edit and deploy the container app: image as above, port 8000, 0.5 CPU / 1 GiB, min replicas 0, max 1; secret `gemini-api-key` and env `GXP_PROVIDER=gemini`, `GEMINI_DAILY_BUDGET=100`, `GEMINI_MAX_RPM=10`, `GXP_PUBLIC_DEMO=1`; budget alert at €1; smoke test (`/api/health`, one keyword-baseline and one Gemini screening; log stream; memory working set).
+- **What was deployed (2026-11-24, owner in the portal, guided by the deployment chat):** revision 0000001 Microsoft quickstart; 0000002 our image, failed (the ingress target port was still 80 when it activated; a revision is not retried after a port fix); v1/v2 failed their startup probes (first the quickstart's probes, then an HTTP probe on `/api/health`, which loads the index and model on first call: on 0.5 vCPU each 1-second probe started another load, see "Known issue"); **v3: all three probes TCP on port 8000 → running**; v4: Gemini settings. Final: 0.5 vCPU / 1 GiB, min 0 / max 1 (to confirm), ingress external HTTP on 8000, insecure connections off; env `GXP_PROVIDER=gemini`, `WEB_CONCURRENCY=1`, `GEMINI_API_KEY` from the secret `gemini-api-key`, `GEMINI_MODEL=gemini-3.5-flash-lite`, `GEMINI_DAILY_BUDGET=150`, `GEMINI_MAX_RPM=8`, `GXP_PUBLIC_DEMO=1`. Logs: Azure Monitor, no diagnostic setting yet. Smoke test by the owner: one keyword-baseline and one Gemini screening succeeded (the first Gemini attempt hit Google's "overloaded" error; the retry worked).
+- **Known issue:** `get_index()` has no lock and `/api/health` loads the index, so parallel first calls each start a load. Workaround: TCP probes; the first request after idle pays the load (10-30 s). Fix proposed (W67): a lock around the index/embedder load, a cheap `/api/live` endpoint for probes, warm-up at startup, gunicorn access log.
 - **Account deadline:** the free account's credit (€179.54 left) expires on **2026-12-20**. Before then the subscription must be upgraded to pay-as-you-go to keep the always-free Container Apps allowance; otherwise the subscription is disabled and the app stops. Within the free allowance the cost stays at zero (budget alert at €1).
 - **Known limit:** the daily Gemini counter lives in the container's file system, so it resets whenever the app scales to zero: the app's cap is per wake-up. A separate AI Studio key without billing makes Google's free quota the real ceiling.
 - **Fallback:** Hugging Face Spaces (free, no card, Docker), same Dockerfile and settings.
+
+## Publishing a release snapshot (public repository)
+The public repository holds release snapshots only (WORKLOG W63); the full history stays in the local repository.
+```bash
+# 1. commit the change on main (local), then build a snapshot commit with main's files on the branch "public"
+git update-ref refs/heads/public $(git commit-tree main^{tree} -p public -m "Release: <what changed>")
+# 2. check it: no secrets or local files, no personal or company references
+git ls-tree -r public --name-only | grep -iE "\.env$|audit\.jsonl|gemini_requests|^\.claude/|^media/"   # must print nothing
+# 3. publish: only "public", as the remote main; no tags
+git push origin public:main
+```
+Then on GitHub: Actions > "Build image" > Run workflow. In the Azure portal: container app `gxp-ai-screener` > Revisions > create a new revision with the same image tag `latest` (or the commit tag), port 8000, TCP probes.
 
 ---
 

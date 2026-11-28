@@ -1,5 +1,7 @@
 # 2-minute screen recording: script
 
+> **Outdated (pre-redesign).** A 15-second demo video was made instead (WORKLOG W60; kept locally, not in the repository). Update this script before recording a longer walkthrough.
+
 Record at 1080p with the app running locally (`uvicorn app.main:app`) or on Azure. Speak slowly; about 280 words in total.
 
 | Time | Show | Say |
